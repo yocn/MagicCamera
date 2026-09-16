@@ -6,6 +6,25 @@ import XCTest
 #endif
 
 final class StickerCanvasTests: XCTestCase {
+    func testFrameSelectionCyclesThroughAllCuteFramesAndBackToNone() {
+        var selection = FrameStyle.none
+
+        selection = selection.next
+        XCTAssertEqual(selection, .heart)
+
+        selection = selection.next
+        XCTAssertEqual(selection, .rainbow)
+
+        selection = selection.next
+        XCTAssertEqual(selection, .flower)
+
+        selection = selection.next
+        XCTAssertEqual(selection, .stars)
+
+        selection = selection.next
+        XCTAssertEqual(selection, .none)
+    }
+
     func testStickerEditingRemainsAvailableWhenCameraIsUnavailable() {
         XCTAssertTrue(CameraPermissionState.unavailable.allowsStickerEditing)
         XCTAssertFalse(CameraPermissionState.unavailable.allowsPermissionOverlayInteraction)

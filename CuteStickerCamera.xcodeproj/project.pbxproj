@@ -18,6 +18,9 @@
 		B009 /* StickerCanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F009 /* StickerCanvasView.swift */; };
 		B010 /* StickerTrayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F010 /* StickerTrayView.swift */; };
 		B011 /* CameraScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = F011 /* CameraScreen.swift */; };
+		B012 /* FrameStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F014 /* FrameStyle.swift */; };
+		B013 /* FrameOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F015 /* FrameOverlayView.swift */; };
+		B014 /* FrameTrayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F016 /* FrameTrayView.swift */; };
 		B101 /* bunny.png in Resources */ = {isa = PBXBuildFile; fileRef = F101 /* bunny.png */; };
 		B102 /* kitten.png in Resources */ = {isa = PBXBuildFile; fileRef = F102 /* kitten.png */; };
 		B103 /* puppy.png in Resources */ = {isa = PBXBuildFile; fileRef = F103 /* puppy.png */; };
@@ -63,6 +66,9 @@
 		F011 /* CameraScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraScreen.swift; sourceTree = "<group>"; };
 		F012 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F013 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F014 /* FrameStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameStyle.swift; sourceTree = "<group>"; };
+		F015 /* FrameOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameOverlayView.swift; sourceTree = "<group>"; };
+		F016 /* FrameTrayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameTrayView.swift; sourceTree = "<group>"; };
 		F101 /* bunny.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bunny.png; sourceTree = "<group>"; };
 		F102 /* kitten.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = kitten.png; sourceTree = "<group>"; };
 		F103 /* puppy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = puppy.png; sourceTree = "<group>"; };
@@ -148,6 +154,7 @@
 				F004 /* StickerLayer.swift */,
 				F005 /* StickerCanvas.swift */,
 				F006 /* StickerRenderTransform.swift */,
+				F014 /* FrameStyle.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -167,6 +174,8 @@
 				F009 /* StickerCanvasView.swift */,
 				F010 /* StickerTrayView.swift */,
 				F011 /* CameraScreen.swift */,
+				F015 /* FrameOverlayView.swift */,
+				F016 /* FrameTrayView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -348,6 +357,9 @@
 				B009 /* StickerCanvasView.swift in Sources */,
 				B010 /* StickerTrayView.swift in Sources */,
 				B011 /* CameraScreen.swift in Sources */,
+				B012 /* FrameStyle.swift in Sources */,
+				B013 /* FrameOverlayView.swift in Sources */,
+				B014 /* FrameTrayView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

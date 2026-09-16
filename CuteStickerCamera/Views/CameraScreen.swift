@@ -5,6 +5,8 @@ struct CameraScreen: View {
     @StateObject private var camera = CameraService()
     @StateObject private var canvas = StickerCanvas()
     @State private var isStickerTrayPresented = false
+    @State private var isFrameTrayPresented = false
+    @State private var frameStyle: FrameStyle = .none
     @State private var isSaving = false
     @State private var message: String?
     private let composer = PhotoComposer()
@@ -24,6 +26,10 @@ struct CameraScreen: View {
                 StickerCanvasView(canvas: canvas, previewSize: proxy.size)
                     .ignoresSafeArea()
                     .allowsHitTesting(camera.permissionState.allowsStickerEditing)
+
+                FrameOverlayView(style: frameStyle)
+                    .ignoresSafeArea()
+                    .allowsHitTesting(false)
 
                 VStack {
                     title
@@ -54,10 +60,18 @@ struct CameraScreen: View {
                 .presentationDetents([.height(360)])
                 .presentationDragIndicator(.hidden)
             }
+            .sheet(isPresented: $isFrameTrayPresented) {
+                FrameTrayView(selected: frameStyle) { style in
+                    frameStyle = style
+                    isFrameTrayPresented = false
+                }
+                .presentationDetents([.height(210)])
+                .presentationDragIndicator(.hidden)
+            }
             .onAppear { camera.start() }
             .onDisappear { camera.stop() }
             .onReceive(camera.$capturedImage.compactMap { $0 }) { image in
-                saveComposed(image, previewSize: proxy.size)
+                saveComposed(image, previewSize: proxy.size, frameStyle: frameStyle)
             }
         }
     }
@@ -98,6 +112,8 @@ struct CameraScreen: View {
                     .accessibilityLabel("切换镜头")
                 Button { isStickerTrayPresented = true } label: { Text("🐰").font(.title2) }
                     .accessibilityLabel("添加贴纸")
+                Button { isFrameTrayPresented = true } label: { Image(systemName: "rectangle.inset.filled") }
+                    .accessibilityLabel("选择边框")
                 Button { canvas.undo() } label: { Image(systemName: "arrow.uturn.backward") }
                     .accessibilityLabel("撤销")
             }
@@ -127,12 +143,12 @@ struct CameraScreen: View {
         .padding(28)
     }
 
-    private func saveComposed(_ image: UIImage, previewSize: CGSize) {
+    private func saveComposed(_ image: UIImage, previewSize: CGSize, frameStyle: FrameStyle) {
         guard !isSaving else { return }
         isSaving = true
         Task {
             do {
-                let result = try composer.compose(image: image, previewSize: previewSize, layers: canvas.layers)
+                let result = try composer.compose(image: image, previewSize: previewSize, layers: canvas.layers, frameStyle: frameStyle)
                 try await photoLibrarySaver.save(result)
                 await MainActor.run {
                     isSaving = false

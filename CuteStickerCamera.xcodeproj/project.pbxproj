@@ -41,6 +41,14 @@
 		B115 /* cloud.png in Resources */ = {isa = PBXBuildFile; fileRef = F115 /* cloud.png */; };
 		B116 /* sparkle.png in Resources */ = {isa = PBXBuildFile; fileRef = F116 /* sparkle.png */; };
 		B117 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F013 /* Assets.xcassets */; };
+		B118 /* strawberry_bow_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F118 /* strawberry_bow_frame.png */; };
+		B119 /* sky_cloud_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F119 /* sky_cloud_frame.png */; };
+		B120 /* crayon_doodle_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F120 /* crayon_doodle_frame.png */; };
+		B121 /* starry_moon_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F121 /* starry_moon_frame.png */; };
+		B122 /* teddy_picnic_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F122 /* teddy_picnic_frame.png */; };
+		B123 /* ocean_shell_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F123 /* ocean_shell_frame.png */; };
+		B124 /* fairy_garden_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F124 /* fairy_garden_frame.png */; };
+		B125 /* candy_party_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F125 /* candy_party_frame.png */; };
 		B201 /* StickerCanvasTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F201 /* StickerCanvasTests.swift */; };
 		B202 /* StickerRenderTransformTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F202 /* StickerRenderTransformTests.swift */; };
 /* End PBXBuildFile section */
@@ -91,6 +99,14 @@
 		F114 /* dinosaur.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dinosaur.png; sourceTree = "<group>"; };
 		F115 /* cloud.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud.png; sourceTree = "<group>"; };
 		F116 /* sparkle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sparkle.png; sourceTree = "<group>"; };
+		F118 /* strawberry_bow_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = strawberry_bow_frame.png; sourceTree = "<group>"; };
+		F119 /* sky_cloud_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sky_cloud_frame.png; sourceTree = "<group>"; };
+		F120 /* crayon_doodle_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = crayon_doodle_frame.png; sourceTree = "<group>"; };
+		F121 /* starry_moon_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = starry_moon_frame.png; sourceTree = "<group>"; };
+		F122 /* teddy_picnic_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = teddy_picnic_frame.png; sourceTree = "<group>"; };
+		F123 /* ocean_shell_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ocean_shell_frame.png; sourceTree = "<group>"; };
+		F124 /* fairy_garden_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fairy_garden_frame.png; sourceTree = "<group>"; };
+		F125 /* candy_party_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = candy_party_frame.png; sourceTree = "<group>"; };
 		F201 /* StickerCanvasTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerCanvasTests.swift; sourceTree = "<group>"; };
 		F202 /* StickerRenderTransformTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerRenderTransformTests.swift; sourceTree = "<group>"; };
 		F300 /* CuteStickerCamera.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CuteStickerCamera.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -195,6 +211,7 @@
 				F012 /* Info.plist */,
 				F013 /* Assets.xcassets */,
 				P108 /* Stickers */,
+				P109 /* Frames */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -220,6 +237,21 @@
 				F116 /* sparkle.png */,
 			);
 			path = Stickers;
+			sourceTree = "<group>";
+		};
+		P109 /* Frames */ = {
+			isa = PBXGroup;
+			children = (
+				F118 /* strawberry_bow_frame.png */,
+				F119 /* sky_cloud_frame.png */,
+				F120 /* crayon_doodle_frame.png */,
+				F121 /* starry_moon_frame.png */,
+				F122 /* teddy_picnic_frame.png */,
+				F123 /* ocean_shell_frame.png */,
+				F124 /* fairy_garden_frame.png */,
+				F125 /* candy_party_frame.png */,
+			);
+			path = Frames;
 			sourceTree = "<group>";
 		};
 		P200 /* CuteStickerCameraTests */ = {
@@ -345,6 +377,14 @@
 				B115 /* cloud.png in Resources */,
 				B116 /* sparkle.png in Resources */,
 				B117 /* Assets.xcassets in Resources */,
+				B118 /* strawberry_bow_frame.png in Resources */,
+				B119 /* sky_cloud_frame.png in Resources */,
+				B120 /* crayon_doodle_frame.png in Resources */,
+				B121 /* starry_moon_frame.png in Resources */,
+				B122 /* teddy_picnic_frame.png in Resources */,
+				B123 /* ocean_shell_frame.png in Resources */,
+				B124 /* fairy_garden_frame.png in Resources */,
+				B125 /* candy_party_frame.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -36,16 +36,28 @@ final class StickerCanvasTests: XCTestCase {
         var selection = FrameStyle.none
 
         selection = selection.next
-        XCTAssertEqual(selection, .heart)
+        XCTAssertEqual(selection, .strawberryBow)
 
         selection = selection.next
-        XCTAssertEqual(selection, .rainbow)
+        XCTAssertEqual(selection, .skyCloud)
 
         selection = selection.next
-        XCTAssertEqual(selection, .flower)
+        XCTAssertEqual(selection, .crayonDoodle)
 
         selection = selection.next
-        XCTAssertEqual(selection, .stars)
+        XCTAssertEqual(selection, .starryMoon)
+
+        selection = selection.next
+        XCTAssertEqual(selection, .teddyPicnic)
+
+        selection = selection.next
+        XCTAssertEqual(selection, .oceanShell)
+
+        selection = selection.next
+        XCTAssertEqual(selection, .fairyGarden)
+
+        selection = selection.next
+        XCTAssertEqual(selection, .candyParty)
 
         selection = selection.next
         XCTAssertEqual(selection, .none)

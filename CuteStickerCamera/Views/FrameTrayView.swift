@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 struct FrameTrayView: View {
     let selected: FrameStyle
@@ -10,12 +11,15 @@ struct FrameTrayView: View {
             Text("给照片换个边框吧 ✨")
                 .font(.headline)
                 .foregroundStyle(.purple)
-            HStack(spacing: 12) {
-                ForEach(FrameStyle.allCases, id: \.self) { style in
-                    FrameChoiceButton(style: style, isSelected: style == selected) {
-                        onPick(style)
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 12) {
+                    ForEach(FrameStyle.allCases, id: \.self) { style in
+                        FrameChoiceButton(style: style, isSelected: style == selected) {
+                            onPick(style)
+                        }
                     }
                 }
+                .padding(.horizontal, 2)
             }
         }
         .padding(.horizontal, 20)
@@ -46,9 +50,16 @@ private struct FrameChoiceButton: View {
             RoundedRectangle(cornerRadius: 14)
                 .stroke(borderColor, lineWidth: isSelected ? 4 : 2)
                 .frame(width: 54, height: 66)
-            Image(systemName: style.icon)
-                .font(.title3)
-                .foregroundColor(style == .none ? .secondary : .pink)
+            if let assetName = style.assetName, let image = UIImage(named: assetName) {
+                Image(uiImage: image)
+                    .resizable()
+                    .frame(width: 48, height: 60)
+                    .clipShape(RoundedRectangle(cornerRadius: 11))
+            } else {
+                Image(systemName: style.icon)
+                    .font(.title3)
+                    .foregroundColor(.secondary)
+            }
         }
     }
 

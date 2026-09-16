@@ -33,8 +33,8 @@ struct CameraScreen: View {
                     .ignoresSafeArea()
                     .allowsHitTesting(false)
 
-                Color.white
-                    .opacity(isShutterFlashVisible ? 0.86 : 0)
+                Color.black
+                    .opacity(isShutterFlashVisible ? 1 : 0)
                     .ignoresSafeArea()
                     .allowsHitTesting(false)
                     .animation(.easeOut(duration: 0.18), value: isShutterFlashVisible)

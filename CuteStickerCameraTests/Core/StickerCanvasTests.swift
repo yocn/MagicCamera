@@ -6,6 +6,20 @@ import XCTest
 #endif
 
 final class StickerCanvasTests: XCTestCase {
+    func testPhotoSaveTrackerKeepsMultipleCaptureSavesIndependent() {
+        var tracker = PhotoSaveTracker()
+
+        tracker.beginSave()
+        tracker.beginSave()
+        XCTAssertEqual(tracker.activeSaveCount, 2)
+
+        tracker.finishSave()
+        XCTAssertEqual(tracker.activeSaveCount, 1)
+
+        tracker.finishSave()
+        XCTAssertEqual(tracker.activeSaveCount, 0)
+    }
+
     func testFrameSelectionCyclesThroughAllCuteFramesAndBackToNone() {
         var selection = FrameStyle.none
 

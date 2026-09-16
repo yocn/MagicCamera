@@ -70,6 +70,7 @@ final class CameraService: NSObject, ObservableObject {
             self.isCapturing = true
             let settings = AVCapturePhotoSettings()
             settings.flashMode = .off
+            settings.photoQualityPrioritization = .speed
             if let connection = self.photoOutput.connection(with: .video) {
                 connection.videoOrientation = .portrait
                 connection.isVideoMirrored = self.currentPosition == .front
@@ -83,7 +84,7 @@ final class CameraService: NSObject, ObservableObject {
             guard let self else { return }
             if !self.isConfigured {
                 self.session.beginConfiguration()
-                self.session.sessionPreset = .photo
+                self.session.sessionPreset = .high
                 defer { self.session.commitConfiguration() }
                 self.replaceCameraInput()
                 guard self.session.canAddOutput(self.photoOutput) else {

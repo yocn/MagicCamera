@@ -7,7 +7,7 @@ struct CameraScreen: View {
     @State private var isStickerTrayPresented = false
     @State private var isFrameTrayPresented = false
     @State private var frameStyle: FrameStyle = .none
-    @State private var isSaving = false
+    @State private var saveTracker = PhotoSaveTracker()
     @State private var message: String?
     private let composer = PhotoComposer()
     private let photoLibrarySaver = PhotoLibrarySaver()
@@ -99,10 +99,10 @@ struct CameraScreen: View {
                 ZStack {
                     Circle().fill(.white).frame(width: 74, height: 74)
                     Circle().stroke(.pink, lineWidth: 6).frame(width: 64, height: 64)
-                    if isSaving || camera.isCapturing { ProgressView().tint(.pink) }
+                    if camera.isCapturing { ProgressView().tint(.pink) }
                 }
             }
-            .disabled(isSaving || camera.isCapturing || camera.permissionState != .ready)
+            .disabled(camera.isCapturing || camera.permissionState != .ready)
             .accessibilityLabel("拍照")
 
             Spacer()
@@ -144,19 +144,19 @@ struct CameraScreen: View {
     }
 
     private func saveComposed(_ image: UIImage, previewSize: CGSize, frameStyle: FrameStyle) {
-        guard !isSaving else { return }
-        isSaving = true
-        Task {
+        saveTracker.beginSave()
+        let layers = canvas.layers
+        Task.detached(priority: .userInitiated) {
             do {
-                let result = try composer.compose(image: image, previewSize: previewSize, layers: canvas.layers, frameStyle: frameStyle)
-                try await photoLibrarySaver.save(result)
+                let result = try PhotoComposer().compose(image: image, previewSize: previewSize, layers: layers, frameStyle: frameStyle)
+                try await PhotoLibrarySaver().save(result)
                 await MainActor.run {
-                    isSaving = false
+                    saveTracker.finishSave()
                     message = "拍好啦！已经保存到系统照片 ✨"
                 }
             } catch {
                 await MainActor.run {
-                    isSaving = false
+                    saveTracker.finishSave()
                     message = error.localizedDescription
                 }
             }

@@ -21,6 +21,7 @@
 		B012 /* FrameStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F014 /* FrameStyle.swift */; };
 		B013 /* FrameOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F015 /* FrameOverlayView.swift */; };
 		B014 /* FrameTrayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F016 /* FrameTrayView.swift */; };
+		B015 /* PhotoSaveTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F017 /* PhotoSaveTracker.swift */; };
 		B101 /* bunny.png in Resources */ = {isa = PBXBuildFile; fileRef = F101 /* bunny.png */; };
 		B102 /* kitten.png in Resources */ = {isa = PBXBuildFile; fileRef = F102 /* kitten.png */; };
 		B103 /* puppy.png in Resources */ = {isa = PBXBuildFile; fileRef = F103 /* puppy.png */; };
@@ -69,6 +70,7 @@
 		F014 /* FrameStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameStyle.swift; sourceTree = "<group>"; };
 		F015 /* FrameOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameOverlayView.swift; sourceTree = "<group>"; };
 		F016 /* FrameTrayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameTrayView.swift; sourceTree = "<group>"; };
+		F017 /* PhotoSaveTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSaveTracker.swift; sourceTree = "<group>"; };
 		F101 /* bunny.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bunny.png; sourceTree = "<group>"; };
 		F102 /* kitten.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = kitten.png; sourceTree = "<group>"; };
 		F103 /* puppy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = puppy.png; sourceTree = "<group>"; };
@@ -155,6 +157,7 @@
 				F005 /* StickerCanvas.swift */,
 				F006 /* StickerRenderTransform.swift */,
 				F014 /* FrameStyle.swift */,
+				F017 /* PhotoSaveTracker.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -360,6 +363,7 @@
 				B012 /* FrameStyle.swift in Sources */,
 				B013 /* FrameOverlayView.swift in Sources */,
 				B014 /* FrameTrayView.swift in Sources */,
+				B015 /* PhotoSaveTracker.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

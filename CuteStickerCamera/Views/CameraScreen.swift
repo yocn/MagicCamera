@@ -182,7 +182,7 @@ struct CameraScreen: View {
             CameraShutterEffect.playSound()
         }
         camera.capturePhoto()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.07) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.22) {
             isShutterFlashVisible = false
         }
     }

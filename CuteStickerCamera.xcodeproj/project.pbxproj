@@ -1,0 +1,494 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B001 /* CuteStickerCameraApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F001 /* CuteStickerCameraApp.swift */; };
+		B002 /* CameraService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F002 /* CameraService.swift */; };
+		B003 /* CameraPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = F003 /* CameraPreview.swift */; };
+		B004 /* StickerLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F004 /* StickerLayer.swift */; };
+		B005 /* StickerCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = F005 /* StickerCanvas.swift */; };
+		B006 /* StickerRenderTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = F006 /* StickerRenderTransform.swift */; };
+		B007 /* PhotoComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F007 /* PhotoComposer.swift */; };
+		B008 /* PhotoLibrarySaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = F008 /* PhotoLibrarySaver.swift */; };
+		B009 /* StickerCanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F009 /* StickerCanvasView.swift */; };
+		B010 /* StickerTrayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F010 /* StickerTrayView.swift */; };
+		B011 /* CameraScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = F011 /* CameraScreen.swift */; };
+		B101 /* bunny.png in Resources */ = {isa = PBXBuildFile; fileRef = F101 /* bunny.png */; };
+		B102 /* kitten.png in Resources */ = {isa = PBXBuildFile; fileRef = F102 /* kitten.png */; };
+		B103 /* puppy.png in Resources */ = {isa = PBXBuildFile; fileRef = F103 /* puppy.png */; };
+		B104 /* panda.png in Resources */ = {isa = PBXBuildFile; fileRef = F104 /* panda.png */; };
+		B105 /* rainbow.png in Resources */ = {isa = PBXBuildFile; fileRef = F105 /* rainbow.png */; };
+		B106 /* shooting_star.png in Resources */ = {isa = PBXBuildFile; fileRef = F106 /* shooting_star.png */; };
+		B107 /* sun.png in Resources */ = {isa = PBXBuildFile; fileRef = F107 /* sun.png */; };
+		B108 /* heart.png in Resources */ = {isa = PBXBuildFile; fileRef = F108 /* heart.png */; };
+		B109 /* strawberry.png in Resources */ = {isa = PBXBuildFile; fileRef = F109 /* strawberry.png */; };
+		B110 /* cupcake.png in Resources */ = {isa = PBXBuildFile; fileRef = F110 /* cupcake.png */; };
+		B111 /* crown.png in Resources */ = {isa = PBXBuildFile; fileRef = F111 /* crown.png */; };
+		B112 /* flower.png in Resources */ = {isa = PBXBuildFile; fileRef = F112 /* flower.png */; };
+		B113 /* balloon.png in Resources */ = {isa = PBXBuildFile; fileRef = F113 /* balloon.png */; };
+		B114 /* dinosaur.png in Resources */ = {isa = PBXBuildFile; fileRef = F114 /* dinosaur.png */; };
+		B115 /* cloud.png in Resources */ = {isa = PBXBuildFile; fileRef = F115 /* cloud.png */; };
+		B116 /* sparkle.png in Resources */ = {isa = PBXBuildFile; fileRef = F116 /* sparkle.png */; };
+		B117 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F013 /* Assets.xcassets */; };
+		B201 /* StickerCanvasTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F201 /* StickerCanvasTests.swift */; };
+		B202 /* StickerRenderTransformTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F202 /* StickerRenderTransformTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		P001 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = P000 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = T001;
+			remoteInfo = CuteStickerCamera;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		F001 /* CuteStickerCameraApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CuteStickerCameraApp.swift; sourceTree = "<group>"; };
+		F002 /* CameraService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraService.swift; sourceTree = "<group>"; };
+		F003 /* CameraPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreview.swift; sourceTree = "<group>"; };
+		F004 /* StickerLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerLayer.swift; sourceTree = "<group>"; };
+		F005 /* StickerCanvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerCanvas.swift; sourceTree = "<group>"; };
+		F006 /* StickerRenderTransform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerRenderTransform.swift; sourceTree = "<group>"; };
+		F007 /* PhotoComposer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoComposer.swift; sourceTree = "<group>"; };
+		F008 /* PhotoLibrarySaver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLibrarySaver.swift; sourceTree = "<group>"; };
+		F009 /* StickerCanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerCanvasView.swift; sourceTree = "<group>"; };
+		F010 /* StickerTrayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerTrayView.swift; sourceTree = "<group>"; };
+		F011 /* CameraScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraScreen.swift; sourceTree = "<group>"; };
+		F012 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F013 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F101 /* bunny.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bunny.png; sourceTree = "<group>"; };
+		F102 /* kitten.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = kitten.png; sourceTree = "<group>"; };
+		F103 /* puppy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = puppy.png; sourceTree = "<group>"; };
+		F104 /* panda.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = panda.png; sourceTree = "<group>"; };
+		F105 /* rainbow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rainbow.png; sourceTree = "<group>"; };
+		F106 /* shooting_star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shooting_star.png; sourceTree = "<group>"; };
+		F107 /* sun.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sun.png; sourceTree = "<group>"; };
+		F108 /* heart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = heart.png; sourceTree = "<group>"; };
+		F109 /* strawberry.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = strawberry.png; sourceTree = "<group>"; };
+		F110 /* cupcake.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cupcake.png; sourceTree = "<group>"; };
+		F111 /* crown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = crown.png; sourceTree = "<group>"; };
+		F112 /* flower.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flower.png; sourceTree = "<group>"; };
+		F113 /* balloon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = balloon.png; sourceTree = "<group>"; };
+		F114 /* dinosaur.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dinosaur.png; sourceTree = "<group>"; };
+		F115 /* cloud.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud.png; sourceTree = "<group>"; };
+		F116 /* sparkle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sparkle.png; sourceTree = "<group>"; };
+		F201 /* StickerCanvasTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerCanvasTests.swift; sourceTree = "<group>"; };
+		F202 /* StickerRenderTransformTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerRenderTransformTests.swift; sourceTree = "<group>"; };
+		F300 /* CuteStickerCamera.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CuteStickerCamera.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F301 /* CuteStickerCameraTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CuteStickerCameraTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		P001F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		P201F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		P100 = {
+			isa = PBXGroup;
+			children = (
+				P101 /* CuteStickerCamera */,
+				P200 /* CuteStickerCameraTests */,
+				P300 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		P101 /* CuteStickerCamera */ = {
+			isa = PBXGroup;
+			children = (
+				P102 /* App */,
+				P103 /* Camera */,
+				P104 /* Core */,
+				P105 /* Services */,
+				P106 /* Views */,
+				P107 /* Resources */,
+			);
+			path = CuteStickerCamera;
+			sourceTree = "<group>";
+		};
+		P102 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				F001 /* CuteStickerCameraApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		P103 /* Camera */ = {
+			isa = PBXGroup;
+			children = (
+				F002 /* CameraService.swift */,
+				F003 /* CameraPreview.swift */,
+			);
+			path = Camera;
+			sourceTree = "<group>";
+		};
+		P104 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				F004 /* StickerLayer.swift */,
+				F005 /* StickerCanvas.swift */,
+				F006 /* StickerRenderTransform.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		P105 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				F007 /* PhotoComposer.swift */,
+				F008 /* PhotoLibrarySaver.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		P106 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F009 /* StickerCanvasView.swift */,
+				F010 /* StickerTrayView.swift */,
+				F011 /* CameraScreen.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		P107 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				F012 /* Info.plist */,
+				F013 /* Assets.xcassets */,
+				P108 /* Stickers */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		P108 /* Stickers */ = {
+			isa = PBXGroup;
+			children = (
+				F101 /* bunny.png */,
+				F102 /* kitten.png */,
+				F103 /* puppy.png */,
+				F104 /* panda.png */,
+				F105 /* rainbow.png */,
+				F106 /* shooting_star.png */,
+				F107 /* sun.png */,
+				F108 /* heart.png */,
+				F109 /* strawberry.png */,
+				F110 /* cupcake.png */,
+				F111 /* crown.png */,
+				F112 /* flower.png */,
+				F113 /* balloon.png */,
+				F114 /* dinosaur.png */,
+				F115 /* cloud.png */,
+				F116 /* sparkle.png */,
+			);
+			path = Stickers;
+			sourceTree = "<group>";
+		};
+		P200 /* CuteStickerCameraTests */ = {
+			isa = PBXGroup;
+			children = (
+				P201 /* Core */,
+			);
+			path = CuteStickerCameraTests;
+			sourceTree = "<group>";
+		};
+		P201 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				F201 /* StickerCanvasTests.swift */,
+				F202 /* StickerRenderTransformTests.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		P300 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F300 /* CuteStickerCamera.app */,
+				F301 /* CuteStickerCameraTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		T001 /* CuteStickerCamera */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C101 /* Build configuration list for PBXNativeTarget "CuteStickerCamera" */;
+			buildPhases = (
+				P001S /* Sources */,
+				P001R /* Resources */,
+				P001F /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CuteStickerCamera;
+			productName = CuteStickerCamera;
+			productReference = F300 /* CuteStickerCamera.app */;
+			productType = "com.apple.product-type.application";
+		};
+		T201 /* CuteStickerCameraTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C201 /* Build configuration list for PBXNativeTarget "CuteStickerCameraTests" */;
+			buildPhases = (
+				P201S /* Sources */,
+				P201F /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D201 /* PBXTargetDependency */,
+			);
+			name = CuteStickerCameraTests;
+			productName = CuteStickerCameraTests;
+			productReference = F301 /* CuteStickerCameraTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		P000 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					T001 = {
+						CreatedOnToolsVersion = 16.0;
+					};
+					T201 = {
+						CreatedOnToolsVersion = 16.0;
+						TestTargetID = T001;
+					};
+				};
+			};
+			buildConfigurationList = C001 /* Build configuration list for PBXProject "CuteStickerCamera" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+				"zh-Hans",
+			);
+			mainGroup = P100;
+			productRefGroup = P300 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				T001 /* CuteStickerCamera */,
+				T201 /* CuteStickerCameraTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		P001R /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B101 /* bunny.png in Resources */,
+				B102 /* kitten.png in Resources */,
+				B103 /* puppy.png in Resources */,
+				B104 /* panda.png in Resources */,
+				B105 /* rainbow.png in Resources */,
+				B106 /* shooting_star.png in Resources */,
+				B107 /* sun.png in Resources */,
+				B108 /* heart.png in Resources */,
+				B109 /* strawberry.png in Resources */,
+				B110 /* cupcake.png in Resources */,
+				B111 /* crown.png in Resources */,
+				B112 /* flower.png in Resources */,
+				B113 /* balloon.png in Resources */,
+				B114 /* dinosaur.png in Resources */,
+				B115 /* cloud.png in Resources */,
+				B116 /* sparkle.png in Resources */,
+				B117 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		P001S /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B001 /* CuteStickerCameraApp.swift in Sources */,
+				B002 /* CameraService.swift in Sources */,
+				B003 /* CameraPreview.swift in Sources */,
+				B004 /* StickerLayer.swift in Sources */,
+				B005 /* StickerCanvas.swift in Sources */,
+				B006 /* StickerRenderTransform.swift in Sources */,
+				B007 /* PhotoComposer.swift in Sources */,
+				B008 /* PhotoLibrarySaver.swift in Sources */,
+				B009 /* StickerCanvasView.swift in Sources */,
+				B010 /* StickerTrayView.swift in Sources */,
+				B011 /* CameraScreen.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		P201S /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B201 /* StickerCanvasTests.swift in Sources */,
+				B202 /* StickerRenderTransformTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D201 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = T001 /* CuteStickerCamera */;
+			targetProxy = P001 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		C002 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		C003 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		C102 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Y3F4M25D8N;
+				ENABLE_TESTABILITY = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = CuteStickerCamera/Resources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yocn.CuteStickerCamera;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		C103 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Y3F4M25D8N;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = CuteStickerCamera/Resources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yocn.CuteStickerCamera;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		C202 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yocn.CuteStickerCameraTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CuteStickerCamera.app/CuteStickerCamera";
+			};
+			name = Debug;
+		};
+		C203 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yocn.CuteStickerCameraTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CuteStickerCamera.app/CuteStickerCamera";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C001 /* Build configuration list for PBXProject "CuteStickerCamera" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C002 /* Debug */,
+				C003 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C101 /* Build configuration list for PBXNativeTarget "CuteStickerCamera" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C102 /* Debug */,
+				C103 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C201 /* Build configuration list for PBXNativeTarget "CuteStickerCameraTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C202 /* Debug */,
+				C203 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = P000 /* Project object */;
+}

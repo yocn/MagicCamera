@@ -22,6 +22,8 @@
 		B013 /* FrameOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F015 /* FrameOverlayView.swift */; };
 		B014 /* FrameTrayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F016 /* FrameTrayView.swift */; };
 		B015 /* PhotoSaveTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F017 /* PhotoSaveTracker.swift */; };
+		B016 /* CameraSoundPreference.swift in Sources */ = {isa = PBXBuildFile; fileRef = F018 /* CameraSoundPreference.swift */; };
+		B017 /* CameraShutterEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = F019 /* CameraShutterEffect.swift */; };
 		B101 /* bunny.png in Resources */ = {isa = PBXBuildFile; fileRef = F101 /* bunny.png */; };
 		B102 /* kitten.png in Resources */ = {isa = PBXBuildFile; fileRef = F102 /* kitten.png */; };
 		B103 /* puppy.png in Resources */ = {isa = PBXBuildFile; fileRef = F103 /* puppy.png */; };
@@ -71,6 +73,8 @@
 		F015 /* FrameOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameOverlayView.swift; sourceTree = "<group>"; };
 		F016 /* FrameTrayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameTrayView.swift; sourceTree = "<group>"; };
 		F017 /* PhotoSaveTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSaveTracker.swift; sourceTree = "<group>"; };
+		F018 /* CameraSoundPreference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraSoundPreference.swift; sourceTree = "<group>"; };
+		F019 /* CameraShutterEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraShutterEffect.swift; sourceTree = "<group>"; };
 		F101 /* bunny.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bunny.png; sourceTree = "<group>"; };
 		F102 /* kitten.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = kitten.png; sourceTree = "<group>"; };
 		F103 /* puppy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = puppy.png; sourceTree = "<group>"; };
@@ -158,6 +162,7 @@
 				F006 /* StickerRenderTransform.swift */,
 				F014 /* FrameStyle.swift */,
 				F017 /* PhotoSaveTracker.swift */,
+				F018 /* CameraSoundPreference.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -167,6 +172,7 @@
 			children = (
 				F007 /* PhotoComposer.swift */,
 				F008 /* PhotoLibrarySaver.swift */,
+				F019 /* CameraShutterEffect.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -364,6 +370,8 @@
 				B013 /* FrameOverlayView.swift in Sources */,
 				B014 /* FrameTrayView.swift in Sources */,
 				B015 /* PhotoSaveTracker.swift in Sources */,
+				B016 /* CameraSoundPreference.swift in Sources */,
+				B017 /* CameraShutterEffect.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

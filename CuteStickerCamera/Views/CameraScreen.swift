@@ -9,6 +9,8 @@ struct CameraScreen: View {
     @State private var frameStyle: FrameStyle = .none
     @State private var saveTracker = PhotoSaveTracker()
     @State private var message: String?
+    @AppStorage(CameraSoundPreference.storageKey) private var isCameraSoundEnabled = true
+    @State private var isShutterFlashVisible = false
     private let composer = PhotoComposer()
     private let photoLibrarySaver = PhotoLibrarySaver()
 
@@ -30,6 +32,12 @@ struct CameraScreen: View {
                 FrameOverlayView(style: frameStyle)
                     .ignoresSafeArea()
                     .allowsHitTesting(false)
+
+                Color.white
+                    .opacity(isShutterFlashVisible ? 0.86 : 0)
+                    .ignoresSafeArea()
+                    .allowsHitTesting(false)
+                    .animation(.easeOut(duration: 0.18), value: isShutterFlashVisible)
 
                 VStack {
                     title
@@ -95,7 +103,7 @@ struct CameraScreen: View {
 
             Spacer()
 
-            Button(action: camera.capturePhoto) {
+            Button(action: capturePhoto) {
                 ZStack {
                     Circle().fill(.white).frame(width: 74, height: 74)
                     Circle().stroke(.pink, lineWidth: 6).frame(width: 64, height: 64)
@@ -103,6 +111,7 @@ struct CameraScreen: View {
                 }
             }
             .disabled(camera.isCapturing || camera.permissionState != .ready)
+            .buttonStyle(ShutterButtonStyle())
             .accessibilityLabel("拍照")
 
             Spacer()
@@ -114,6 +123,10 @@ struct CameraScreen: View {
                     .accessibilityLabel("添加贴纸")
                 Button { isFrameTrayPresented = true } label: { Image(systemName: "rectangle.inset.filled") }
                     .accessibilityLabel("选择边框")
+                Button { isCameraSoundEnabled.toggle() } label: {
+                    Image(systemName: isCameraSoundEnabled ? "speaker.wave.2.fill" : "speaker.slash.fill")
+                }
+                    .accessibilityLabel(isCameraSoundEnabled ? "拍照音效已开启" : "拍照音效已关闭")
                 Button { canvas.undo() } label: { Image(systemName: "arrow.uturn.backward") }
                     .accessibilityLabel("撤销")
             }
@@ -163,10 +176,29 @@ struct CameraScreen: View {
         }
     }
 
+    private func capturePhoto() {
+        isShutterFlashVisible = true
+        if isCameraSoundEnabled {
+            CameraShutterEffect.playSound()
+        }
+        camera.capturePhoto()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.07) {
+            isShutterFlashVisible = false
+        }
+    }
+
     private func openSystemPhotos() {
         guard let url = URL(string: "photos-redirect://") else { return }
         UIApplication.shared.open(url) { success in
             if !success { message = "照片已保存，请打开“照片”App 继续编辑。" }
         }
+    }
+}
+
+private struct ShutterButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .scaleEffect(configuration.isPressed ? 0.88 : 1)
+            .animation(.spring(response: 0.18, dampingFraction: 0.58), value: configuration.isPressed)
     }
 }

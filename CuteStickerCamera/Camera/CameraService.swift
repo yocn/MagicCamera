@@ -1,5 +1,6 @@
 import AVFoundation
 import UIKit
+import os
 
 enum CameraPermissionState: Equatable {
     case ready
@@ -36,6 +37,8 @@ final class CameraService: NSObject, ObservableObject {
     private var currentInput: AVCaptureDeviceInput?
     private var currentPosition: AVCaptureDevice.Position = .front
     private var isConfigured = false
+    private var captureStartedAt: Date?
+    private let captureLogger = Logger(subsystem: "com.yocn.CuteStickerCamera", category: "CaptureTiming")
 
     func start() {
         switch AVCaptureDevice.authorizationStatus(for: .video) {
@@ -68,6 +71,7 @@ final class CameraService: NSObject, ObservableObject {
         sessionQueue.async { [weak self] in
             guard let self, self.session.isRunning, !self.isCapturing else { return }
             self.isCapturing = true
+            self.captureStartedAt = Date()
             let settings = AVCapturePhotoSettings()
             settings.flashMode = .off
             settings.photoQualityPrioritization = .speed
@@ -129,6 +133,10 @@ final class CameraService: NSObject, ObservableObject {
 extension CameraService: AVCapturePhotoCaptureDelegate {
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
         defer { DispatchQueue.main.async { self.isCapturing = false } }
+        if let captureStartedAt {
+            let elapsedMilliseconds = Date().timeIntervalSince(captureStartedAt) * 1_000
+            captureLogger.notice("photo callback in \(elapsedMilliseconds, format: .fixed(precision: 0)) ms")
+        }
         guard error == nil, let data = photo.fileDataRepresentation(), let image = UIImage(data: data) else { return }
         DispatchQueue.main.async { self.capturedImage = image }
     }

@@ -6,6 +6,18 @@ import XCTest
 #endif
 
 final class StickerCanvasTests: XCTestCase {
+    func testCameraSoundPreferenceDefaultsToEnabledAndPersistsSelection() {
+        let suiteName = "CameraSoundPreferenceTests"
+        let defaults = UserDefaults(suiteName: suiteName)!
+        defaults.removePersistentDomain(forName: suiteName)
+
+        var preference = CameraSoundPreference(defaults: defaults)
+        XCTAssertTrue(preference.isEnabled)
+
+        preference.isEnabled = false
+        XCTAssertFalse(CameraSoundPreference(defaults: defaults).isEnabled)
+    }
+
     func testPhotoSaveTrackerKeepsMultipleCaptureSavesIndependent() {
         var tracker = PhotoSaveTracker()
 

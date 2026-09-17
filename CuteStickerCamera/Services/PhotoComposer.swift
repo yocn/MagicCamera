@@ -5,7 +5,6 @@ enum PhotoComposerError: LocalizedError {
 
     var errorDescription: String? { "照片合成失败，请再试一次。" }
 }
-
 struct PhotoComposer {
     func compose(image: UIImage, previewSize: CGSize, layers: [StickerLayer], frameStyle: FrameStyle = .none) throws -> UIImage {
         guard let normalized = image.normalized(), previewSize.width > 0, previewSize.height > 0 else {

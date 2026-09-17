@@ -9,7 +9,6 @@ enum CameraControlAction: String, Identifiable {
 
     var id: String { rawValue }
 }
-
 enum CameraControlGrouping {
     static let quickActions: [CameraControlAction] = [.stickers, .frames]
     static let settingsActions: [CameraControlAction] = [.switchCamera, .aspectRatio, .sound]

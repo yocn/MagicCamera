@@ -147,6 +147,11 @@ struct CameraScreen: View {
             }
         } label: {
             Image(systemName: "slider.horizontal.3")
+                .font(.system(size: 19, weight: .bold))
+                .foregroundStyle(.white)
+                .frame(width: 48, height: 48)
+                .background(.black.opacity(0.28), in: Circle())
+                .contentShape(Circle())
         }
         .accessibilityLabel("相机设置")
     }

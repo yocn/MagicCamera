@@ -25,7 +25,6 @@ enum CameraPermissionState: Equatable {
         self == .cameraDenied
     }
 }
-
 final class CameraService: NSObject, ObservableObject {
     let session = AVCaptureSession()
     @Published private(set) var permissionState: CameraPermissionState = .ready

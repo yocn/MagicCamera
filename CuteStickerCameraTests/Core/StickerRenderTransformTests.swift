@@ -7,6 +7,21 @@ import XCTest
 #endif
 
 final class StickerRenderTransformTests: XCTestCase {
+    func testPictureInPictureUsesThirtyPercentOfShortestSideAtUpperRight() {
+        let rect = PictureInPictureLayout().rect(in: CGSize(width: 400, height: 800))
+
+        XCTAssertEqual(rect, CGRect(x: 264, y: 84, width: 120, height: 120))
+    }
+
+    func testPictureInPictureDraggingClampsWindowInsideCanvas() {
+        let layout = PictureInPictureLayout(center: CGPoint(x: 0.95, y: 0.05))
+
+        XCTAssertEqual(
+            layout.normalizedCenter(afterDragging: .zero, in: CGSize(width: 400, height: 800)),
+            CGPoint(x: 0.85, y: 0.075)
+        )
+    }
+
     func testThreeQuarterPreviewCentersAThreeByFourCanvasInsideTallScreen() {
         let rect = CameraAspectRatio.threeQuarter.contentRect(in: CGSize(width: 400, height: 800))
 

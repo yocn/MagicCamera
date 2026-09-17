@@ -6,12 +6,11 @@ enum CameraControlAction: String, Identifiable {
     case switchCamera
     case aspectRatio
     case sound
-    case undo
 
     var id: String { rawValue }
 }
 
 enum CameraControlGrouping {
     static let quickActions: [CameraControlAction] = [.stickers, .frames]
-    static let settingsActions: [CameraControlAction] = [.switchCamera, .aspectRatio, .sound, .undo]
+    static let settingsActions: [CameraControlAction] = [.switchCamera, .aspectRatio, .sound]
 }

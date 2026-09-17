@@ -10,7 +10,7 @@ final class StickerCanvasTests: XCTestCase {
         XCTAssertEqual(CameraControlGrouping.quickActions, [.stickers, .frames])
         XCTAssertEqual(
             CameraControlGrouping.settingsActions,
-            [.switchCamera, .aspectRatio, .sound, .undo]
+            [.switchCamera, .aspectRatio, .sound]
         )
     }
 

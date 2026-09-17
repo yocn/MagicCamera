@@ -49,6 +49,10 @@ struct CameraScreen: View {
                     if CameraScreenChrome.showsAppTitle {
                         title
                     }
+                    HStack {
+                        Spacer()
+                        settingsMenu
+                    }
                     Spacer()
                     controls
                 }
@@ -128,20 +132,23 @@ struct CameraScreen: View {
                 ForEach(CameraControlGrouping.quickActions) { action in
                     quickActionButton(for: action)
                 }
-                Menu {
-                    ForEach(CameraControlGrouping.settingsActions) { action in
-                        settingsMenuItem(for: action)
-                    }
-                } label: {
-                    Image(systemName: "slider.horizontal.3")
-                }
-                .accessibilityLabel("相机设置")
             }
         }
         .font(.title2)
         .foregroundStyle(.white)
         .padding(.bottom, 18)
         .shadow(radius: 4)
+    }
+
+    private var settingsMenu: some View {
+        Menu {
+            ForEach(CameraControlGrouping.settingsActions) { action in
+                settingsMenuItem(for: action)
+            }
+        } label: {
+            Image(systemName: "slider.horizontal.3")
+        }
+        .accessibilityLabel("相机设置")
     }
 
     @ViewBuilder
@@ -178,8 +185,6 @@ struct CameraScreen: View {
                     systemImage: isCameraSoundEnabled ? "speaker.wave.2.fill" : "speaker.slash.fill"
                 )
             }
-        case .undo:
-            Button { canvas.undo() } label: { Label("撤销", systemImage: "arrow.uturn.backward") }
         default:
             EmptyView()
         }

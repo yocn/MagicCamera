@@ -125,32 +125,64 @@ struct CameraScreen: View {
             Spacer()
 
             VStack(spacing: 12) {
-                Button { camera.switchCamera() } label: { Image(systemName: "camera.rotate.fill") }
-                    .accessibilityLabel("切换镜头")
-                Button { isStickerTrayPresented = true } label: { Text("🐰").font(.title2) }
-                    .accessibilityLabel("添加贴纸")
-                Button { isFrameTrayPresented = true } label: { Image(systemName: "rectangle.inset.filled") }
-                    .accessibilityLabel("选择边框")
+                ForEach(CameraControlGrouping.quickActions) { action in
+                    quickActionButton(for: action)
+                }
                 Menu {
-                    ForEach(CameraAspectRatio.allCases) { ratio in
-                        Button(ratio.title) { aspectRatio = ratio }
+                    ForEach(CameraControlGrouping.settingsActions) { action in
+                        settingsMenuItem(for: action)
                     }
                 } label: {
-                    Image(systemName: aspectRatio.iconName)
+                    Image(systemName: "slider.horizontal.3")
                 }
-                .accessibilityLabel("拍照尺寸：\(aspectRatio.title)")
-                Button { isCameraSoundEnabled.toggle() } label: {
-                    Image(systemName: isCameraSoundEnabled ? "speaker.wave.2.fill" : "speaker.slash.fill")
-                }
-                    .accessibilityLabel(isCameraSoundEnabled ? "拍照音效已开启" : "拍照音效已关闭")
-                Button { canvas.undo() } label: { Image(systemName: "arrow.uturn.backward") }
-                    .accessibilityLabel("撤销")
+                .accessibilityLabel("相机设置")
             }
         }
         .font(.title2)
         .foregroundStyle(.white)
         .padding(.bottom, 18)
         .shadow(radius: 4)
+    }
+
+    @ViewBuilder
+    private func quickActionButton(for action: CameraControlAction) -> some View {
+        switch action {
+        case .stickers:
+            Button { isStickerTrayPresented = true } label: { Text("🐰").font(.title2) }
+                .accessibilityLabel("添加贴纸")
+        case .frames:
+            Button { isFrameTrayPresented = true } label: { Image(systemName: "rectangle.inset.filled") }
+                .accessibilityLabel("选择边框")
+        default:
+            EmptyView()
+        }
+    }
+
+    @ViewBuilder
+    private func settingsMenuItem(for action: CameraControlAction) -> some View {
+        switch action {
+        case .switchCamera:
+            Button { camera.switchCamera() } label: { Label("切换镜头", systemImage: "camera.rotate.fill") }
+        case .aspectRatio:
+            Menu {
+                ForEach(CameraAspectRatio.allCases) { ratio in
+                    Button(ratio.title) { aspectRatio = ratio }
+                }
+            } label: {
+                Label("拍照尺寸：\(aspectRatio.title)", systemImage: aspectRatio.iconName)
+            }
+        case .sound:
+            Button { isCameraSoundEnabled.toggle() } label: {
+                Label(
+                    isCameraSoundEnabled ? "关闭拍照音效" : "开启拍照音效",
+                    systemImage: isCameraSoundEnabled ? "speaker.wave.2.fill" : "speaker.slash.fill"
+                )
+            }
+        case .undo:
+            Button { canvas.undo() } label: { Label("撤销", systemImage: "arrow.uturn.backward") }
+        default:
+            EmptyView()
+        }
     }
 
     private var permissionOverlay: some View {

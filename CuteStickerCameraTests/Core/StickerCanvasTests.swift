@@ -6,6 +6,14 @@ import XCTest
 #endif
 
 final class StickerCanvasTests: XCTestCase {
+    func testCameraControlsKeepStickersAndFramesAsTheOnlyQuickActions() {
+        XCTAssertEqual(CameraControlGrouping.quickActions, [.stickers, .frames])
+        XCTAssertEqual(
+            CameraControlGrouping.settingsActions,
+            [.switchCamera, .aspectRatio, .sound, .undo]
+        )
+    }
+
     func testCameraScreenDoesNotDisplayAnAppTitle() {
         XCTAssertFalse(CameraScreenChrome.showsAppTitle)
     }

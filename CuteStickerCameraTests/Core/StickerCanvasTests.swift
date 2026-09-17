@@ -6,6 +6,17 @@ import XCTest
 #endif
 
 final class StickerCanvasTests: XCTestCase {
+    func testStickerCatalogPutsCuteAccessoriesBeforeCleanExistingStickers() {
+        XCTAssertEqual(
+            StickerCatalog.assetNames,
+            [
+                "princess_hair", "bow_hairclip", "pearl_hairpin", "king_crown",
+                "ice_queen_crown", "magic_glasses", "fairy_wings",
+                "kitten", "puppy", "panda", "strawberry", "cupcake", "dinosaur", "cloud"
+            ]
+        )
+    }
+
     func testCameraSoundPreferenceDefaultsToEnabledAndPersistsSelection() {
         let suiteName = "CameraSoundPreferenceTests"
         let defaults = UserDefaults(suiteName: suiteName)!

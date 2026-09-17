@@ -4,13 +4,6 @@ import UIKit
 struct StickerTrayView: View {
     let onPick: (String) -> Void
 
-    private let stickers = [
-        "bunny", "kitten", "puppy", "panda",
-        "rainbow", "shooting_star", "sun", "heart",
-        "strawberry", "cupcake", "crown", "flower",
-        "balloon", "dinosaur", "cloud", "sparkle"
-    ]
-
     var body: some View {
         VStack(spacing: 10) {
             Capsule().fill(.secondary.opacity(0.4)).frame(width: 38, height: 5)
@@ -18,7 +11,7 @@ struct StickerTrayView: View {
                 .font(.headline)
                 .foregroundStyle(.purple)
             LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 4), spacing: 10) {
-                ForEach(stickers, id: \.self) { name in
+                ForEach(StickerCatalog.assetNames, id: \.self) { name in
                     Button { onPick(name) } label: {
                         Image(uiImage: UIImage(named: name) ?? UIImage())
                             .resizable()

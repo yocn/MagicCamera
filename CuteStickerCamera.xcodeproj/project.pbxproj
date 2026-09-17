@@ -24,22 +24,21 @@
 		B015 /* PhotoSaveTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F017 /* PhotoSaveTracker.swift */; };
 		B016 /* CameraSoundPreference.swift in Sources */ = {isa = PBXBuildFile; fileRef = F018 /* CameraSoundPreference.swift */; };
 		B017 /* CameraShutterEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = F019 /* CameraShutterEffect.swift */; };
-		B101 /* bunny.png in Resources */ = {isa = PBXBuildFile; fileRef = F101 /* bunny.png */; };
+		B018 /* StickerCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = F020 /* StickerCatalog.swift */; };
 		B102 /* kitten.png in Resources */ = {isa = PBXBuildFile; fileRef = F102 /* kitten.png */; };
 		B103 /* puppy.png in Resources */ = {isa = PBXBuildFile; fileRef = F103 /* puppy.png */; };
 		B104 /* panda.png in Resources */ = {isa = PBXBuildFile; fileRef = F104 /* panda.png */; };
-		B105 /* rainbow.png in Resources */ = {isa = PBXBuildFile; fileRef = F105 /* rainbow.png */; };
-		B106 /* shooting_star.png in Resources */ = {isa = PBXBuildFile; fileRef = F106 /* shooting_star.png */; };
-		B107 /* sun.png in Resources */ = {isa = PBXBuildFile; fileRef = F107 /* sun.png */; };
-		B108 /* heart.png in Resources */ = {isa = PBXBuildFile; fileRef = F108 /* heart.png */; };
 		B109 /* strawberry.png in Resources */ = {isa = PBXBuildFile; fileRef = F109 /* strawberry.png */; };
 		B110 /* cupcake.png in Resources */ = {isa = PBXBuildFile; fileRef = F110 /* cupcake.png */; };
-		B111 /* crown.png in Resources */ = {isa = PBXBuildFile; fileRef = F111 /* crown.png */; };
-		B112 /* flower.png in Resources */ = {isa = PBXBuildFile; fileRef = F112 /* flower.png */; };
-		B113 /* balloon.png in Resources */ = {isa = PBXBuildFile; fileRef = F113 /* balloon.png */; };
 		B114 /* dinosaur.png in Resources */ = {isa = PBXBuildFile; fileRef = F114 /* dinosaur.png */; };
 		B115 /* cloud.png in Resources */ = {isa = PBXBuildFile; fileRef = F115 /* cloud.png */; };
-		B116 /* sparkle.png in Resources */ = {isa = PBXBuildFile; fileRef = F116 /* sparkle.png */; };
+		B126 /* princess_hair.png in Resources */ = {isa = PBXBuildFile; fileRef = F126 /* princess_hair.png */; };
+		B127 /* bow_hairclip.png in Resources */ = {isa = PBXBuildFile; fileRef = F127 /* bow_hairclip.png */; };
+		B128 /* pearl_hairpin.png in Resources */ = {isa = PBXBuildFile; fileRef = F128 /* pearl_hairpin.png */; };
+		B129 /* king_crown.png in Resources */ = {isa = PBXBuildFile; fileRef = F129 /* king_crown.png */; };
+		B130 /* ice_queen_crown.png in Resources */ = {isa = PBXBuildFile; fileRef = F130 /* ice_queen_crown.png */; };
+		B131 /* magic_glasses.png in Resources */ = {isa = PBXBuildFile; fileRef = F131 /* magic_glasses.png */; };
+		B132 /* fairy_wings.png in Resources */ = {isa = PBXBuildFile; fileRef = F132 /* fairy_wings.png */; };
 		B117 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F013 /* Assets.xcassets */; };
 		B118 /* strawberry_bow_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F118 /* strawberry_bow_frame.png */; };
 		B119 /* sky_cloud_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F119 /* sky_cloud_frame.png */; };
@@ -83,22 +82,21 @@
 		F017 /* PhotoSaveTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSaveTracker.swift; sourceTree = "<group>"; };
 		F018 /* CameraSoundPreference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraSoundPreference.swift; sourceTree = "<group>"; };
 		F019 /* CameraShutterEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraShutterEffect.swift; sourceTree = "<group>"; };
-		F101 /* bunny.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bunny.png; sourceTree = "<group>"; };
+		F020 /* StickerCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerCatalog.swift; sourceTree = "<group>"; };
 		F102 /* kitten.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = kitten.png; sourceTree = "<group>"; };
 		F103 /* puppy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = puppy.png; sourceTree = "<group>"; };
 		F104 /* panda.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = panda.png; sourceTree = "<group>"; };
-		F105 /* rainbow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rainbow.png; sourceTree = "<group>"; };
-		F106 /* shooting_star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shooting_star.png; sourceTree = "<group>"; };
-		F107 /* sun.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sun.png; sourceTree = "<group>"; };
-		F108 /* heart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = heart.png; sourceTree = "<group>"; };
 		F109 /* strawberry.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = strawberry.png; sourceTree = "<group>"; };
 		F110 /* cupcake.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cupcake.png; sourceTree = "<group>"; };
-		F111 /* crown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = crown.png; sourceTree = "<group>"; };
-		F112 /* flower.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flower.png; sourceTree = "<group>"; };
-		F113 /* balloon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = balloon.png; sourceTree = "<group>"; };
 		F114 /* dinosaur.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dinosaur.png; sourceTree = "<group>"; };
 		F115 /* cloud.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud.png; sourceTree = "<group>"; };
-		F116 /* sparkle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sparkle.png; sourceTree = "<group>"; };
+		F126 /* princess_hair.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = princess_hair.png; sourceTree = "<group>"; };
+		F127 /* bow_hairclip.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bow_hairclip.png; sourceTree = "<group>"; };
+		F128 /* pearl_hairpin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pearl_hairpin.png; sourceTree = "<group>"; };
+		F129 /* king_crown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = king_crown.png; sourceTree = "<group>"; };
+		F130 /* ice_queen_crown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ice_queen_crown.png; sourceTree = "<group>"; };
+		F131 /* magic_glasses.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = magic_glasses.png; sourceTree = "<group>"; };
+		F132 /* fairy_wings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fairy_wings.png; sourceTree = "<group>"; };
 		F118 /* strawberry_bow_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = strawberry_bow_frame.png; sourceTree = "<group>"; };
 		F119 /* sky_cloud_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sky_cloud_frame.png; sourceTree = "<group>"; };
 		F120 /* crayon_doodle_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = crayon_doodle_frame.png; sourceTree = "<group>"; };
@@ -175,6 +173,7 @@
 			children = (
 				F004 /* StickerLayer.swift */,
 				F005 /* StickerCanvas.swift */,
+				F020 /* StickerCatalog.swift */,
 				F006 /* StickerRenderTransform.swift */,
 				F014 /* FrameStyle.swift */,
 				F017 /* PhotoSaveTracker.swift */,
@@ -219,22 +218,20 @@
 		P108 /* Stickers */ = {
 			isa = PBXGroup;
 			children = (
-				F101 /* bunny.png */,
+				F126 /* princess_hair.png */,
+				F127 /* bow_hairclip.png */,
+				F128 /* pearl_hairpin.png */,
+				F129 /* king_crown.png */,
+				F130 /* ice_queen_crown.png */,
+				F131 /* magic_glasses.png */,
+				F132 /* fairy_wings.png */,
 				F102 /* kitten.png */,
 				F103 /* puppy.png */,
 				F104 /* panda.png */,
-				F105 /* rainbow.png */,
-				F106 /* shooting_star.png */,
-				F107 /* sun.png */,
-				F108 /* heart.png */,
 				F109 /* strawberry.png */,
 				F110 /* cupcake.png */,
-				F111 /* crown.png */,
-				F112 /* flower.png */,
-				F113 /* balloon.png */,
 				F114 /* dinosaur.png */,
 				F115 /* cloud.png */,
-				F116 /* sparkle.png */,
 			);
 			path = Stickers;
 			sourceTree = "<group>";
@@ -360,22 +357,20 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B101 /* bunny.png in Resources */,
+				B126 /* princess_hair.png in Resources */,
+				B127 /* bow_hairclip.png in Resources */,
+				B128 /* pearl_hairpin.png in Resources */,
+				B129 /* king_crown.png in Resources */,
+				B130 /* ice_queen_crown.png in Resources */,
+				B131 /* magic_glasses.png in Resources */,
+				B132 /* fairy_wings.png in Resources */,
 				B102 /* kitten.png in Resources */,
 				B103 /* puppy.png in Resources */,
 				B104 /* panda.png in Resources */,
-				B105 /* rainbow.png in Resources */,
-				B106 /* shooting_star.png in Resources */,
-				B107 /* sun.png in Resources */,
-				B108 /* heart.png in Resources */,
 				B109 /* strawberry.png in Resources */,
 				B110 /* cupcake.png in Resources */,
-				B111 /* crown.png in Resources */,
-				B112 /* flower.png in Resources */,
-				B113 /* balloon.png in Resources */,
 				B114 /* dinosaur.png in Resources */,
 				B115 /* cloud.png in Resources */,
-				B116 /* sparkle.png in Resources */,
 				B117 /* Assets.xcassets in Resources */,
 				B118 /* strawberry_bow_frame.png in Resources */,
 				B119 /* sky_cloud_frame.png in Resources */,
@@ -412,6 +407,7 @@
 				B015 /* PhotoSaveTracker.swift in Sources */,
 				B016 /* CameraSoundPreference.swift in Sources */,
 				B017 /* CameraShutterEffect.swift in Sources */,
+				B018 /* StickerCatalog.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

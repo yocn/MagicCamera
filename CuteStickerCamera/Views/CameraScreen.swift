@@ -40,7 +40,9 @@ struct CameraScreen: View {
                     .animation(.easeOut(duration: 0.18), value: isShutterFlashVisible)
 
                 VStack {
-                    title
+                    if CameraScreenChrome.showsAppTitle {
+                        title
+                    }
                     Spacer()
                     controls
                 }

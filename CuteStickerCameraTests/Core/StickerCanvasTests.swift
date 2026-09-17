@@ -6,6 +6,10 @@ import XCTest
 #endif
 
 final class StickerCanvasTests: XCTestCase {
+    func testCameraScreenDoesNotDisplayAnAppTitle() {
+        XCTAssertFalse(CameraScreenChrome.showsAppTitle)
+    }
+
     func testStickerCatalogPutsCuteAccessoriesBeforeCleanExistingStickers() {
         XCTAssertEqual(
             StickerCatalog.assetNames,

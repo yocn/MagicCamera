@@ -25,6 +25,7 @@
 		B016 /* CameraSoundPreference.swift in Sources */ = {isa = PBXBuildFile; fileRef = F018 /* CameraSoundPreference.swift */; };
 		B017 /* CameraShutterEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = F019 /* CameraShutterEffect.swift */; };
 		B018 /* StickerCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = F020 /* StickerCatalog.swift */; };
+		B019 /* CameraScreenChrome.swift in Sources */ = {isa = PBXBuildFile; fileRef = F021 /* CameraScreenChrome.swift */; };
 		B102 /* kitten.png in Resources */ = {isa = PBXBuildFile; fileRef = F102 /* kitten.png */; };
 		B103 /* puppy.png in Resources */ = {isa = PBXBuildFile; fileRef = F103 /* puppy.png */; };
 		B104 /* panda.png in Resources */ = {isa = PBXBuildFile; fileRef = F104 /* panda.png */; };
@@ -83,6 +84,7 @@
 		F018 /* CameraSoundPreference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraSoundPreference.swift; sourceTree = "<group>"; };
 		F019 /* CameraShutterEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraShutterEffect.swift; sourceTree = "<group>"; };
 		F020 /* StickerCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerCatalog.swift; sourceTree = "<group>"; };
+		F021 /* CameraScreenChrome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraScreenChrome.swift; sourceTree = "<group>"; };
 		F102 /* kitten.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = kitten.png; sourceTree = "<group>"; };
 		F103 /* puppy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = puppy.png; sourceTree = "<group>"; };
 		F104 /* panda.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = panda.png; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 				F004 /* StickerLayer.swift */,
 				F005 /* StickerCanvas.swift */,
 				F020 /* StickerCatalog.swift */,
+				F021 /* CameraScreenChrome.swift */,
 				F006 /* StickerRenderTransform.swift */,
 				F014 /* FrameStyle.swift */,
 				F017 /* PhotoSaveTracker.swift */,
@@ -408,6 +411,7 @@
 				B016 /* CameraSoundPreference.swift in Sources */,
 				B017 /* CameraShutterEffect.swift in Sources */,
 				B018 /* StickerCatalog.swift in Sources */,
+				B019 /* CameraScreenChrome.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

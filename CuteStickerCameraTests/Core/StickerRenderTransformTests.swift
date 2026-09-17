@@ -7,6 +7,22 @@ import XCTest
 #endif
 
 final class StickerRenderTransformTests: XCTestCase {
+    func testThreeQuarterPreviewCentersAThreeByFourCanvasInsideTallScreen() {
+        let rect = CameraAspectRatio.threeQuarter.contentRect(in: CGSize(width: 400, height: 800))
+
+        XCTAssertEqual(rect.origin.x, 0, accuracy: 0.0001)
+        XCTAssertEqual(rect.origin.y, 133.3333, accuracy: 0.0001)
+        XCTAssertEqual(rect.width, 400, accuracy: 0.0001)
+        XCTAssertEqual(rect.height, 533.3333, accuracy: 0.0001)
+    }
+
+    func testFullScreenPreviewUsesEveryPixelOfItsContainer() {
+        XCTAssertEqual(
+            CameraAspectRatio.fullScreen.contentRect(in: CGSize(width: 400, height: 800)),
+            CGRect(x: 0, y: 0, width: 400, height: 800)
+        )
+    }
+
     func testMapsNormalizedCenterToPixelCanvas() {
         let layer = StickerLayer(
             assetName: "bunny",

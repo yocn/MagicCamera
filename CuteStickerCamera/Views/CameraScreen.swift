@@ -7,6 +7,7 @@ struct CameraScreen: View {
     @State private var isStickerTrayPresented = false
     @State private var isFrameTrayPresented = false
     @State private var frameStyle: FrameStyle = .none
+    @State private var aspectRatio: CameraAspectRatio = .fullScreen
     @State private var saveTracker = PhotoSaveTracker()
     @State private var message: String?
     @AppStorage(CameraSoundPreference.storageKey) private var isCameraSoundEnabled = true
@@ -16,21 +17,26 @@ struct CameraScreen: View {
 
     var body: some View {
         GeometryReader { proxy in
+            let contentRect = aspectRatio.contentRect(in: proxy.size)
             ZStack {
                 CameraPreview(session: camera.session)
-                    .ignoresSafeArea()
+                    .frame(width: contentRect.width, height: contentRect.height)
+                    .position(x: contentRect.midX, y: contentRect.midY)
+                    .clipped()
 
                 if camera.permissionState != .ready {
                     permissionOverlay
                         .allowsHitTesting(camera.permissionState.allowsPermissionOverlayInteraction)
                 }
 
-                StickerCanvasView(canvas: canvas, previewSize: proxy.size)
-                    .ignoresSafeArea()
+                StickerCanvasView(canvas: canvas, previewSize: contentRect.size)
+                    .frame(width: contentRect.width, height: contentRect.height)
+                    .position(x: contentRect.midX, y: contentRect.midY)
                     .allowsHitTesting(camera.permissionState.allowsStickerEditing)
 
                 FrameOverlayView(style: frameStyle)
-                    .ignoresSafeArea()
+                    .frame(width: contentRect.width, height: contentRect.height)
+                    .position(x: contentRect.midX, y: contentRect.midY)
                     .allowsHitTesting(false)
 
                 Color.black
@@ -81,7 +87,7 @@ struct CameraScreen: View {
             .onAppear { camera.start() }
             .onDisappear { camera.stop() }
             .onReceive(camera.$capturedImage.compactMap { $0 }) { image in
-                saveComposed(image, previewSize: proxy.size, frameStyle: frameStyle)
+                saveComposed(image, previewSize: contentRect.size, frameStyle: frameStyle)
             }
         }
     }
@@ -125,6 +131,14 @@ struct CameraScreen: View {
                     .accessibilityLabel("添加贴纸")
                 Button { isFrameTrayPresented = true } label: { Image(systemName: "rectangle.inset.filled") }
                     .accessibilityLabel("选择边框")
+                Menu {
+                    ForEach(CameraAspectRatio.allCases) { ratio in
+                        Button(ratio.title) { aspectRatio = ratio }
+                    }
+                } label: {
+                    Image(systemName: aspectRatio.iconName)
+                }
+                .accessibilityLabel("拍照尺寸：\(aspectRatio.title)")
                 Button { isCameraSoundEnabled.toggle() } label: {
                     Image(systemName: isCameraSoundEnabled ? "speaker.wave.2.fill" : "speaker.slash.fill")
                 }

@@ -5,15 +5,35 @@ enum PhotoComposerError: LocalizedError {
 
     var errorDescription: String? { "照片合成失败，请再试一次。" }
 }
+struct PictureInPicturePhoto {
+    let image: UIImage
+    let layout: PictureInPictureLayout
+}
+
 struct PhotoComposer {
-    func compose(image: UIImage, previewSize: CGSize, layers: [StickerLayer], frameStyle: FrameStyle = .none) throws -> UIImage {
+    func compose(image: UIImage, previewSize: CGSize, layers: [StickerLayer], frameStyle: FrameStyle = .none, pictureInPicture: PictureInPicturePhoto? = nil) throws -> UIImage {
         guard let normalized = image.normalized(), previewSize.width > 0, previewSize.height > 0 else {
             throw PhotoComposerError.unableToCreateImage
         }
         let canvas = normalized.centerCropped(toAspect: previewSize.width / previewSize.height)
-        let renderer = UIGraphicsImageRenderer(size: canvas.size)
+        let format = UIGraphicsImageRendererFormat()
+        format.scale = 1
+        let renderer = UIGraphicsImageRenderer(size: canvas.size, format: format)
         return renderer.image { context in
             canvas.draw(in: CGRect(origin: .zero, size: canvas.size))
+            if let pip = pictureInPicture, let front = pip.image.normalized() {
+                let rect = pip.layout.rect(in: canvas.size)
+                let border = rect.width * 0.015
+                context.cgContext.saveGState()
+                let clip = UIBezierPath(roundedRect: rect, cornerRadius: rect.width * 0.14)
+                clip.addClip()
+                front.centerCropped(toAspect: 1).draw(in: rect)
+                UIColor.white.setStroke()
+                let outline = UIBezierPath(roundedRect: rect.insetBy(dx: border / 2, dy: border / 2), cornerRadius: rect.width * 0.14 - border / 2)
+                outline.lineWidth = border
+                outline.stroke()
+                context.cgContext.restoreGState()
+            }
             for layer in layers {
                 guard let sticker = UIImage(named: layer.assetName) else { continue }
                 let placement = StickerRenderTransform.placement(for: layer, in: canvas.size)

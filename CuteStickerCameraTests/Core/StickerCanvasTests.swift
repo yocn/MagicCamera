@@ -1,4 +1,5 @@
 import XCTest
+import UIKit
 #if canImport(CuteStickerCamera)
 @testable import CuteStickerCamera
 #else
@@ -6,16 +7,61 @@ import XCTest
 #endif
 
 final class StickerCanvasTests: XCTestCase {
+    func testAppDelegateLocksTheCameraToPortrait() {
+        let appDelegate = CameraAppDelegate()
+
+        XCTAssertEqual(
+            appDelegate.application(
+                UIApplication.shared,
+                supportedInterfaceOrientationsFor: nil
+            ),
+            .portrait
+        )
+    }
+
+    func testRearCameraSelectionPrefersVirtualTripleCameraBeforePhysicalWideCamera() {
+        XCTAssertEqual(
+            RearCameraSelection.preferred(from: [.wide, .dual, .triple]),
+            .triple
+        )
+        XCTAssertEqual(
+            RearCameraSelection.preferred(from: [.wide, .dualWide]),
+            .dualWide
+        )
+        XCTAssertEqual(RearCameraSelection.preferred(from: [.wide]), .wide)
+    }
+    func testDualCameraSettingIsOnlyExposedOnSupportedDevices() {
+        XCTAssertFalse(CameraControlGrouping.settingsActions(supportsPictureInPicture: false).contains(.pictureInPicture))
+        XCTAssertTrue(CameraControlGrouping.settingsActions(supportsPictureInPicture: true).contains(.pictureInPicture))
+    }
     func testCameraControlsKeepStickersAndFramesAsTheOnlyQuickActions() {
         XCTAssertEqual(CameraControlGrouping.quickActions, [.stickers, .frames])
         XCTAssertEqual(
             CameraControlGrouping.settingsActions,
-            [.switchCamera, .aspectRatio, .sound]
+            [.aspectRatio, .sound]
         )
+        XCTAssertEqual(
+            CameraControlGrouping.expandedSettingsActions,
+            [.pictureInPicture, .sound, .aspectRatio]
+        )
+        XCTAssertEqual(CameraControlGrouping.bottomTrailingAction, .switchCamera)
     }
 
     func testCameraScreenDoesNotDisplayAnAppTitle() {
         XCTAssertFalse(CameraScreenChrome.showsAppTitle)
+    }
+
+    func testTopCameraChromeSitsBelowTheStatusBarWithExtraClearance() {
+        XCTAssertEqual(
+            CameraScreenChrome.topPadding(safeAreaTop: 59),
+            115,
+            accuracy: 0.0001
+        )
+        XCTAssertEqual(
+            CameraScreenChrome.topPadding(safeAreaTop: 0),
+            56,
+            accuracy: 0.0001
+        )
     }
 
     func testStickerCatalogPutsCuteAccessoriesBeforeCleanExistingStickers() {
@@ -39,6 +85,14 @@ final class StickerCanvasTests: XCTestCase {
 
         preference.isEnabled = false
         XCTAssertFalse(CameraSoundPreference(defaults: defaults).isEnabled)
+    }
+
+    func testRecoveredCameraSessionClearsOnlyItsInterruptionNotice() {
+        XCTAssertNil(CameraMessage.sessionInterrupted.clearedWhenSessionRecovers())
+        XCTAssertEqual(
+            CameraMessage.transient("拍照失败，请再试一次。").clearedWhenSessionRecovers(),
+            .transient("拍照失败，请再试一次。")
+        )
     }
 
     func testPhotoSaveTrackerKeepsMultipleCaptureSavesIndependent() {

@@ -4,6 +4,7 @@ import UIKit
 struct StickerCanvasView: UIViewRepresentable {
     @ObservedObject var canvas: StickerCanvas
     let previewSize: CGSize
+    var passthroughRect: CGRect = .null
 
     func makeCoordinator() -> Coordinator {
         Coordinator(canvas: canvas)
@@ -17,6 +18,7 @@ struct StickerCanvasView: UIViewRepresentable {
 
     func updateUIView(_ uiView: StickerCanvasUIKitView, context: Context) {
         uiView.coordinator = context.coordinator
+        uiView.passthroughRect = passthroughRect
         uiView.sync(layers: canvas.layers, selectedLayerID: canvas.selectedLayerID)
     }
 
@@ -46,6 +48,16 @@ struct StickerCanvasView: UIViewRepresentable {
 }
 
 final class StickerCanvasUIKitView: UIView, UIGestureRecognizerDelegate {
+    var passthroughRect: CGRect = .null
+
+    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        guard super.point(inside: point, with: event) else { return false }
+        // Stickers (including their handles) remain editable when placed over the small window.
+        if hosts.values.contains(where: { host in
+            host.point(inside: host.convert(point, from: self), with: event)
+        }) { return true }
+        return !passthroughRect.contains(point)
+    }
     weak var coordinator: StickerCanvasView.Coordinator?
     private var hosts: [UUID: StickerHostView] = [:]
     private var layers: [StickerLayer] = []

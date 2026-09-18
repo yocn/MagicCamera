@@ -14,6 +14,10 @@
 	<string>需要使用相机拍下你的魔法照片。</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>需要把你的魔法照片保存到系统照片。</string>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+	</array>
 	<key>UILaunchScreen</key>
 	<dict/>
 </dict>

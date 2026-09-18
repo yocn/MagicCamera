@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B301 /* PictureInPictureLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F401; };
+		B302 /* DualCameraSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = F302; };
+		B303 /* PictureInPicturePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = F303; };
+		B304 /* RearCameraSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F304; };
 		B001 /* CuteStickerCameraApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F001 /* CuteStickerCameraApp.swift */; };
 		B002 /* CameraService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F002 /* CameraService.swift */; };
 		B003 /* CameraPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = F003 /* CameraPreview.swift */; };
@@ -66,6 +70,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F401 /* PictureInPictureLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureInPictureLayout.swift; sourceTree = "<group>"; };
+		F302 /* DualCameraSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DualCameraSession.swift; sourceTree = "<group>"; };
+		F303 /* PictureInPicturePreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureInPicturePreview.swift; sourceTree = "<group>"; };
+		F304 /* RearCameraSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RearCameraSelection.swift; sourceTree = "<group>"; };
 		F001 /* CuteStickerCameraApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CuteStickerCameraApp.swift; sourceTree = "<group>"; };
 		F002 /* CameraService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraService.swift; sourceTree = "<group>"; };
 		F003 /* CameraPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreview.swift; sourceTree = "<group>"; };
@@ -170,6 +178,7 @@
 			children = (
 				F002 /* CameraService.swift */,
 				F003 /* CameraPreview.swift */,
+				F302 /* DualCameraSession.swift */,
 			);
 			path = Camera;
 			sourceTree = "<group>";
@@ -183,6 +192,8 @@
 				F021 /* CameraScreenChrome.swift */,
 				F022 /* CameraAspectRatio.swift */,
 				F023 /* CameraControlGrouping.swift */,
+				F401 /* PictureInPictureLayout.swift */,
+				F304 /* RearCameraSelection.swift */,
 				F006 /* StickerRenderTransform.swift */,
 				F014 /* FrameStyle.swift */,
 				F017 /* PhotoSaveTracker.swift */,
@@ -207,6 +218,7 @@
 				F009 /* StickerCanvasView.swift */,
 				F010 /* StickerTrayView.swift */,
 				F011 /* CameraScreen.swift */,
+				F303 /* PictureInPicturePreview.swift */,
 				F015 /* FrameOverlayView.swift */,
 				F016 /* FrameTrayView.swift */,
 			);
@@ -420,6 +432,10 @@
 				B019 /* CameraScreenChrome.swift in Sources */,
 				B020 /* CameraAspectRatio.swift in Sources */,
 				B021 /* CameraControlGrouping.swift in Sources */,
+				B301 /* PictureInPictureLayout.swift in Sources */,
+				B302 /* DualCameraSession.swift in Sources */,
+				B303 /* PictureInPicturePreview.swift in Sources */,
+				B304 /* RearCameraSelection.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

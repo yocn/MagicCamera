@@ -20,7 +20,7 @@
 
 ## 技术架构
 
-- `CameraService` 保持公开的主 `AVCaptureSession` 给主预览使用；新增双摄模式时以 `AVCaptureMultiCamSession` 配置前后输入、两路 `AVCaptureVideoDataOutput` 和主路 `AVCapturePhotoOutput`。
+- `CameraService` 保留原单摄 `AVCaptureSession`；独立 `DualCameraSession` 配置前后输入、一路前摄 `AVCaptureVideoDataOutput` 和后摄 `AVCapturePhotoOutput`。先停止原会话，再启动目标会话，不同时运行单摄与双摄会话。
 - 为保证图片成片速度和稳定性，首版不录制双摄视频。主路仍用 `AVCapturePhotoOutput` 拍摄高质量静态照片；前摄通过视频数据输出缓存最近一帧。
 - 主预览继续使用 `AVCaptureVideoPreviewLayer`。前摄小窗新增独立的 preview layer/view，绑定同一个多摄会话中的前摄连接。
 - `PictureInPictureLayout` 负责根据主画幅和小窗归一化中心位置计算预览与最终合成矩形；它不依赖 UIKit 视图，方便单元测试。
@@ -37,7 +37,17 @@
 - 小窗位置以主画幅的归一化中心保存，横纵坐标均限制在可见主画幅内。
 - 小窗尺寸固定为主画幅短边的 30%，圆角为小窗边长的 14%，白色边线为小窗边长的 1.5%。
 - 自拍小窗预览与成片均镜像；后摄主路不镜像。
-- 贴纸坐标继续以主画幅归一化坐标计算，不允许贴到前摄小窗内部。
+- 贴纸坐标继续以主画幅归一化坐标计算，允许覆盖前摄小窗，与照片合成顺序一致；重叠处优先操作贴纸和控制柄，小窗空白区域可拖动，避免贴纸落入不可操作区域。
+
+## 恢复实现的安全约束（2026-09-17）
+
+- 默认单摄，不记忆双摄开关；从后台返回也是单摄。双摄期间不切换主副摄。
+- 先检查镜像支持，再关闭 `automaticallyAdjustsVideoMirroring`，最后设置 `isVideoMirrored`，修复首次双摄崩溃的实际原因。
+- 仅选择支持 MultiCam 的格式，后摄最高 1080p、前摄最高 720p、最高 30fps。退出后恢复设备原格式和帧时长。
+- 前摄仅缓存最近的像素缓冲，不每帧创建 UIImage/刷新 SwiftUI；按快门时取新鲜帧用于合成，无有效帧时提示等待，不生成缺少小窗的照片。
+- 会话操作和前摄帧回调串行化，UI 状态在主线程更新；拍照回调以 uniqueID 隔离，忽略退出会话后的旧回调。
+- 配置失败、运行错误、会话中断或严重系统压力时关闭双摄，不循环重试；显示提示并尝试恢复单摄。
+- 真机测试禁止打开 Device Hub 的 View Screen。Apple 官方文档明确指出远程交互会阻止真机相机/麦克风访问，包括系统相机：https://developer.apple.com/documentation/xcode/interacting-with-your-app-in-device-hub 。编译、测试通过不等于真机双摄验收通过。
 
 ## 测试与验收
 

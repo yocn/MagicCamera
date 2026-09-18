@@ -2,6 +2,7 @@ import SwiftUI
 import UIKit
 
 struct CameraScreen: View {
+    @Environment(\.scenePhase) private var scenePhase
     @StateObject private var camera = CameraService()
     @StateObject private var canvas = StickerCanvas()
     @State private var isStickerTrayPresented = false
@@ -12,6 +13,9 @@ struct CameraScreen: View {
     @State private var message: String?
     @AppStorage(CameraSoundPreference.storageKey) private var isCameraSoundEnabled = true
     @State private var isShutterFlashVisible = false
+    @State private var pictureInPictureLayout = PictureInPictureLayout()
+    @State private var shutterLayout = PictureInPictureLayout()
+    @State private var isSettingsExpanded = false
     private let composer = PhotoComposer()
     private let photoLibrarySaver = PhotoLibrarySaver()
 
@@ -19,7 +23,14 @@ struct CameraScreen: View {
         GeometryReader { proxy in
             let contentRect = aspectRatio.contentRect(in: proxy.size)
             ZStack {
-                CameraPreview(session: camera.session)
+                Group {
+                    if let dual = camera.dualCamera {
+                        ConnectedCameraPreview(previewLayer: dual.rearPreview)
+                            .id(ObjectIdentifier(dual))
+                    } else {
+                        CameraPreview(session: camera.session)
+                    }
+                }
                     .frame(width: contentRect.width, height: contentRect.height)
                     .position(x: contentRect.midX, y: contentRect.midY)
                     .clipped()
@@ -29,7 +40,17 @@ struct CameraScreen: View {
                         .allowsHitTesting(camera.permissionState.allowsPermissionOverlayInteraction)
                 }
 
-                StickerCanvasView(canvas: canvas, previewSize: contentRect.size)
+                if let dual = camera.dualCamera {
+                    PictureInPicturePreview(previewLayer: dual.frontPreview, layout: $pictureInPictureLayout, canvasSize: contentRect.size)
+                        .id(ObjectIdentifier(dual))
+                        .frame(width: contentRect.width, height: contentRect.height)
+                        .coordinateSpace(name: "pipCanvas")
+                        .position(x: contentRect.midX, y: contentRect.midY)
+                        .allowsHitTesting(!camera.isCapturing)
+                }
+
+                StickerCanvasView(canvas: canvas, previewSize: contentRect.size,
+                                  passthroughRect: camera.isPictureInPictureEnabled ? pictureInPictureLayout.rect(in: contentRect.size) : .null)
                     .frame(width: contentRect.width, height: contentRect.height)
                     .position(x: contentRect.midX, y: contentRect.midY)
                     .allowsHitTesting(camera.permissionState.allowsStickerEditing)
@@ -51,18 +72,21 @@ struct CameraScreen: View {
                     }
                     HStack {
                         Spacer()
-                        settingsMenu
+                        settingsControl
                     }
                     Spacer()
                     controls
                 }
                 .padding(.horizontal, 24)
-                .padding(.vertical, 18)
+                .padding(.top, CameraScreenChrome.topPadding(safeAreaTop: proxy.safeAreaInsets.top))
+                .padding(.bottom, max(18, proxy.safeAreaInsets.bottom + 12))
 
-                if let message {
+                sideQuickActions(bottomInset: proxy.safeAreaInsets.bottom)
+
+                if let displayMessage = camera.cameraMessage?.text ?? message {
                     VStack {
                         Spacer()
-                        Text(message)
+                        Text(displayMessage)
                             .font(.subheadline.weight(.semibold))
                             .multilineTextAlignment(.center)
                             .padding()
@@ -72,6 +96,7 @@ struct CameraScreen: View {
                 }
 
             }
+            .ignoresSafeArea()
             .sheet(isPresented: $isStickerTrayPresented) {
                 StickerTrayView { name in
                     canvas.add(assetName: name)
@@ -90,10 +115,15 @@ struct CameraScreen: View {
             }
             .onAppear { camera.start() }
             .onDisappear { camera.stop() }
+            .onChange(of: scenePhase) { phase in
+                if phase == .active { camera.start() }
+                if phase == .background { camera.stop() }
+            }
             .onReceive(camera.$capturedImage.compactMap { $0 }) { image in
                 saveComposed(image, previewSize: contentRect.size, frameStyle: frameStyle)
             }
         }
+        .ignoresSafeArea()
     }
 
     private var title: some View {
@@ -108,10 +138,8 @@ struct CameraScreen: View {
 
     private var controls: some View {
         HStack(alignment: .center) {
-            Button(action: openSystemPhotos) {
-                Image(systemName: "photo.on.rectangle.angled")
-            }
-            .accessibilityLabel("打开系统照片")
+            controlButton(systemImage: "photo.on.rectangle.angled", action: openSystemPhotos)
+                .accessibilityLabel("打开系统照片")
 
             Spacer()
 
@@ -122,48 +150,83 @@ struct CameraScreen: View {
                     if camera.isCapturing { ProgressView().tint(.pink) }
                 }
             }
-            .disabled(camera.isCapturing || camera.permissionState != .ready)
+            .disabled(camera.isCapturing || camera.isTransitioning || camera.permissionState != .ready)
             .buttonStyle(ShutterButtonStyle())
             .accessibilityLabel("拍照")
 
             Spacer()
 
-            VStack(spacing: 12) {
-                ForEach(CameraControlGrouping.quickActions) { action in
-                    quickActionButton(for: action)
-                }
-            }
+            controlButton(systemImage: "camera.rotate.fill", action: camera.switchCamera)
+                .disabled(camera.isPictureInPictureEnabled || camera.isTransitioning || camera.isCapturing)
+                .accessibilityLabel("切换前后镜头")
         }
         .font(.title2)
         .foregroundStyle(.white)
-        .padding(.bottom, 18)
         .shadow(radius: 4)
     }
 
-    private var settingsMenu: some View {
-        Menu {
-            ForEach(CameraControlGrouping.settingsActions) { action in
-                settingsMenuItem(for: action)
+    private func sideQuickActions(bottomInset: CGFloat) -> some View {
+        VStack {
+            Spacer()
+            HStack {
+                Spacer()
+                VStack(spacing: 14) {
+                    ForEach(CameraControlGrouping.quickActions) { action in
+                        quickActionButton(for: action)
+                    }
+                }
             }
-        } label: {
-            Image(systemName: "slider.horizontal.3")
-                .font(.system(size: 19, weight: .bold))
-                .foregroundStyle(.white)
-                .frame(width: 48, height: 48)
-                .background(.black.opacity(0.28), in: Circle())
-                .contentShape(Circle())
+            .padding(.trailing, 24)
+            .padding(.bottom, 118 + bottomInset)
         }
-        .accessibilityLabel("相机设置")
+    }
+
+    private func controlButton(systemImage: String, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            Image(systemName: systemImage)
+                .font(.title2.weight(.semibold))
+                .frame(width: 48, height: 48)
+                .background(.black.opacity(0.3), in: Circle())
+        }
+    }
+
+    private var settingsControl: some View {
+        HStack(spacing: 12) {
+            if isSettingsExpanded {
+                ForEach(CameraControlGrouping.expandedSettingsActions) { action in
+                    expandedSettingsButton(for: action)
+                        .transition(.move(edge: .trailing).combined(with: .opacity))
+                }
+            }
+
+            Button {
+                withAnimation(.spring(response: 0.3, dampingFraction: 0.78)) {
+                    isSettingsExpanded.toggle()
+                }
+            } label: {
+                Image(systemName: "slider.horizontal.3")
+                    .font(.system(size: 19, weight: .bold))
+                    .foregroundStyle(.white)
+                    .frame(width: 48, height: 48)
+                    .background(.black.opacity(0.28), in: Circle())
+                    .contentShape(Circle())
+                    .rotationEffect(.degrees(isSettingsExpanded ? 90 : 0))
+            }
+            .accessibilityLabel(isSettingsExpanded ? "收起相机设置" : "展开相机设置")
+        }
+        .animation(.spring(response: 0.3, dampingFraction: 0.78), value: isSettingsExpanded)
     }
 
     @ViewBuilder
     private func quickActionButton(for action: CameraControlAction) -> some View {
         switch action {
         case .stickers:
-            Button { isStickerTrayPresented = true } label: { Text("🐰").font(.title2) }
+            Button { isStickerTrayPresented = true } label: {
+                Text("🐰").font(.title2).frame(width: 48, height: 48).background(.black.opacity(0.3), in: Circle())
+            }
                 .accessibilityLabel("添加贴纸")
         case .frames:
-            Button { isFrameTrayPresented = true } label: { Image(systemName: "rectangle.inset.filled") }
+            controlButton(systemImage: "rectangle.inset.filled") { isFrameTrayPresented = true }
                 .accessibilityLabel("选择边框")
         default:
             EmptyView()
@@ -171,27 +234,44 @@ struct CameraScreen: View {
     }
 
     @ViewBuilder
-    private func settingsMenuItem(for action: CameraControlAction) -> some View {
+    private func expandedSettingsButton(for action: CameraControlAction) -> some View {
         switch action {
-        case .switchCamera:
-            Button { camera.switchCamera() } label: { Label("切换镜头", systemImage: "camera.rotate.fill") }
+        case .pictureInPicture:
+            settingsCircleButton(
+                systemImage: camera.isPictureInPictureEnabled ? "rectangle.on.rectangle.fill" : "rectangle.on.rectangle",
+                isActive: camera.isPictureInPictureEnabled
+            ) {
+                camera.setPictureInPictureEnabled(!camera.isPictureInPictureEnabled)
+            }
+            .disabled(!camera.isPictureInPictureSupported || camera.isTransitioning || camera.isCapturing)
+            .accessibilityLabel(camera.isPictureInPictureEnabled ? "关闭画中画双摄" : "开启画中画双摄")
         case .aspectRatio:
-            Menu {
-                ForEach(CameraAspectRatio.allCases) { ratio in
-                    Button(ratio.title) { aspectRatio = ratio }
-                }
-            } label: {
-                Label("拍照尺寸：\(aspectRatio.title)", systemImage: aspectRatio.iconName)
+            settingsCircleButton(systemImage: aspectRatio.iconName, isActive: aspectRatio == .threeQuarter) {
+                aspectRatio = aspectRatio == .fullScreen ? .threeQuarter : .fullScreen
             }
+            .accessibilityLabel("拍照尺寸：\(aspectRatio.title)，点按切换")
         case .sound:
-            Button { isCameraSoundEnabled.toggle() } label: {
-                Label(
-                    isCameraSoundEnabled ? "关闭拍照音效" : "开启拍照音效",
-                    systemImage: isCameraSoundEnabled ? "speaker.wave.2.fill" : "speaker.slash.fill"
-                )
-            }
+            settingsCircleButton(
+                systemImage: isCameraSoundEnabled ? "speaker.wave.2.fill" : "speaker.slash.fill",
+                isActive: isCameraSoundEnabled
+            ) { isCameraSoundEnabled.toggle() }
+                .accessibilityLabel(isCameraSoundEnabled ? "关闭拍照音效" : "开启拍照音效")
         default:
             EmptyView()
+        }
+    }
+
+    private func settingsCircleButton(
+        systemImage: String,
+        isActive: Bool,
+        action: @escaping () -> Void
+    ) -> some View {
+        Button(action: action) {
+            Image(systemName: systemImage)
+                .font(.system(size: 18, weight: .bold))
+                .foregroundStyle(.white)
+                .frame(width: 48, height: 48)
+                .background(isActive ? .pink.opacity(0.9) : .black.opacity(0.38), in: Circle())
         }
     }
 
@@ -217,9 +297,10 @@ struct CameraScreen: View {
     private func saveComposed(_ image: UIImage, previewSize: CGSize, frameStyle: FrameStyle) {
         saveTracker.beginSave()
         let layers = canvas.layers
+        let pip = camera.capturedFrontImage.map { PictureInPicturePhoto(image: $0, layout: shutterLayout) }
         Task.detached(priority: .userInitiated) {
             do {
-                let result = try PhotoComposer().compose(image: image, previewSize: previewSize, layers: layers, frameStyle: frameStyle)
+                let result = try PhotoComposer().compose(image: image, previewSize: previewSize, layers: layers, frameStyle: frameStyle, pictureInPicture: pip)
                 try await PhotoLibrarySaver().save(result)
                 await MainActor.run {
                     saveTracker.finishSave()
@@ -235,6 +316,7 @@ struct CameraScreen: View {
     }
 
     private func capturePhoto() {
+        shutterLayout = pictureInPictureLayout
         isShutterFlashVisible = true
         if isCameraSoundEnabled {
             CameraShutterEffect.playSound()

@@ -32,6 +32,7 @@
 		B019 /* CameraScreenChrome.swift in Sources */ = {isa = PBXBuildFile; fileRef = F021 /* CameraScreenChrome.swift */; };
 		B020 /* CameraAspectRatio.swift in Sources */ = {isa = PBXBuildFile; fileRef = F022 /* CameraAspectRatio.swift */; };
 		B021 /* CameraControlGrouping.swift in Sources */ = {isa = PBXBuildFile; fileRef = F023 /* CameraControlGrouping.swift */; };
+		B022 /* StickerImageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F024 /* StickerImageProvider.swift */; };
 		B102 /* kitten.png in Resources */ = {isa = PBXBuildFile; fileRef = F102 /* kitten.png */; };
 		B103 /* puppy.png in Resources */ = {isa = PBXBuildFile; fileRef = F103 /* puppy.png */; };
 		B104 /* panda.png in Resources */ = {isa = PBXBuildFile; fileRef = F104 /* panda.png */; };
@@ -46,6 +47,18 @@
 		B130 /* ice_queen_crown.png in Resources */ = {isa = PBXBuildFile; fileRef = F130 /* ice_queen_crown.png */; };
 		B131 /* magic_glasses.png in Resources */ = {isa = PBXBuildFile; fileRef = F131 /* magic_glasses.png */; };
 		B132 /* fairy_wings.png in Resources */ = {isa = PBXBuildFile; fileRef = F132 /* fairy_wings.png */; };
+		B133 /* star_twin_tails.png in Resources */ = {isa = PBXBuildFile; fileRef = F133 /* star_twin_tails.png */; };
+		B134 /* heart_gem_tiara.png in Resources */ = {isa = PBXBuildFile; fileRef = F134 /* heart_gem_tiara.png */; };
+		B135 /* bunny_bow.png in Resources */ = {isa = PBXBuildFile; fileRef = F135 /* bunny_bow.png */; };
+		B136 /* strawberry_macaron.png in Resources */ = {isa = PBXBuildFile; fileRef = F136 /* strawberry_macaron.png */; };
+		B137 /* heart_sunglasses.png in Resources */ = {isa = PBXBuildFile; fileRef = F137 /* heart_sunglasses.png */; };
+		B138 /* star_wand.png in Resources */ = {isa = PBXBuildFile; fileRef = F138 /* star_wand.png */; };
+		B139 /* hair_sticker_sheet.png in Resources */ = {isa = PBXBuildFile; fileRef = F139 /* hair_sticker_sheet.png */; };
+		B140 /* crown_sticker_sheet.png in Resources */ = {isa = PBXBuildFile; fileRef = F140 /* crown_sticker_sheet.png */; };
+		B141 /* animal_sticker_sheet.png in Resources */ = {isa = PBXBuildFile; fileRef = F141 /* animal_sticker_sheet.png */; };
+		B142 /* sweet_sticker_sheet.png in Resources */ = {isa = PBXBuildFile; fileRef = F142 /* sweet_sticker_sheet.png */; };
+		B143 /* accessory_sticker_sheet.png in Resources */ = {isa = PBXBuildFile; fileRef = F143 /* accessory_sticker_sheet.png */; };
+		B144 /* magic_sticker_sheet.png in Resources */ = {isa = PBXBuildFile; fileRef = F144 /* magic_sticker_sheet.png */; };
 		B117 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F013 /* Assets.xcassets */; };
 		B118 /* strawberry_bow_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F118 /* strawberry_bow_frame.png */; };
 		B119 /* sky_cloud_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F119 /* sky_cloud_frame.png */; };
@@ -97,6 +110,7 @@
 		F021 /* CameraScreenChrome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraScreenChrome.swift; sourceTree = "<group>"; };
 		F022 /* CameraAspectRatio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraAspectRatio.swift; sourceTree = "<group>"; };
 		F023 /* CameraControlGrouping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraControlGrouping.swift; sourceTree = "<group>"; };
+		F024 /* StickerImageProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerImageProvider.swift; sourceTree = "<group>"; };
 		F102 /* kitten.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = kitten.png; sourceTree = "<group>"; };
 		F103 /* puppy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = puppy.png; sourceTree = "<group>"; };
 		F104 /* panda.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = panda.png; sourceTree = "<group>"; };
@@ -111,6 +125,18 @@
 		F130 /* ice_queen_crown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ice_queen_crown.png; sourceTree = "<group>"; };
 		F131 /* magic_glasses.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = magic_glasses.png; sourceTree = "<group>"; };
 		F132 /* fairy_wings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fairy_wings.png; sourceTree = "<group>"; };
+		F133 /* star_twin_tails.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star_twin_tails.png; sourceTree = "<group>"; };
+		F134 /* heart_gem_tiara.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = heart_gem_tiara.png; sourceTree = "<group>"; };
+		F135 /* bunny_bow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bunny_bow.png; sourceTree = "<group>"; };
+		F136 /* strawberry_macaron.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = strawberry_macaron.png; sourceTree = "<group>"; };
+		F137 /* heart_sunglasses.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = heart_sunglasses.png; sourceTree = "<group>"; };
+		F138 /* star_wand.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star_wand.png; sourceTree = "<group>"; };
+		F139 /* hair_sticker_sheet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hair_sticker_sheet.png; sourceTree = "<group>"; };
+		F140 /* crown_sticker_sheet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = crown_sticker_sheet.png; sourceTree = "<group>"; };
+		F141 /* animal_sticker_sheet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = animal_sticker_sheet.png; sourceTree = "<group>"; };
+		F142 /* sweet_sticker_sheet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sweet_sticker_sheet.png; sourceTree = "<group>"; };
+		F143 /* accessory_sticker_sheet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = accessory_sticker_sheet.png; sourceTree = "<group>"; };
+		F144 /* magic_sticker_sheet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = magic_sticker_sheet.png; sourceTree = "<group>"; };
 		F118 /* strawberry_bow_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = strawberry_bow_frame.png; sourceTree = "<group>"; };
 		F119 /* sky_cloud_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sky_cloud_frame.png; sourceTree = "<group>"; };
 		F120 /* crayon_doodle_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = crayon_doodle_frame.png; sourceTree = "<group>"; };
@@ -208,6 +234,7 @@
 				F007 /* PhotoComposer.swift */,
 				F008 /* PhotoLibrarySaver.swift */,
 				F019 /* CameraShutterEffect.swift */,
+				F024 /* StickerImageProvider.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -246,6 +273,18 @@
 				F130 /* ice_queen_crown.png */,
 				F131 /* magic_glasses.png */,
 				F132 /* fairy_wings.png */,
+				F133 /* star_twin_tails.png */,
+				F134 /* heart_gem_tiara.png */,
+				F135 /* bunny_bow.png */,
+				F136 /* strawberry_macaron.png */,
+				F137 /* heart_sunglasses.png */,
+				F138 /* star_wand.png */,
+				F139 /* hair_sticker_sheet.png */,
+				F140 /* crown_sticker_sheet.png */,
+				F141 /* animal_sticker_sheet.png */,
+				F142 /* sweet_sticker_sheet.png */,
+				F143 /* accessory_sticker_sheet.png */,
+				F144 /* magic_sticker_sheet.png */,
 				F102 /* kitten.png */,
 				F103 /* puppy.png */,
 				F104 /* panda.png */,
@@ -385,6 +424,18 @@
 				B130 /* ice_queen_crown.png in Resources */,
 				B131 /* magic_glasses.png in Resources */,
 				B132 /* fairy_wings.png in Resources */,
+				B133 /* star_twin_tails.png in Resources */,
+				B134 /* heart_gem_tiara.png in Resources */,
+				B135 /* bunny_bow.png in Resources */,
+				B136 /* strawberry_macaron.png in Resources */,
+				B137 /* heart_sunglasses.png in Resources */,
+				B138 /* star_wand.png in Resources */,
+				B139 /* hair_sticker_sheet.png in Resources */,
+				B140 /* crown_sticker_sheet.png in Resources */,
+				B141 /* animal_sticker_sheet.png in Resources */,
+				B142 /* sweet_sticker_sheet.png in Resources */,
+				B143 /* accessory_sticker_sheet.png in Resources */,
+				B144 /* magic_sticker_sheet.png in Resources */,
 				B102 /* kitten.png in Resources */,
 				B103 /* puppy.png in Resources */,
 				B104 /* panda.png in Resources */,
@@ -432,6 +483,7 @@
 				B019 /* CameraScreenChrome.swift in Sources */,
 				B020 /* CameraAspectRatio.swift in Sources */,
 				B021 /* CameraControlGrouping.swift in Sources */,
+				B022 /* StickerImageProvider.swift in Sources */,
 				B301 /* PictureInPictureLayout.swift in Sources */,
 				B302 /* DualCameraSession.swift in Sources */,
 				B303 /* PictureInPicturePreview.swift in Sources */,

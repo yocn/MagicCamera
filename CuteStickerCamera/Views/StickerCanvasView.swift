@@ -173,7 +173,7 @@ private final class StickerHostView: UIView, UIGestureRecognizerDelegate {
         addSubview(contentContainer)
 
         imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(named: layer.assetName)
+        imageView.image = StickerImageProvider.image(named: layer.assetName)
         imageView.isUserInteractionEnabled = false
         contentContainer.addSubview(imageView)
 
@@ -241,7 +241,7 @@ private final class StickerHostView: UIView, UIGestureRecognizerDelegate {
         scaleHandle.transform = .identity
         stickerLayer = layer
         self.canvasSize = canvasSize
-        imageView.image = UIImage(named: layer.assetName)
+        imageView.image = StickerImageProvider.image(named: layer.assetName)
 
         let side = min(canvasSize.width, canvasSize.height) * layer.scale
         bounds.size = CGSize(width: side + handleInset * 2, height: side + handleInset * 2)

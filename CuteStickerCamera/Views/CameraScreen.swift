@@ -101,9 +101,12 @@ struct CameraScreen: View {
                 StickerTrayView { name in
                     canvas.add(assetName: name)
                     isStickerTrayPresented = false
+                } onClose: {
+                    isStickerTrayPresented = false
                 }
-                .presentationDetents([.height(360)])
+                .presentationDetents([.height(500)])
                 .presentationDragIndicator(.hidden)
+                .interactiveDismissDisabled()
             }
             .sheet(isPresented: $isFrameTrayPresented) {
                 FrameTrayView(selected: frameStyle) { style in
@@ -145,9 +148,17 @@ struct CameraScreen: View {
 
             Button(action: capturePhoto) {
                 ZStack {
-                    Circle().fill(.white).frame(width: 74, height: 74)
-                    Circle().stroke(.pink, lineWidth: 6).frame(width: 64, height: 64)
-                    if camera.isCapturing { ProgressView().tint(.pink) }
+                    Circle()
+                        .fill(.black.opacity(0.62))
+                        .frame(width: SystemCameraShutter.outerDiameter, height: SystemCameraShutter.outerDiameter)
+                        .overlay(
+                            Circle()
+                                .stroke(.white.opacity(0.48), lineWidth: SystemCameraShutter.ringLineWidth)
+                        )
+                    Circle()
+                        .fill(.white)
+                        .frame(width: SystemCameraShutter.innerDiameter, height: SystemCameraShutter.innerDiameter)
+                    if camera.isCapturing { ProgressView().tint(.black.opacity(0.65)) }
                 }
             }
             .disabled(camera.isCapturing || camera.isTransitioning || camera.permissionState != .ready)

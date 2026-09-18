@@ -8,3 +8,9 @@ enum CameraScreenChrome {
         max(56, safeAreaTop + 56)
     }
 }
+
+enum SystemCameraShutter {
+    static let outerDiameter: CGFloat = 84
+    static let innerDiameter: CGFloat = 66
+    static let ringLineWidth: CGFloat = 2
+}

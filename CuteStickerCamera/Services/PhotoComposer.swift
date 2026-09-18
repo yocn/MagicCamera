@@ -35,7 +35,7 @@ struct PhotoComposer {
                 context.cgContext.restoreGState()
             }
             for layer in layers {
-                guard let sticker = UIImage(named: layer.assetName) else { continue }
+                guard let sticker = StickerImageProvider.image(named: layer.assetName) else { continue }
                 let placement = StickerRenderTransform.placement(for: layer, in: canvas.size)
                 let rect = CGRect(
                     x: placement.center.x - placement.sideLength / 2,

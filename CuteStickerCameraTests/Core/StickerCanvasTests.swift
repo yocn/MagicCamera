@@ -51,6 +51,12 @@ final class StickerCanvasTests: XCTestCase {
         XCTAssertFalse(CameraScreenChrome.showsAppTitle)
     }
 
+    func testShutterUsesSystemCameraWhiteRingMetrics() {
+        XCTAssertEqual(SystemCameraShutter.outerDiameter, 84)
+        XCTAssertEqual(SystemCameraShutter.innerDiameter, 66)
+        XCTAssertEqual(SystemCameraShutter.ringLineWidth, 2)
+    }
+
     func testTopCameraChromeSitsBelowTheStatusBarWithExtraClearance() {
         XCTAssertEqual(
             CameraScreenChrome.topPadding(safeAreaTop: 59),
@@ -64,15 +70,47 @@ final class StickerCanvasTests: XCTestCase {
         )
     }
 
-    func testStickerCatalogPutsCuteAccessoriesBeforeCleanExistingStickers() {
+    func testStickerCatalogSeparatesCuteStickersIntoSixCategories() {
         XCTAssertEqual(
-            StickerCatalog.assetNames,
-            [
-                "princess_hair", "bow_hairclip", "pearl_hairpin", "king_crown",
-                "ice_queen_crown", "magic_glasses", "fairy_wings",
-                "kitten", "puppy", "panda", "strawberry", "cupcake", "dinosaur", "cloud"
-            ]
+            StickerCatalog.categories.map(\.title),
+            ["发型", "皇冠", "动物", "甜点", "配饰", "魔法"]
         )
+        XCTAssertTrue(
+            StickerCatalog.categories.allSatisfy { $0.assetNames.count >= 16 },
+            "每个分类至少应显示四排贴纸"
+        )
+        XCTAssertEqual(StickerCatalog.assetNames.count, 116)
+    }
+
+    func testStickerCategoryPagerUsesEveryCatalogCategoryInOrder() {
+        XCTAssertEqual(
+            StickerCategoryPager.categoryIDs,
+            ["hair", "crowns", "animals", "sweets", "accessories", "magic"]
+        )
+    }
+
+    func testStickerPagerUsesFullTrayWidthWhileGridKeepsContentPadding() {
+        XCTAssertEqual(StickerTrayLayout.pagerHorizontalPadding, 0)
+        XCTAssertEqual(StickerTrayLayout.gridHorizontalPadding, 20)
+    }
+
+    func testStickerTrayHeaderCentersTitleWithinComfortableInsets() {
+        XCTAssertEqual(StickerTrayLayout.headerHorizontalPadding, 20)
+        XCTAssertEqual(StickerTrayLayout.headerTopPadding, 18)
+        XCTAssertEqual(StickerTrayLayout.headerBottomPadding, 8)
+    }
+
+    func testCategoryStripUsesFullWidthScrollerWithInsetContent() {
+        XCTAssertEqual(StickerTrayLayout.categoryStripViewportPadding, 0)
+        XCTAssertEqual(StickerTrayLayout.categoryStripContentPadding, 20)
+    }
+
+    func testStickerSheetAssetResolvesToOneQuarterSizedTile() throws {
+        let sheet = try XCTUnwrap(UIImage(named: "hair_sticker_sheet"))
+        let tile = try XCTUnwrap(StickerImageProvider.image(named: "hair_sheet_0"))
+
+        XCTAssertEqual(tile.size.width * 4, sheet.size.width, accuracy: 4)
+        XCTAssertEqual(tile.size.height * 4, sheet.size.height, accuracy: 4)
     }
 
     func testCameraSoundPreferenceDefaultsToEnabledAndPersistsSelection() {

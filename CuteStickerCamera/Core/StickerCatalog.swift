@@ -1,3 +1,4 @@
+import CoreGraphics
 import Foundation
 
 struct StickerCategory: Identifiable, Hashable {
@@ -59,6 +60,59 @@ enum StickerCatalog {
 
     private static func sheetAssetNames(prefix: String) -> [String] {
         (0..<16).map { "\(prefix)_\($0)" }
+    }
+}
+
+struct MagicStickerOutfit: Identifiable {
+    let id: String
+    let title: String
+    let placements: [MagicStickerPlacement]
+}
+
+struct MagicStickerPlacement {
+    let assetName: String
+    let center: CGPoint
+    let scale: CGFloat
+    let rotation: CGFloat
+
+    var layer: StickerLayer {
+        StickerLayer(assetName: assetName, center: center, scale: scale, rotation: rotation)
+    }
+}
+
+enum MagicStickerOutfits {
+    static let all: [MagicStickerOutfit] = [
+        MagicStickerOutfit(
+            id: "fairy-princess", title: "小仙女",
+            placements: [
+                MagicStickerPlacement(assetName: "fairy_wings", center: CGPoint(x: 0.5, y: 0.58), scale: 0.52, rotation: 0),
+                MagicStickerPlacement(assetName: "princess_hair", center: CGPoint(x: 0.5, y: 0.32), scale: 0.36, rotation: 0),
+                MagicStickerPlacement(assetName: "heart_gem_tiara", center: CGPoint(x: 0.5, y: 0.23), scale: 0.30, rotation: 0),
+                MagicStickerPlacement(assetName: "star_wand", center: CGPoint(x: 0.74, y: 0.67), scale: 0.20, rotation: -0.30)
+            ]
+        ),
+        MagicStickerOutfit(
+            id: "berry-party", title: "莓果派对",
+            placements: [
+                MagicStickerPlacement(assetName: "star_twin_tails", center: CGPoint(x: 0.5, y: 0.31), scale: 0.35, rotation: 0),
+                MagicStickerPlacement(assetName: "bow_hairclip", center: CGPoint(x: 0.69, y: 0.30), scale: 0.19, rotation: 0.12),
+                MagicStickerPlacement(assetName: "strawberry", center: CGPoint(x: 0.27, y: 0.71), scale: 0.19, rotation: -0.24),
+                MagicStickerPlacement(assetName: "cupcake", center: CGPoint(x: 0.73, y: 0.72), scale: 0.20, rotation: 0.16)
+            ]
+        ),
+        MagicStickerOutfit(
+            id: "royal-cloud", title: "云朵小国王",
+            placements: [
+                MagicStickerPlacement(assetName: "fairy_wings", center: CGPoint(x: 0.5, y: 0.60), scale: 0.46, rotation: 0),
+                MagicStickerPlacement(assetName: "king_crown", center: CGPoint(x: 0.5, y: 0.24), scale: 0.33, rotation: 0),
+                MagicStickerPlacement(assetName: "magic_glasses", center: CGPoint(x: 0.5, y: 0.48), scale: 0.30, rotation: 0),
+                MagicStickerPlacement(assetName: "cloud", center: CGPoint(x: 0.76, y: 0.37), scale: 0.20, rotation: 0.08)
+            ]
+        )
+    ]
+
+    static func random() -> MagicStickerOutfit {
+        all.randomElement() ?? all[0]
     }
 }
 

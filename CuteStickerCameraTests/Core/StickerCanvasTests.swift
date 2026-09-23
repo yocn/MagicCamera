@@ -82,6 +82,16 @@ final class StickerCanvasTests: XCTestCase {
         XCTAssertEqual(StickerCatalog.assetNames.count, 116)
     }
 
+    func testMagicOutfitsContainMultipleCatalogStickersWithDistinctPlacements() {
+        XCTAssertFalse(MagicStickerOutfits.all.isEmpty)
+        for outfit in MagicStickerOutfits.all {
+            XCTAssertGreaterThanOrEqual(outfit.placements.count, 3)
+            XCTAssertTrue(outfit.placements.allSatisfy { StickerCatalog.assetNames.contains($0.assetName) })
+            let positions = Set(outfit.placements.map { "\($0.center.x),\($0.center.y)" })
+            XCTAssertGreaterThan(positions.count, 1)
+        }
+    }
+
     func testStickerCategoryPagerUsesEveryCatalogCategoryInOrder() {
         XCTAssertEqual(
             StickerCategoryPager.categoryIDs,

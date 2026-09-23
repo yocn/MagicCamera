@@ -122,6 +122,11 @@ struct CameraScreen: View {
                 StickerTrayView { name in
                     canvas.add(assetName: name)
                     isStickerTrayPresented = false
+                } onMagicPick: {
+                    let outfit = MagicStickerOutfits.random()
+                    canvas.add(layers: outfit.placements.map(\.layer))
+                    message = "\(outfit.title)搭配完成 ✨"
+                    isStickerTrayPresented = false
                 } onClose: {
                     isStickerTrayPresented = false
                 }

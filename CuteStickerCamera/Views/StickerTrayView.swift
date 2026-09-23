@@ -3,6 +3,7 @@ import UIKit
 
 struct StickerTrayView: View {
     let onPick: (String) -> Void
+    let onMagicPick: () -> Void
     let onClose: () -> Void
     @State private var selectedCategoryID = "hair"
 
@@ -13,6 +14,18 @@ struct StickerTrayView: View {
                     .font(.headline)
                     .foregroundStyle(.purple)
                     .frame(maxWidth: .infinity)
+                HStack {
+                    Button(action: onMagicPick) {
+                        Label("魔法搭配", systemImage: "wand.and.stars")
+                            .font(.caption.weight(.bold))
+                            .foregroundStyle(.white)
+                            .padding(.horizontal, 10)
+                            .padding(.vertical, 8)
+                            .background(.purple, in: Capsule())
+                    }
+                    .accessibilityLabel("一键魔法搭配")
+                    Spacer()
+                }
                 Button(action: onClose) {
                     Image(systemName: "xmark")
                         .font(.subheadline.weight(.bold))

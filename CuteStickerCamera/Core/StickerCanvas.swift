@@ -19,6 +19,13 @@ public final class StickerCanvas: ObservableObject {
         return layer
     }
 
+    public func add(layers newLayers: [StickerLayer]) {
+        guard !newLayers.isEmpty else { return }
+        layers.append(contentsOf: newLayers)
+        selectedLayerID = newLayers.last?.id
+        undoStack.append(contentsOf: newLayers.map { .added($0.id) })
+    }
+
     public func remove(id: UUID) {
         guard let index = layers.firstIndex(where: { $0.id == id }) else { return }
         undoStack.append(.removed(layers.remove(at: index), index: index))

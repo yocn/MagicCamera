@@ -10,9 +10,13 @@ struct CameraScreen: View {
     @State private var frameStyle: FrameStyle = .none
     @State private var aspectRatio: CameraAspectRatio = .fullScreen
     @State private var saveTracker = PhotoSaveTracker()
+    @State private var recentPhotos = RecentPhotoStore()
     @State private var message: String?
     @AppStorage(CameraSoundPreference.storageKey) private var isCameraSoundEnabled = true
+    @AppStorage(CameraTimerPreference.storageKey) private var isTimerEnabled = false
     @State private var isShutterFlashVisible = false
+    @State private var timerCountdown: Int?
+    @State private var timerCaptureToken: UUID?
     @State private var pictureInPictureLayout = PictureInPictureLayout()
     @State private var shutterLayout = PictureInPictureLayout()
     @State private var isSettingsExpanded = false
@@ -31,9 +35,16 @@ struct CameraScreen: View {
                         CameraPreview(session: camera.session)
                     }
                 }
-                    .frame(width: contentRect.width, height: contentRect.height)
+                .frame(width: contentRect.width, height: contentRect.height)
                     .position(x: contentRect.midX, y: contentRect.midY)
                     .clipped()
+
+                Color.black
+                    .opacity(camera.isTransitioning ? CameraSwitchAnimation.dimmingOpacity : 0)
+                    .frame(width: contentRect.width, height: contentRect.height)
+                    .position(x: contentRect.midX, y: contentRect.midY)
+                    .animation(.easeInOut(duration: CameraSwitchAnimation.dimmingDuration), value: camera.isTransitioning)
+                    .allowsHitTesting(false)
 
                 if camera.permissionState != .ready {
                     permissionOverlay
@@ -60,11 +71,21 @@ struct CameraScreen: View {
                     .position(x: contentRect.midX, y: contentRect.midY)
                     .allowsHitTesting(false)
 
+                if camera.isTransitioning {
+                    CameraSwitchIndicator()
+                        .position(x: contentRect.midX, y: contentRect.midY)
+                }
+
                 Color.black
                     .opacity(isShutterFlashVisible ? 1 : 0)
                     .ignoresSafeArea()
                     .allowsHitTesting(false)
                     .animation(.easeOut(duration: 0.18), value: isShutterFlashVisible)
+
+                if let timerCountdown {
+                    timerCountdownOverlay(value: timerCountdown)
+                        .id(timerCountdown)
+                }
 
                 VStack {
                     if CameraScreenChrome.showsAppTitle {
@@ -117,10 +138,16 @@ struct CameraScreen: View {
                 .presentationDragIndicator(.hidden)
             }
             .onAppear { camera.start() }
-            .onDisappear { camera.stop() }
+            .onDisappear {
+                cancelTimerCapture()
+                camera.stop()
+            }
             .onChange(of: scenePhase) { phase in
                 if phase == .active { camera.start() }
-                if phase == .background { camera.stop() }
+                if phase == .background {
+                    cancelTimerCapture()
+                    camera.stop()
+                }
             }
             .onReceive(camera.$capturedImage.compactMap { $0 }) { image in
                 saveComposed(image, previewSize: contentRect.size, frameStyle: frameStyle)
@@ -141,12 +168,11 @@ struct CameraScreen: View {
 
     private var controls: some View {
         HStack(alignment: .center) {
-            controlButton(systemImage: "photo.on.rectangle.angled", action: openSystemPhotos)
-                .accessibilityLabel("打开系统照片")
+            recentPhotoButton
 
             Spacer()
 
-            Button(action: capturePhoto) {
+            Button(action: triggerCapture) {
                 ZStack {
                     Circle()
                         .fill(.black.opacity(0.62))
@@ -161,7 +187,7 @@ struct CameraScreen: View {
                     if camera.isCapturing { ProgressView().tint(.black.opacity(0.65)) }
                 }
             }
-            .disabled(camera.isCapturing || camera.isTransitioning || camera.permissionState != .ready)
+            .disabled(timerCountdown != nil || camera.isCapturing || camera.isTransitioning || camera.permissionState != .ready)
             .buttonStyle(ShutterButtonStyle())
             .accessibilityLabel("拍照")
 
@@ -174,6 +200,35 @@ struct CameraScreen: View {
         .font(.title2)
         .foregroundStyle(.white)
         .shadow(radius: 4)
+    }
+
+    private var recentPhotoButton: some View {
+        Button(action: openSystemPhotos) {
+            Group {
+                if let thumbnail = recentPhotoThumbnail {
+                    Image(uiImage: thumbnail)
+                        .resizable()
+                        .scaledToFill()
+                } else {
+                    Image(systemName: "photo.on.rectangle.angled")
+                        .font(.title2.weight(.semibold))
+                }
+            }
+            .foregroundStyle(.white)
+            .frame(width: 48, height: 48)
+            .background(.black.opacity(0.3), in: Circle())
+            .clipShape(Circle())
+            .overlay(Circle().stroke(.white.opacity(recentPhotoThumbnail == nil ? 0 : 0.65), lineWidth: 2))
+        }
+        .accessibilityLabel(recentPhotoThumbnail == nil ? "打开系统照片" : "打开最近拍摄的照片")
+    }
+
+    private var recentPhotoThumbnail: UIImage? {
+        guard let photo = recentPhotos.items.first,
+              let data = try? recentPhotos.data(for: photo) else {
+            return nil
+        }
+        return UIImage(data: data)
     }
 
     private func sideQuickActions(bottomInset: CGFloat) -> some View {
@@ -267,6 +322,11 @@ struct CameraScreen: View {
                 isActive: isCameraSoundEnabled
             ) { isCameraSoundEnabled.toggle() }
                 .accessibilityLabel(isCameraSoundEnabled ? "关闭拍照音效" : "开启拍照音效")
+        case .timer:
+            settingsCircleButton(systemImage: "timer", isActive: isTimerEnabled) {
+                isTimerEnabled.toggle()
+            }
+            .accessibilityLabel(isTimerEnabled ? "关闭 3 秒定时拍照" : "开启 3 秒定时拍照")
         default:
             EmptyView()
         }
@@ -312,6 +372,16 @@ struct CameraScreen: View {
         Task.detached(priority: .userInitiated) {
             do {
                 let result = try PhotoComposer().compose(image: image, previewSize: previewSize, layers: layers, frameStyle: frameStyle, pictureInPicture: pip)
+                let thumbnailData = result.jpegData(compressionQuality: 0.82)
+                if let thumbnailData {
+                    await MainActor.run {
+                        do {
+                            try recentPhotos.store(data: thumbnailData)
+                        } catch {
+                            // The system photo save still proceeds if the lightweight recent-photo cache is unavailable.
+                        }
+                    }
+                }
                 try await PhotoLibrarySaver().save(result)
                 await MainActor.run {
                     saveTracker.finishSave()
@@ -338,11 +408,101 @@ struct CameraScreen: View {
         }
     }
 
+    private func triggerCapture() {
+        guard isTimerEnabled else {
+            capturePhoto()
+            return
+        }
+        startTimerCapture()
+    }
+
+    private func startTimerCapture() {
+        guard timerCountdown == nil else { return }
+        let token = UUID()
+        timerCaptureToken = token
+        timerCountdown = 3
+
+        Task {
+            for value in stride(from: 3, through: 1, by: -1) {
+                guard timerCaptureToken == token else { return }
+                timerCountdown = value
+                try? await Task.sleep(nanoseconds: 1_000_000_000)
+                guard !Task.isCancelled else { return }
+            }
+            guard timerCaptureToken == token else { return }
+            timerCaptureToken = nil
+            timerCountdown = nil
+            capturePhoto()
+        }
+    }
+
+    private func cancelTimerCapture() {
+        timerCaptureToken = nil
+        timerCountdown = nil
+    }
+
+    private func timerCountdownOverlay(value: Int) -> some View {
+        TimerCountdownDigitView(value: value)
+    }
+
     private func openSystemPhotos() {
         guard let url = URL(string: "photos-redirect://") else { return }
         UIApplication.shared.open(url) { success in
             if !success { message = "照片已保存，请打开“照片”App 继续编辑。" }
         }
+    }
+}
+
+private struct TimerCountdownDigitView: View {
+    let value: Int
+    @State private var scale = TimerCountdownAnimation.initialScale
+
+    var body: some View {
+        Text("\(value)")
+            .font(.system(size: 152, weight: .black, design: .rounded))
+            .foregroundStyle(.white)
+            .shadow(color: .black.opacity(0.5), radius: 12, y: 4)
+            .scaleEffect(scale)
+            .allowsHitTesting(false)
+            .accessibilityLabel("定时拍照倒计时：\(value)")
+            .onAppear {
+                withAnimation(.easeOut(duration: TimerCountdownAnimation.duration)) {
+                    scale = TimerCountdownAnimation.finalScale
+                }
+            }
+    }
+}
+
+private struct CameraSwitchIndicator: View {
+    @State private var scale = CameraSwitchAnimation.indicatorStartScale
+    @State private var opacity = 0.0
+
+    var body: some View {
+        Image(systemName: "camera.rotate.fill")
+            .font(.system(size: 34, weight: .semibold))
+            .foregroundStyle(.white)
+            .frame(
+                width: CameraSwitchAnimation.indicatorDiameter,
+                height: CameraSwitchAnimation.indicatorDiameter
+            )
+            .background(.black.opacity(0.42), in: Circle())
+            .overlay(Circle().stroke(.white.opacity(0.16), lineWidth: 1))
+            .scaleEffect(scale)
+            .opacity(opacity)
+            .allowsHitTesting(false)
+            .accessibilityHidden(true)
+            .onAppear {
+                withAnimation(.easeOut(duration: CameraSwitchAnimation.indicatorFadeInDuration)) {
+                    scale = 1
+                    opacity = 1
+                }
+                DispatchQueue.main.asyncAfter(deadline: .now() + CameraSwitchAnimation.indicatorFadeInDuration) {
+                    withAnimation(.easeIn(duration: CameraSwitchAnimation.indicatorFadeDuration)) {
+                        scale = 0.78
+                        opacity = 0
+                    }
+                }
+            }
     }
 }
 

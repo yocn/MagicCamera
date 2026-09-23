@@ -38,11 +38,11 @@ final class StickerCanvasTests: XCTestCase {
         XCTAssertEqual(CameraControlGrouping.quickActions, [.stickers, .frames])
         XCTAssertEqual(
             CameraControlGrouping.settingsActions,
-            [.aspectRatio, .sound]
+            [.aspectRatio, .sound, .timer]
         )
         XCTAssertEqual(
             CameraControlGrouping.expandedSettingsActions,
-            [.pictureInPicture, .sound, .aspectRatio]
+            [.pictureInPicture, .sound, .timer, .aspectRatio]
         )
         XCTAssertEqual(CameraControlGrouping.bottomTrailingAction, .switchCamera)
     }
@@ -125,12 +125,71 @@ final class StickerCanvasTests: XCTestCase {
         XCTAssertFalse(CameraSoundPreference(defaults: defaults).isEnabled)
     }
 
+    func testCameraTimerPreferenceDefaultsToOffAndPersistsSelection() {
+        let suiteName = "CameraTimerPreferenceTests"
+        let defaults = UserDefaults(suiteName: suiteName)!
+        defaults.removePersistentDomain(forName: suiteName)
+
+        var preference = CameraTimerPreference(defaults: defaults)
+        XCTAssertFalse(preference.isEnabled)
+
+        preference.isEnabled = true
+        XCTAssertTrue(CameraTimerPreference(defaults: defaults).isEnabled)
+    }
+
+    func testTimerCountdownAnimationShrinksEachDigitDuringItsSecond() {
+        XCTAssertGreaterThan(TimerCountdownAnimation.initialScale, TimerCountdownAnimation.finalScale)
+        XCTAssertEqual(TimerCountdownAnimation.duration, 0.82, accuracy: 0.0001)
+    }
+
+    func testCameraSwitchAnimationUsesSubtleDimmingWithoutDelayingTheInputSwap() {
+        XCTAssertEqual(CameraSwitchAnimation.inputSwapDelay, 0, accuracy: 0.0001)
+        XCTAssertEqual(CameraSwitchAnimation.dimmingOpacity, 0.22, accuracy: 0.0001)
+        XCTAssertEqual(CameraSwitchAnimation.dimmingDuration, 0.18, accuracy: 0.0001)
+        XCTAssertEqual(CameraSwitchAnimation.controlLockDuration, 0.32, accuracy: 0.0001)
+        XCTAssertEqual(CameraSwitchAnimation.indicatorDiameter, 76, accuracy: 0.0001)
+        XCTAssertGreaterThan(CameraSwitchAnimation.indicatorStartScale, 1)
+        XCTAssertEqual(CameraSwitchAnimation.indicatorFadeDuration, 0.18, accuracy: 0.0001)
+    }
+
+    func testRecentPhotoStoreKeepsOnlyTheNewestEightPhotos() throws {
+        let directory = try makeTemporaryDirectory(named: "RecentPhotoStoreTests")
+        var store = RecentPhotoStore(directory: directory, maximumCount: 8)
+
+        for value in 0..<9 {
+            try store.store(data: Data([UInt8(value)]))
+        }
+
+        XCTAssertEqual(store.items.count, 8)
+        XCTAssertEqual(try store.data(for: store.items.first!), Data([8]))
+        let storedValues = try store.items.map { try store.data(for: $0) }
+        XCTAssertFalse(storedValues.contains(Data([0])))
+    }
+
+    func testRecentPhotoStoreReloadsPersistedItems() throws {
+        let directory = try makeTemporaryDirectory(named: "RecentPhotoStoreReloadTests")
+        var store = RecentPhotoStore(directory: directory, maximumCount: 8)
+        let saved = try store.store(data: Data([1, 2, 3]))
+
+        let reloaded = RecentPhotoStore(directory: directory, maximumCount: 8)
+        XCTAssertEqual(reloaded.items.map(\.id), [saved.id])
+        XCTAssertEqual(try reloaded.data(for: saved), Data([1, 2, 3]))
+    }
+
     func testRecoveredCameraSessionClearsOnlyItsInterruptionNotice() {
         XCTAssertNil(CameraMessage.sessionInterrupted.clearedWhenSessionRecovers())
         XCTAssertEqual(
             CameraMessage.transient("拍照失败，请再试一次。").clearedWhenSessionRecovers(),
             .transient("拍照失败，请再试一次。")
         )
+    }
+
+    private func makeTemporaryDirectory(named name: String) throws -> URL {
+        let directory = FileManager.default.temporaryDirectory
+            .appendingPathComponent(name)
+            .appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        return directory
     }
 
     func testPhotoSaveTrackerKeepsMultipleCaptureSavesIndependent() {

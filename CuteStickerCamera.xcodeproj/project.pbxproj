@@ -33,6 +33,10 @@
 		B020 /* CameraAspectRatio.swift in Sources */ = {isa = PBXBuildFile; fileRef = F022 /* CameraAspectRatio.swift */; };
 		B021 /* CameraControlGrouping.swift in Sources */ = {isa = PBXBuildFile; fileRef = F023 /* CameraControlGrouping.swift */; };
 		B022 /* StickerImageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F024 /* StickerImageProvider.swift */; };
+		B023 /* RecentPhotoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F025 /* RecentPhotoStore.swift */; };
+		B024 /* CameraTimerPreference.swift in Sources */ = {isa = PBXBuildFile; fileRef = F026 /* CameraTimerPreference.swift */; };
+		B025 /* TimerCountdownAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F027 /* TimerCountdownAnimation.swift */; };
+		B026 /* CameraSwitchAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F028 /* CameraSwitchAnimation.swift */; };
 		B102 /* kitten.png in Resources */ = {isa = PBXBuildFile; fileRef = F102 /* kitten.png */; };
 		B103 /* puppy.png in Resources */ = {isa = PBXBuildFile; fileRef = F103 /* puppy.png */; };
 		B104 /* panda.png in Resources */ = {isa = PBXBuildFile; fileRef = F104 /* panda.png */; };
@@ -111,6 +115,10 @@
 		F022 /* CameraAspectRatio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraAspectRatio.swift; sourceTree = "<group>"; };
 		F023 /* CameraControlGrouping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraControlGrouping.swift; sourceTree = "<group>"; };
 		F024 /* StickerImageProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerImageProvider.swift; sourceTree = "<group>"; };
+		F025 /* RecentPhotoStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentPhotoStore.swift; sourceTree = "<group>"; };
+		F026 /* CameraTimerPreference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraTimerPreference.swift; sourceTree = "<group>"; };
+		F027 /* TimerCountdownAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerCountdownAnimation.swift; sourceTree = "<group>"; };
+		F028 /* CameraSwitchAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraSwitchAnimation.swift; sourceTree = "<group>"; };
 		F102 /* kitten.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = kitten.png; sourceTree = "<group>"; };
 		F103 /* puppy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = puppy.png; sourceTree = "<group>"; };
 		F104 /* panda.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = panda.png; sourceTree = "<group>"; };
@@ -224,6 +232,10 @@
 				F014 /* FrameStyle.swift */,
 				F017 /* PhotoSaveTracker.swift */,
 				F018 /* CameraSoundPreference.swift */,
+				F025 /* RecentPhotoStore.swift */,
+				F026 /* CameraTimerPreference.swift */,
+				F027 /* TimerCountdownAnimation.swift */,
+				F028 /* CameraSwitchAnimation.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -484,6 +496,10 @@
 				B020 /* CameraAspectRatio.swift in Sources */,
 				B021 /* CameraControlGrouping.swift in Sources */,
 				B022 /* StickerImageProvider.swift in Sources */,
+				B023 /* RecentPhotoStore.swift in Sources */,
+				B024 /* CameraTimerPreference.swift in Sources */,
+				B025 /* TimerCountdownAnimation.swift in Sources */,
+				B026 /* CameraSwitchAnimation.swift in Sources */,
 				B301 /* PictureInPictureLayout.swift in Sources */,
 				B302 /* DualCameraSession.swift in Sources */,
 				B303 /* PictureInPicturePreview.swift in Sources */,

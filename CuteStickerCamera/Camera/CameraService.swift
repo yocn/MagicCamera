@@ -71,6 +71,7 @@ final class CameraService: NSObject, ObservableObject {
     private var captureInFlight = false
     private var activeCaptureID: Int64?
     private var pendingFrontImage: UIImage?
+    private var switchInFlight = false
     private var observers: [NSObjectProtocol] = []
     private let captureLogger = Logger(subsystem: "com.yocn.CuteStickerCamera", category: "CaptureTiming")
 
@@ -122,9 +123,17 @@ final class CameraService: NSObject, ObservableObject {
 
     func switchCamera() {
         sessionQueue.async { [weak self] in
-            guard let self, self.activeDualCamera == nil, !self.captureInFlight else { return }
+            guard let self, self.activeDualCamera == nil, !self.captureInFlight, !self.switchInFlight else { return }
+            self.switchInFlight = true
+            DispatchQueue.main.async { self.isTransitioning = true }
             self.currentPosition = self.currentPosition == .front ? .back : .front
             self.replaceCameraInput()
+
+            self.sessionQueue.asyncAfter(deadline: .now() + CameraSwitchAnimation.controlLockDuration) { [weak self] in
+                guard let self else { return }
+                self.switchInFlight = false
+                DispatchQueue.main.async { self.isTransitioning = false }
+            }
         }
     }
 

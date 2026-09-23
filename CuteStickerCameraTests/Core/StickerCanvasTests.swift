@@ -34,8 +34,8 @@ final class StickerCanvasTests: XCTestCase {
         XCTAssertFalse(CameraControlGrouping.settingsActions(supportsPictureInPicture: false).contains(.pictureInPicture))
         XCTAssertTrue(CameraControlGrouping.settingsActions(supportsPictureInPicture: true).contains(.pictureInPicture))
     }
-    func testCameraControlsKeepStickersAndFramesAsTheOnlyQuickActions() {
-        XCTAssertEqual(CameraControlGrouping.quickActions, [.stickers, .frames])
+    func testCameraControlsKeepStickersFramesAndCollageAsQuickActions() {
+        XCTAssertEqual(CameraControlGrouping.quickActions, [.stickers, .frames, .collage])
         XCTAssertEqual(
             CameraControlGrouping.settingsActions,
             [.aspectRatio, .sound, .timer]

@@ -20,6 +20,14 @@ struct CameraScreen: View {
     @State private var pictureInPictureLayout = PictureInPictureLayout()
     @State private var shutterLayout = PictureInPictureLayout()
     @State private var isSettingsExpanded = false
+    @State private var isCollageTrayPresented = false
+    @State private var collageLayout: CollageLayout = .fourGrid
+    @State private var collageStyle: CollageStyle = .classicWhite
+    @State private var collageMode: CollageCaptureMode = .burstThree
+    @State private var collageSession: CollageSession?
+    @State private var collageShots: [UIImage] = []
+    @State private var collageToken: UUID?
+    @State private var collageOverlayLayout = CollageOverlayLayout()
     private let composer = PhotoComposer()
     private let photoLibrarySaver = PhotoLibrarySaver()
 
@@ -70,6 +78,21 @@ struct CameraScreen: View {
                     .frame(width: contentRect.width, height: contentRect.height)
                     .position(x: contentRect.midX, y: contentRect.midY)
                     .allowsHitTesting(false)
+
+                if let session = collageSession {
+                    CollageProgressView(
+                        session: session,
+                        thumbnails: collageShots,
+                        isCapturing: session.capturedCount > 0 || collageToken != nil,
+                        overlayLayout: $collageOverlayLayout,
+                        canvasSize: contentRect.size,
+                        onClose: { cancelCollage() }
+                    )
+                    .frame(width: contentRect.width, height: contentRect.height)
+                    .coordinateSpace(name: "collageCanvas")
+                    .position(x: contentRect.midX, y: contentRect.midY)
+                    .allowsHitTesting(!camera.isCapturing)
+                }
 
                 if camera.isTransitioning {
                     CameraSwitchIndicator()
@@ -142,20 +165,46 @@ struct CameraScreen: View {
                 .presentationDetents([.height(210)])
                 .presentationDragIndicator(.hidden)
             }
+            .sheet(isPresented: $isCollageTrayPresented) {
+                CollageTrayView(
+                    layout: $collageLayout,
+                    style: $collageStyle,
+                    mode: $collageMode,
+                    onSelect: enableCollageMode,
+                    onClose: { isCollageTrayPresented = false }
+                )
+                .presentationDetents([.height(358)])
+                .presentationDragIndicator(.hidden)
+                .interactiveDismissDisabled()
+            }
             .onAppear { camera.start() }
             .onDisappear {
                 cancelTimerCapture()
+                suspendCollageCountdown()
                 camera.stop()
             }
             .onChange(of: scenePhase) { phase in
                 if phase == .active { camera.start() }
                 if phase == .background {
                     cancelTimerCapture()
+                    suspendCollageCountdown()
                     camera.stop()
                 }
             }
+            .onChange(of: camera.permissionState) { state in
+                guard state != .ready else { return }
+                suspendCollageCountdown()
+            }
+            .onChange(of: camera.cameraMessage) { cameraMessage in
+                guard cameraMessage != nil else { return }
+                suspendCollageCountdown()
+            }
             .onReceive(camera.$capturedImage.compactMap { $0 }) { image in
-                saveComposed(image, previewSize: contentRect.size, frameStyle: frameStyle)
+                if collageSession == nil {
+                    saveComposed(image, previewSize: contentRect.size, frameStyle: frameStyle)
+                } else {
+                    handleCollageShot(image, previewSize: contentRect.size, frameStyle: frameStyle)
+                }
             }
         }
         .ignoresSafeArea()
@@ -297,10 +346,32 @@ struct CameraScreen: View {
             }
                 .accessibilityLabel("添加贴纸")
         case .frames:
-            controlButton(systemImage: "rectangle.inset.filled") { isFrameTrayPresented = true }
-                .accessibilityLabel("选择边框")
+            quickCircleButton(systemImage: "rectangle.inset.filled", isActive: frameStyle != .none) {
+                isFrameTrayPresented = true
+            }
+            .accessibilityLabel("选择边框")
+        case .collage:
+            quickCircleButton(systemImage: "square.grid.2x2.fill", isActive: collageSession != nil) {
+                isCollageTrayPresented = true
+            }
+            .accessibilityLabel("大头贴")
         default:
             EmptyView()
+        }
+    }
+
+    /// 未生效时和右上角设置按钮同款，生效后图标转为高亮色。
+    private func quickCircleButton(
+        systemImage: String,
+        isActive: Bool,
+        action: @escaping () -> Void
+    ) -> some View {
+        Button(action: action) {
+            Image(systemName: systemImage)
+                .font(.title2.weight(.semibold))
+                .foregroundStyle(isActive ? Color.blue : Color.white)
+                .frame(width: 48, height: 48)
+                .background(.black.opacity(0.3), in: Circle())
         }
     }
 
@@ -320,6 +391,7 @@ struct CameraScreen: View {
             settingsCircleButton(systemImage: aspectRatio.iconName, isActive: aspectRatio == .threeQuarter) {
                 aspectRatio = aspectRatio == .fullScreen ? .threeQuarter : .fullScreen
             }
+            .disabled(collageSession != nil)
             .accessibilityLabel("拍照尺寸：\(aspectRatio.title)，点按切换")
         case .sound:
             settingsCircleButton(
@@ -414,6 +486,15 @@ struct CameraScreen: View {
     }
 
     private func triggerCapture() {
+        if let session = collageSession {
+            guard let seconds = session.mode.countdownSeconds else {
+                capturePhoto()
+                return
+            }
+            guard collageToken == nil else { return }
+            beginCollageBurst(seconds: seconds)
+            return
+        }
         guard isTimerEnabled else {
             capturePhoto()
             return
@@ -443,6 +524,118 @@ struct CameraScreen: View {
 
     private func cancelTimerCapture() {
         timerCaptureToken = nil
+        timerCountdown = nil
+    }
+
+    /// 开启模式或换选项都走这里；换选项会作废已拍的格子，但保留浮层位置。
+    private func enableCollageMode() {
+        if collageSession == nil { collageOverlayLayout = CollageOverlayLayout() }
+        collageToken = nil
+        timerCountdown = nil
+        collageShots = []
+        collageSession = CollageSession(layout: collageLayout, style: collageStyle, mode: collageMode)
+    }
+
+    private func beginCollageBurst(seconds: Int) {
+        let token = UUID()
+        collageToken = token
+        Task { await runCollageCountdown(seconds: seconds, token: token) }
+    }
+
+    private func handleCollageShot(_ image: UIImage, previewSize: CGSize, frameStyle: FrameStyle) {
+        guard collageSession != nil else { return }
+        let layers = canvas.layers
+        let pip = camera.capturedFrontImage.map { PictureInPicturePhoto(image: $0, layout: shutterLayout) }
+
+        Task.detached(priority: .userInitiated) {
+            let shot = try? PhotoComposer().compose(
+                image: image,
+                previewSize: previewSize,
+                layers: layers,
+                frameStyle: frameStyle,
+                pictureInPicture: pip
+            )
+            await MainActor.run {
+                // 合成期间可能已被取消或重开，这里必须重新取当前 session。
+                guard var session = collageSession else { return }
+                guard let shot else {
+                    // 这一轮作废重来，但留在大头贴模式里。
+                    enableCollageMode()
+                    message = PhotoComposerError.unableToCreateImage.errorDescription
+                    return
+                }
+                collageShots.append(shot)
+                session.advance()
+                collageSession = session
+                if session.isComplete {
+                    finishCollage(session)
+                } else if let seconds = session.mode.countdownSeconds {
+                    let token = UUID()
+                    collageToken = token
+                    Task {
+                        try? await Task.sleep(nanoseconds: UInt64(CollageCaptureTiming.shotInterval * 1_000_000_000))
+                        guard collageToken == token else { return }
+                        await runCollageCountdown(seconds: seconds, token: token)
+                    }
+                }
+            }
+        }
+    }
+
+    private func runCollageCountdown(seconds: Int, token: UUID) async {
+        for value in stride(from: seconds, through: 1, by: -1) {
+            guard collageToken == token else { return }
+            timerCountdown = value
+            try? await Task.sleep(nanoseconds: 1_000_000_000)
+        }
+        guard collageToken == token else { return }
+        timerCountdown = nil
+        capturePhoto()
+    }
+
+    private func finishCollage(_ session: CollageSession) {
+        let shots = collageShots
+        let layout = session.layout
+        let style = session.style
+        // 保留模式与配置，直接开下一轮；退出只由浮层的关闭按钮触发。
+        collageSession = CollageSession(layout: layout, style: style, mode: session.mode)
+        collageShots = []
+        collageToken = nil
+        timerCountdown = nil
+        saveTracker.beginSave()
+
+        Task.detached(priority: .userInitiated) {
+            do {
+                let result = try CollageComposer().compose(shots: shots, layout: layout, style: style)
+                if let data = result.jpegData(compressionQuality: 0.82) {
+                    await MainActor.run { try? recentPhotos.store(data: data) }
+                }
+                try await PhotoLibrarySaver().save(result)
+                await MainActor.run {
+                    saveTracker.finishSave()
+                    message = "大头贴拍好啦！已经保存到系统照片 ✨"
+                }
+            } catch {
+                await MainActor.run {
+                    saveTracker.finishSave()
+                    message = error.localizedDescription
+                }
+            }
+        }
+    }
+
+    /// 退出大头贴模式，只由浮层的关闭按钮触发。
+    private func cancelCollage() {
+        collageToken = nil
+        collageSession = nil
+        collageShots = []
+        timerCountdown = nil
+    }
+
+    /// 相机停了就停掉倒计时，模式、配置和已拍的格子都留着，回到前台能接着拍。
+    private func suspendCollageCountdown() {
+        guard collageSession != nil else { return }
+        collageToken = nil
         timerCountdown = nil
     }
 

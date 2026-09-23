@@ -25,6 +25,9 @@
 		B012 /* FrameStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F014 /* FrameStyle.swift */; };
 		B013 /* FrameOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F015 /* FrameOverlayView.swift */; };
 		B014 /* FrameTrayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F016 /* FrameTrayView.swift */; };
+		B033 /* CollageGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F035 /* CollageGridView.swift */; };
+		B034 /* CollageProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F036 /* CollageProgressView.swift */; };
+		B035 /* CollageTrayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F037 /* CollageTrayView.swift */; };
 		B015 /* PhotoSaveTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F017 /* PhotoSaveTracker.swift */; };
 		B016 /* CameraSoundPreference.swift in Sources */ = {isa = PBXBuildFile; fileRef = F018 /* CameraSoundPreference.swift */; };
 		B017 /* CameraShutterEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = F019 /* CameraShutterEffect.swift */; };
@@ -34,11 +37,17 @@
 		B021 /* CameraControlGrouping.swift in Sources */ = {isa = PBXBuildFile; fileRef = F023 /* CameraControlGrouping.swift */; };
 		B022 /* StickerImageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F024 /* StickerImageProvider.swift */; };
 		B030 /* ImageCropping.swift in Sources */ = {isa = PBXBuildFile; fileRef = F032 /* ImageCropping.swift */; };
+		B031 /* CollageComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F033 /* CollageComposer.swift */; };
 		B037 /* FrameRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F039 /* FrameRenderer.swift */; };
+		B032 /* CollageDecorationRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F034 /* CollageDecorationRenderer.swift */; };
 		B023 /* RecentPhotoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F025 /* RecentPhotoStore.swift */; };
 		B024 /* CameraTimerPreference.swift in Sources */ = {isa = PBXBuildFile; fileRef = F026 /* CameraTimerPreference.swift */; };
 		B025 /* TimerCountdownAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F027 /* TimerCountdownAnimation.swift */; };
 		B026 /* CameraSwitchAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F028 /* CameraSwitchAnimation.swift */; };
+		B027 /* CollageLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F029 /* CollageLayout.swift */; };
+		B028 /* CollageStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F030 /* CollageStyle.swift */; };
+		B029 /* CollageSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = F031 /* CollageSession.swift */; };
+		B036 /* CollageOverlayLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F038 /* CollageOverlayLayout.swift */; };
 		B102 /* kitten.png in Resources */ = {isa = PBXBuildFile; fileRef = F102 /* kitten.png */; };
 		B103 /* puppy.png in Resources */ = {isa = PBXBuildFile; fileRef = F103 /* puppy.png */; };
 		B104 /* panda.png in Resources */ = {isa = PBXBuildFile; fileRef = F104 /* panda.png */; };
@@ -82,6 +91,7 @@
 		B150 /* space_rocket_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F150 /* space_rocket_frame.png */; };
 		B201 /* StickerCanvasTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F201 /* StickerCanvasTests.swift */; };
 		B202 /* StickerRenderTransformTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F202 /* StickerRenderTransformTests.swift */; };
+		B203 /* CollageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F203 /* CollageTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -115,6 +125,9 @@
 		F014 /* FrameStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameStyle.swift; sourceTree = "<group>"; };
 		F015 /* FrameOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameOverlayView.swift; sourceTree = "<group>"; };
 		F016 /* FrameTrayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameTrayView.swift; sourceTree = "<group>"; };
+		F035 /* CollageGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageGridView.swift; sourceTree = "<group>"; };
+		F036 /* CollageProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageProgressView.swift; sourceTree = "<group>"; };
+		F037 /* CollageTrayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageTrayView.swift; sourceTree = "<group>"; };
 		F017 /* PhotoSaveTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSaveTracker.swift; sourceTree = "<group>"; };
 		F018 /* CameraSoundPreference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraSoundPreference.swift; sourceTree = "<group>"; };
 		F019 /* CameraShutterEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraShutterEffect.swift; sourceTree = "<group>"; };
@@ -124,11 +137,17 @@
 		F023 /* CameraControlGrouping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraControlGrouping.swift; sourceTree = "<group>"; };
 		F024 /* StickerImageProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerImageProvider.swift; sourceTree = "<group>"; };
 		F032 /* ImageCropping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCropping.swift; sourceTree = "<group>"; };
+		F033 /* CollageComposer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageComposer.swift; sourceTree = "<group>"; };
 		F039 /* FrameRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameRenderer.swift; sourceTree = "<group>"; };
+		F034 /* CollageDecorationRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageDecorationRenderer.swift; sourceTree = "<group>"; };
 		F025 /* RecentPhotoStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentPhotoStore.swift; sourceTree = "<group>"; };
 		F026 /* CameraTimerPreference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraTimerPreference.swift; sourceTree = "<group>"; };
 		F027 /* TimerCountdownAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerCountdownAnimation.swift; sourceTree = "<group>"; };
 		F028 /* CameraSwitchAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraSwitchAnimation.swift; sourceTree = "<group>"; };
+		F029 /* CollageLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageLayout.swift; sourceTree = "<group>"; };
+		F030 /* CollageStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageStyle.swift; sourceTree = "<group>"; };
+		F031 /* CollageSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageSession.swift; sourceTree = "<group>"; };
+		F038 /* CollageOverlayLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageOverlayLayout.swift; sourceTree = "<group>"; };
 		F102 /* kitten.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = kitten.png; sourceTree = "<group>"; };
 		F103 /* puppy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = puppy.png; sourceTree = "<group>"; };
 		F104 /* panda.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = panda.png; sourceTree = "<group>"; };
@@ -171,6 +190,7 @@
 		F150 /* space_rocket_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = space_rocket_frame.png; sourceTree = "<group>"; };
 		F201 /* StickerCanvasTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerCanvasTests.swift; sourceTree = "<group>"; };
 		F202 /* StickerRenderTransformTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerRenderTransformTests.swift; sourceTree = "<group>"; };
+		F203 /* CollageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageTests.swift; sourceTree = "<group>"; };
 		F300 /* CuteStickerCamera.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CuteStickerCamera.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F301 /* CuteStickerCameraTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CuteStickerCameraTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -252,6 +272,10 @@
 				F026 /* CameraTimerPreference.swift */,
 				F027 /* TimerCountdownAnimation.swift */,
 				F028 /* CameraSwitchAnimation.swift */,
+				F029 /* CollageLayout.swift */,
+				F030 /* CollageStyle.swift */,
+				F031 /* CollageSession.swift */,
+				F038 /* CollageOverlayLayout.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -264,7 +288,9 @@
 				F019 /* CameraShutterEffect.swift */,
 				F024 /* StickerImageProvider.swift */,
 				F032 /* ImageCropping.swift */,
+				F033 /* CollageComposer.swift */,
 				F039 /* FrameRenderer.swift */,
+				F034 /* CollageDecorationRenderer.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -278,6 +304,9 @@
 				F303 /* PictureInPicturePreview.swift */,
 				F015 /* FrameOverlayView.swift */,
 				F016 /* FrameTrayView.swift */,
+				F035 /* CollageGridView.swift */,
+				F036 /* CollageProgressView.swift */,
+				F037 /* CollageTrayView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -360,6 +389,7 @@
 			children = (
 				F201 /* StickerCanvasTests.swift */,
 				F202 /* StickerRenderTransformTests.swift */,
+				F203 /* CollageTests.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -518,6 +548,9 @@
 				B012 /* FrameStyle.swift in Sources */,
 				B013 /* FrameOverlayView.swift in Sources */,
 				B014 /* FrameTrayView.swift in Sources */,
+				B033 /* CollageGridView.swift in Sources */,
+				B034 /* CollageProgressView.swift in Sources */,
+				B035 /* CollageTrayView.swift in Sources */,
 				B015 /* PhotoSaveTracker.swift in Sources */,
 				B016 /* CameraSoundPreference.swift in Sources */,
 				B017 /* CameraShutterEffect.swift in Sources */,
@@ -527,11 +560,17 @@
 				B021 /* CameraControlGrouping.swift in Sources */,
 				B022 /* StickerImageProvider.swift in Sources */,
 				B030 /* ImageCropping.swift in Sources */,
+				B031 /* CollageComposer.swift in Sources */,
 				B037 /* FrameRenderer.swift in Sources */,
+				B032 /* CollageDecorationRenderer.swift in Sources */,
 				B023 /* RecentPhotoStore.swift in Sources */,
 				B024 /* CameraTimerPreference.swift in Sources */,
 				B025 /* TimerCountdownAnimation.swift in Sources */,
 				B026 /* CameraSwitchAnimation.swift in Sources */,
+				B027 /* CollageLayout.swift in Sources */,
+				B028 /* CollageStyle.swift in Sources */,
+				B029 /* CollageSession.swift in Sources */,
+				B036 /* CollageOverlayLayout.swift in Sources */,
 				B301 /* PictureInPictureLayout.swift in Sources */,
 				B302 /* DualCameraSession.swift in Sources */,
 				B303 /* PictureInPicturePreview.swift in Sources */,
@@ -545,6 +584,7 @@
 			files = (
 				B201 /* StickerCanvasTests.swift in Sources */,
 				B202 /* StickerRenderTransformTests.swift in Sources */,
+				B203 /* CollageTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

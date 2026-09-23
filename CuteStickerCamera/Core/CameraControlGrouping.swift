@@ -3,6 +3,7 @@ import Foundation
 enum CameraControlAction: String, Identifiable {
     case stickers
     case frames
+    case collage
     case switchCamera
     case aspectRatio
     case sound
@@ -12,7 +13,7 @@ enum CameraControlAction: String, Identifiable {
     var id: String { rawValue }
 }
 enum CameraControlGrouping {
-    static let quickActions: [CameraControlAction] = [.stickers, .frames]
+    static let quickActions: [CameraControlAction] = [.stickers, .frames, .collage]
     static let settingsActions: [CameraControlAction] = [.aspectRatio, .sound, .timer]
     /// Left-to-right visual order; the last option sits nearest the settings button.
     static let expandedSettingsActions: [CameraControlAction] = [.pictureInPicture, .sound, .timer, .aspectRatio]

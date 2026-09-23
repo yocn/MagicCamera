@@ -6,7 +6,7 @@ struct FrameOverlayView: View {
 
     var body: some View {
         GeometryReader { proxy in
-            if let assetName = style.assetName, let image = UIImage(named: assetName) {
+            if let image = FrameRenderer.image(for: style, size: proxy.size) {
                 Image(uiImage: image)
                     .resizable()
                     .frame(width: proxy.size.width, height: proxy.size.height)

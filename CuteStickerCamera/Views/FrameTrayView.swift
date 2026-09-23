@@ -53,6 +53,7 @@ private struct FrameChoiceButton: View {
             if let assetName = style.assetName, let image = UIImage(named: assetName) {
                 Image(uiImage: image)
                     .resizable()
+                    .scaledToFit()
                     .frame(width: 48, height: 60)
                     .clipShape(RoundedRectangle(cornerRadius: 11))
             } else {

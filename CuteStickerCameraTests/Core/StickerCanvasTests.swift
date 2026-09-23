@@ -244,7 +244,74 @@ final class StickerCanvasTests: XCTestCase {
         XCTAssertEqual(selection, .candyParty)
 
         selection = selection.next
+        XCTAssertEqual(selection, .iceCrystal)
+
+        selection = selection.next
+        XCTAssertEqual(selection, .coralReef)
+
+        selection = selection.next
+        XCTAssertEqual(selection, .rainbowCloud)
+
+        selection = selection.next
+        XCTAssertEqual(selection, .magicRibbon)
+
+        selection = selection.next
+        XCTAssertEqual(selection, .strawberryPicnic)
+
+        selection = selection.next
+        XCTAssertEqual(selection, .spaceRocket)
+
+        selection = selection.next
         XCTAssertEqual(selection, .none)
+    }
+
+    func testNewSlimFramesUseNineSliceStretchingAndKeepTheirCornerArtwork() {
+        let newFrames: [FrameStyle] = [
+            .iceCrystal,
+            .coralReef,
+            .rainbowCloud,
+            .magicRibbon,
+            .strawberryPicnic,
+            .spaceRocket
+        ]
+
+        XCTAssertEqual(newFrames.compactMap(\.assetName), [
+            "ice_crystal_frame",
+            "coral_reef_frame",
+            "rainbow_cloud_frame",
+            "magic_ribbon_frame",
+            "strawberry_picnic_frame",
+            "space_rocket_frame"
+        ])
+        XCTAssertTrue(newFrames.allSatisfy { $0.capInsets.sourceRatio > 0 && $0.capInsets.destinationRatio > 0 })
+    }
+
+    func testFrameCornersScaleWithTheCanvasSoPreviewMatchesThePhoto() {
+        let source = CGSize(width: 1024, height: 1536)
+        let insets = FrameCapInsets.standard
+
+        let preview = FrameDrawMetrics(
+            sourceSize: source,
+            destinationSize: CGSize(width: 440, height: 956),
+            capInsets: insets
+        )
+        let photo = FrameDrawMetrics(
+            sourceSize: source,
+            destinationSize: CGSize(width: 1396, height: 3024),
+            capInsets: insets
+        )
+
+        // 两种画幅下角落都应占短边的同一比例，否则预览和成片对不上。
+        XCTAssertEqual(preview.cap / 440, insets.destinationRatio, accuracy: 0.0001)
+        XCTAssertEqual(photo.cap / 1396, insets.destinationRatio, accuracy: 0.0001)
+
+        // 横纵共用一个倍率，插画才不会被拉扁。
+        XCTAssertEqual(preview.cap / preview.sourceCap, preview.scale, accuracy: 0.0001)
+        XCTAssertEqual(photo.cap / photo.sourceCap, photo.scale, accuracy: 0.0001)
+        XCTAssertEqual(preview.sourceCap, photo.sourceCap, accuracy: 0.0001)
+
+        // 四角不能把中缝挤没。
+        XCTAssertLessThan(preview.cap * 2, 440)
     }
 
     func testStickerEditingRemainsAvailableWhenCameraIsUnavailable() {

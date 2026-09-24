@@ -11,7 +11,14 @@ struct PictureInPicturePhoto {
 }
 
 struct PhotoComposer {
-    func compose(image: UIImage, previewSize: CGSize, layers: [StickerLayer], frameStyle: FrameStyle = .none, pictureInPicture: PictureInPicturePhoto? = nil) throws -> UIImage {
+    func compose(
+        image: UIImage,
+        previewSize: CGSize,
+        layers: [StickerLayer],
+        frameStyle: FrameStyle = .none,
+        pictureInPicture: PictureInPicturePhoto? = nil,
+        doodle: UIImage? = nil
+    ) throws -> UIImage {
         guard let normalized = image.normalized(), previewSize.width > 0, previewSize.height > 0 else {
             throw PhotoComposerError.unableToCreateImage
         }
@@ -48,6 +55,10 @@ struct PhotoComposer {
                 context.cgContext.rotate(by: placement.rotation)
                 sticker.draw(in: rect.offsetBy(dx: -placement.center.x, dy: -placement.center.y))
                 context.cgContext.restoreGState()
+            }
+            // 涂鸦压在贴纸上，但要留在边框下面。
+            if let doodle {
+                doodle.draw(in: CGRect(origin: .zero, size: canvas.size))
             }
             FrameRenderer.draw(frameStyle, in: CGRect(origin: .zero, size: canvas.size))
         }

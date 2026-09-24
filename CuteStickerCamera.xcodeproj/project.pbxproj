@@ -30,6 +30,8 @@
 		B035 /* CollageTrayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F037 /* CollageTrayView.swift */; };
 		B038 /* TrayContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F040 /* TrayContainer.swift */; };
 		B039 /* GlassControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = F041 /* GlassControls.swift */; };
+		B041 /* DoodleCanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F043 /* DoodleCanvasView.swift */; };
+		B042 /* DoodleToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F044 /* DoodleToolbar.swift */; };
 		B015 /* PhotoSaveTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F017 /* PhotoSaveTracker.swift */; };
 		B016 /* CameraSoundPreference.swift in Sources */ = {isa = PBXBuildFile; fileRef = F018 /* CameraSoundPreference.swift */; };
 		B017 /* CameraShutterEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = F019 /* CameraShutterEffect.swift */; };
@@ -49,6 +51,7 @@
 		B027 /* CollageLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F029 /* CollageLayout.swift */; };
 		B028 /* CollageStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F030 /* CollageStyle.swift */; };
 		B029 /* CollageSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = F031 /* CollageSession.swift */; };
+		B040 /* DoodleTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = F042 /* DoodleTool.swift */; };
 		B036 /* CollageOverlayLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F038 /* CollageOverlayLayout.swift */; };
 		B102 /* kitten.png in Resources */ = {isa = PBXBuildFile; fileRef = F102 /* kitten.png */; };
 		B103 /* puppy.png in Resources */ = {isa = PBXBuildFile; fileRef = F103 /* puppy.png */; };
@@ -151,6 +154,7 @@
 		B201 /* StickerCanvasTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F201 /* StickerCanvasTests.swift */; };
 		B202 /* StickerRenderTransformTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F202 /* StickerRenderTransformTests.swift */; };
 		B203 /* CollageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F203 /* CollageTests.swift */; };
+		B218 /* DoodleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F218 /* DoodleTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -189,6 +193,8 @@
 		F037 /* CollageTrayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageTrayView.swift; sourceTree = "<group>"; };
 		F040 /* TrayContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrayContainer.swift; sourceTree = "<group>"; };
 		F041 /* GlassControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassControls.swift; sourceTree = "<group>"; };
+		F043 /* DoodleCanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoodleCanvasView.swift; sourceTree = "<group>"; };
+		F044 /* DoodleToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoodleToolbar.swift; sourceTree = "<group>"; };
 		F017 /* PhotoSaveTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSaveTracker.swift; sourceTree = "<group>"; };
 		F018 /* CameraSoundPreference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraSoundPreference.swift; sourceTree = "<group>"; };
 		F019 /* CameraShutterEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraShutterEffect.swift; sourceTree = "<group>"; };
@@ -208,6 +214,7 @@
 		F029 /* CollageLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageLayout.swift; sourceTree = "<group>"; };
 		F030 /* CollageStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageStyle.swift; sourceTree = "<group>"; };
 		F031 /* CollageSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageSession.swift; sourceTree = "<group>"; };
+		F042 /* DoodleTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoodleTool.swift; sourceTree = "<group>"; };
 		F038 /* CollageOverlayLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageOverlayLayout.swift; sourceTree = "<group>"; };
 		F102 /* kitten.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = kitten.png; sourceTree = "<group>"; };
 		F103 /* puppy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = puppy.png; sourceTree = "<group>"; };
@@ -309,6 +316,7 @@
 		F201 /* StickerCanvasTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerCanvasTests.swift; sourceTree = "<group>"; };
 		F202 /* StickerRenderTransformTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerRenderTransformTests.swift; sourceTree = "<group>"; };
 		F203 /* CollageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageTests.swift; sourceTree = "<group>"; };
+		F218 /* DoodleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoodleTests.swift; sourceTree = "<group>"; };
 		F300 /* CuteStickerCamera.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CuteStickerCamera.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F301 /* CuteStickerCameraTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CuteStickerCameraTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -393,6 +401,7 @@
 				F029 /* CollageLayout.swift */,
 				F030 /* CollageStyle.swift */,
 				F031 /* CollageSession.swift */,
+				F042 /* DoodleTool.swift */,
 				F038 /* CollageOverlayLayout.swift */,
 			);
 			path = Core;
@@ -427,6 +436,8 @@
 				F037 /* CollageTrayView.swift */,
 				F040 /* TrayContainer.swift */,
 				F041 /* GlassControls.swift */,
+				F043 /* DoodleCanvasView.swift */,
+				F044 /* DoodleToolbar.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -567,6 +578,7 @@
 				F201 /* StickerCanvasTests.swift */,
 				F202 /* StickerRenderTransformTests.swift */,
 				F203 /* CollageTests.swift */,
+				F218 /* DoodleTests.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -787,6 +799,8 @@
 				B035 /* CollageTrayView.swift in Sources */,
 				B038 /* TrayContainer.swift in Sources */,
 				B039 /* GlassControls.swift in Sources */,
+				B041 /* DoodleCanvasView.swift in Sources */,
+				B042 /* DoodleToolbar.swift in Sources */,
 				B015 /* PhotoSaveTracker.swift in Sources */,
 				B016 /* CameraSoundPreference.swift in Sources */,
 				B017 /* CameraShutterEffect.swift in Sources */,
@@ -806,6 +820,7 @@
 				B027 /* CollageLayout.swift in Sources */,
 				B028 /* CollageStyle.swift in Sources */,
 				B029 /* CollageSession.swift in Sources */,
+				B040 /* DoodleTool.swift in Sources */,
 				B036 /* CollageOverlayLayout.swift in Sources */,
 				B301 /* PictureInPictureLayout.swift in Sources */,
 				B302 /* DualCameraSession.swift in Sources */,
@@ -821,6 +836,7 @@
 				B201 /* StickerCanvasTests.swift in Sources */,
 				B202 /* StickerRenderTransformTests.swift in Sources */,
 				B203 /* CollageTests.swift in Sources */,
+				B218 /* DoodleTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,3 +1,4 @@
+import PencilKit
 import SwiftUI
 import UIKit
 
@@ -12,6 +13,7 @@ struct CameraScreen: View {
     @State private var saveTracker = PhotoSaveTracker()
     @State private var recentPhotos = RecentPhotoStore()
     @State private var message: String?
+    @State private var messageToken: UUID?
     @AppStorage(CameraSoundPreference.storageKey) private var isCameraSoundEnabled = true
     @AppStorage(CameraTimerPreference.storageKey) private var isTimerEnabled = false
     @State private var isShutterFlashVisible = false
@@ -28,6 +30,10 @@ struct CameraScreen: View {
     @State private var collageShots: [UIImage] = []
     @State private var collageToken: UUID?
     @State private var collageOverlayLayout = CollageOverlayLayout()
+    @State private var isDoodling = false
+    @State private var doodleTool = DoodleToolState()
+    @State private var doodleDrawing = PKDrawing()
+    @State private var clearedDoodle: PKDrawing?
     private let composer = PhotoComposer()
     private let photoLibrarySaver = PhotoLibrarySaver()
 
@@ -72,7 +78,15 @@ struct CameraScreen: View {
                                   passthroughRect: camera.isPictureInPictureEnabled ? pictureInPictureLayout.rect(in: contentRect.size) : .null)
                     .frame(width: contentRect.width, height: contentRect.height)
                     .position(x: contentRect.midX, y: contentRect.midY)
-                    .allowsHitTesting(camera.permissionState.allowsStickerEditing)
+                    .allowsHitTesting(camera.permissionState.allowsStickerEditing && !isDoodling)
+
+                DoodleCanvasView(drawing: $doodleDrawing, tool: doodleTool, isActive: isDoodling)
+                    .frame(width: contentRect.width, height: contentRect.height)
+                    .position(x: contentRect.midX, y: contentRect.midY)
+                    .allowsHitTesting(isDoodling)
+                    .onChange(of: doodleDrawing.strokes.count) { count in
+                        if count > 0 { clearedDoodle = nil }
+                    }
 
                 FrameOverlayView(style: frameStyle)
                     .frame(width: contentRect.width, height: contentRect.height)
@@ -127,6 +141,20 @@ struct CameraScreen: View {
 
                 sideQuickActions(bottomInset: proxy.safeAreaInsets.bottom)
 
+                if isDoodling {
+                    VStack {
+                        Spacer()
+                        DoodleToolbar(
+                            tool: $doodleTool,
+                            onUndo: undoDoodle,
+                            onClear: clearDoodle,
+                            onDone: { isDoodling = false }
+                        )
+                        .padding(.horizontal, 10)
+                        .padding(.bottom, 118 + proxy.safeAreaInsets.bottom)
+                    }
+                }
+
                 if let displayMessage = camera.cameraMessage?.text ?? message {
                     VStack {
                         Spacer()
@@ -135,7 +163,8 @@ struct CameraScreen: View {
                             .multilineTextAlignment(.center)
                             .padding()
                             .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 20))
-                            .padding(.bottom, 130)
+                            // 涂鸦时底部被工具条占着，提示要让开。
+                            .padding(.bottom, isDoodling ? 268 : 130)
                     }
                 }
 
@@ -148,7 +177,7 @@ struct CameraScreen: View {
                 } onMagicPick: {
                     let outfit = MagicStickerOutfits.random()
                     canvas.add(layers: outfit.placements.map(\.layer))
-                    message = "\(outfit.title)搭配完成 ✨"
+                    showMessage("\(outfit.title)搭配完成 ✨")
                     isStickerTrayPresented = false
                 } onClose: {
                     isStickerTrayPresented = false
@@ -363,6 +392,11 @@ struct CameraScreen: View {
                 isCollageTrayPresented = true
             }
             .accessibilityLabel("大头贴")
+        case .doodle:
+            quickCircleButton(systemImage: "scribble.variable", isActive: isDoodling) {
+                isDoodling.toggle()
+            }
+            .accessibilityLabel(isDoodling ? "退出涂鸦" : "开始涂鸦")
         default:
             EmptyView()
         }
@@ -399,7 +433,7 @@ struct CameraScreen: View {
             settingsCircleButton(systemImage: aspectRatio.iconName, isActive: aspectRatio == .threeQuarter) {
                 aspectRatio = aspectRatio == .fullScreen ? .threeQuarter : .fullScreen
             }
-            .disabled(collageSession != nil)
+            .disabled(collageSession != nil || isDoodling)
             .accessibilityLabel("拍照尺寸：\(aspectRatio.title)，点按切换")
         case .sound:
             settingsCircleButton(
@@ -453,10 +487,11 @@ struct CameraScreen: View {
     private func saveComposed(_ image: UIImage, previewSize: CGSize, frameStyle: FrameStyle) {
         saveTracker.beginSave()
         let layers = canvas.layers
+        let doodle = doodleImage(previewSize: previewSize)
         let pip = camera.capturedFrontImage.map { PictureInPicturePhoto(image: $0, layout: shutterLayout) }
         Task.detached(priority: .userInitiated) {
             do {
-                let result = try PhotoComposer().compose(image: image, previewSize: previewSize, layers: layers, frameStyle: frameStyle, pictureInPicture: pip)
+                let result = try PhotoComposer().compose(image: image, previewSize: previewSize, layers: layers, frameStyle: frameStyle, pictureInPicture: pip, doodle: doodle)
                 let thumbnailData = result.jpegData(compressionQuality: 0.82)
                 if let thumbnailData {
                     await MainActor.run {
@@ -470,12 +505,12 @@ struct CameraScreen: View {
                 try await PhotoLibrarySaver().save(result)
                 await MainActor.run {
                     saveTracker.finishSave()
-                    message = "拍好啦！已经保存到系统照片 ✨"
+                    showMessage("拍好啦！已经保存到系统照片 ✨")
                 }
             } catch {
                 await MainActor.run {
                     saveTracker.finishSave()
-                    message = error.localizedDescription
+                    showMessage(error.localizedDescription)
                 }
             }
         }
@@ -553,6 +588,7 @@ struct CameraScreen: View {
     private func handleCollageShot(_ image: UIImage, previewSize: CGSize, frameStyle: FrameStyle) {
         guard collageSession != nil else { return }
         let layers = canvas.layers
+        let doodle = doodleImage(previewSize: previewSize)
         let pip = camera.capturedFrontImage.map { PictureInPicturePhoto(image: $0, layout: shutterLayout) }
 
         Task.detached(priority: .userInitiated) {
@@ -561,7 +597,8 @@ struct CameraScreen: View {
                 previewSize: previewSize,
                 layers: layers,
                 frameStyle: frameStyle,
-                pictureInPicture: pip
+                pictureInPicture: pip,
+                doodle: doodle
             )
             await MainActor.run {
                 // 合成期间可能已被取消或重开，这里必须重新取当前 session。
@@ -569,7 +606,7 @@ struct CameraScreen: View {
                 guard let shot else {
                     // 这一轮作废重来，但留在大头贴模式里。
                     enableCollageMode()
-                    message = PhotoComposerError.unableToCreateImage.errorDescription
+                    showMessage(PhotoComposerError.unableToCreateImage.errorDescription)
                     return
                 }
                 collageShots.append(shot)
@@ -621,18 +658,57 @@ struct CameraScreen: View {
                 try await PhotoLibrarySaver().save(result)
                 await MainActor.run {
                     saveTracker.finishSave()
-                    message = "大头贴拍好啦！已经保存到系统照片 ✨"
+                    showMessage("大头贴拍好啦！已经保存到系统照片 ✨")
                 }
             } catch {
                 await MainActor.run {
                     saveTracker.finishSave()
-                    message = error.localizedDescription
+                    showMessage(error.localizedDescription)
                 }
             }
         }
     }
 
     /// 退出大头贴模式，只由浮层的关闭按钮触发。
+    /// 撤销优先恢复刚被清空的整幅，其次才回退最后一笔。
+    /// 提示到点自动收起；后一条会顶掉前一条的计时。
+    private func showMessage(_ text: String?) {
+        guard let text else { return }
+        let token = UUID()
+        messageToken = token
+        withAnimation(.easeOut(duration: 0.2)) { message = text }
+
+        Task {
+            try? await Task.sleep(nanoseconds: 2_600_000_000)
+            guard messageToken == token else { return }
+            withAnimation(.easeIn(duration: 0.25)) { message = nil }
+        }
+    }
+
+    private func undoDoodle() {
+        if let clearedDoodle {
+            doodleDrawing = clearedDoodle
+            self.clearedDoodle = nil
+            return
+        }
+        guard !doodleDrawing.strokes.isEmpty else { return }
+        var strokes = doodleDrawing.strokes
+        strokes.removeLast()
+        doodleDrawing = PKDrawing(strokes: strokes)
+    }
+
+    private func clearDoodle() {
+        guard !doodleDrawing.strokes.isEmpty else { return }
+        clearedDoodle = doodleDrawing
+        doodleDrawing = PKDrawing()
+    }
+
+    /// 预览是点、成片是像素，4 倍足够覆盖当前机型的照片分辨率。
+    private func doodleImage(previewSize: CGSize) -> UIImage? {
+        guard !doodleDrawing.strokes.isEmpty else { return nil }
+        return doodleDrawing.image(from: CGRect(origin: .zero, size: previewSize), scale: 4)
+    }
+
     private func cancelCollage() {
         collageToken = nil
         collageSession = nil
@@ -654,7 +730,7 @@ struct CameraScreen: View {
     private func openSystemPhotos() {
         guard let url = URL(string: "photos-redirect://") else { return }
         UIApplication.shared.open(url) { success in
-            if !success { message = "照片已保存，请打开“照片”App 继续编辑。" }
+            if !success { showMessage("照片已保存，请打开“照片”App 继续编辑。") }
         }
     }
 }

@@ -163,8 +163,9 @@ private struct FrameChoiceButton: View {
 
     private var iconPreview: some View {
         ZStack {
+            // strokeBorder 在内侧描边；stroke 会有一半线宽长在 frame 外，被网格裁掉。
             RoundedRectangle(cornerRadius: 14)
-                .stroke(borderColor, lineWidth: isSelected ? 4 : 2)
+                .strokeBorder(borderColor, lineWidth: isSelected ? 4 : 2)
                 .frame(width: 54, height: 66)
             if let assetName = style.assetName, let image = UIImage(named: assetName) {
                 Image(uiImage: image)

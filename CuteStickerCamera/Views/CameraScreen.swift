@@ -16,6 +16,8 @@ struct CameraScreen: View {
     @State private var messageToken: UUID?
     @State private var recentStickers = RecentUsageStore(key: RecentUsageKey.stickers)
     @State private var recentFrames = RecentUsageStore(key: RecentUsageKey.frames)
+    @State private var photoFilter: PhotoFilter = .original
+    @State private var isFilterBarPresented = false
     @AppStorage(CameraSoundPreference.storageKey) private var isCameraSoundEnabled = true
     @AppStorage(CameraTimerPreference.storageKey) private var isTimerEnabled = false
     @State private var isShutterFlashVisible = false
@@ -43,17 +45,49 @@ struct CameraScreen: View {
         GeometryReader { proxy in
             let contentRect = aspectRatio.contentRect(in: proxy.size)
             ZStack {
-                Group {
-                    if let dual = camera.dualCamera {
-                        ConnectedCameraPreview(previewLayer: dual.rearPreview)
-                            .id(ObjectIdentifier(dual))
-                    } else {
-                        CameraPreview(session: camera.session)
+                // 画面内容单独一层，滤镜只罩这一层，不能把按钮也染色。
+                ZStack {
+                    Group {
+                        if let dual = camera.dualCamera {
+                            ConnectedCameraPreview(previewLayer: dual.rearPreview)
+                                .id(ObjectIdentifier(dual))
+                        } else {
+                            CameraPreview(session: camera.session)
+                        }
                     }
-                }
-                .frame(width: contentRect.width, height: contentRect.height)
+                    .frame(width: contentRect.width, height: contentRect.height)
                     .position(x: contentRect.midX, y: contentRect.midY)
                     .clipped()
+
+                    if let dual = camera.dualCamera {
+                        PictureInPicturePreview(previewLayer: dual.frontPreview, layout: $pictureInPictureLayout, canvasSize: contentRect.size)
+                            .id(ObjectIdentifier(dual))
+                            .frame(width: contentRect.width, height: contentRect.height)
+                            .coordinateSpace(name: "pipCanvas")
+                            .position(x: contentRect.midX, y: contentRect.midY)
+                            .allowsHitTesting(!camera.isCapturing)
+                    }
+
+                    StickerCanvasView(canvas: canvas, previewSize: contentRect.size,
+                                      passthroughRect: camera.isPictureInPictureEnabled ? pictureInPictureLayout.rect(in: contentRect.size) : .null)
+                        .frame(width: contentRect.width, height: contentRect.height)
+                        .position(x: contentRect.midX, y: contentRect.midY)
+                        .allowsHitTesting(camera.permissionState.allowsStickerEditing && !isDoodling)
+
+                    DoodleCanvasView(drawing: $doodleDrawing, tool: doodleTool, isActive: isDoodling)
+                        .frame(width: contentRect.width, height: contentRect.height)
+                        .position(x: contentRect.midX, y: contentRect.midY)
+                        .allowsHitTesting(isDoodling)
+                        .onChange(of: doodleDrawing.strokes.count) { count in
+                            if count > 0 { clearedDoodle = nil }
+                        }
+
+                    FrameOverlayView(style: frameStyle)
+                        .frame(width: contentRect.width, height: contentRect.height)
+                        .position(x: contentRect.midX, y: contentRect.midY)
+                        .allowsHitTesting(false)
+                }
+                .photoFilter(photoFilter)
 
                 Color.black
                     .opacity(camera.isTransitioning ? CameraSwitchAnimation.dimmingOpacity : 0)
@@ -66,34 +100,6 @@ struct CameraScreen: View {
                     permissionOverlay
                         .allowsHitTesting(camera.permissionState.allowsPermissionOverlayInteraction)
                 }
-
-                if let dual = camera.dualCamera {
-                    PictureInPicturePreview(previewLayer: dual.frontPreview, layout: $pictureInPictureLayout, canvasSize: contentRect.size)
-                        .id(ObjectIdentifier(dual))
-                        .frame(width: contentRect.width, height: contentRect.height)
-                        .coordinateSpace(name: "pipCanvas")
-                        .position(x: contentRect.midX, y: contentRect.midY)
-                        .allowsHitTesting(!camera.isCapturing)
-                }
-
-                StickerCanvasView(canvas: canvas, previewSize: contentRect.size,
-                                  passthroughRect: camera.isPictureInPictureEnabled ? pictureInPictureLayout.rect(in: contentRect.size) : .null)
-                    .frame(width: contentRect.width, height: contentRect.height)
-                    .position(x: contentRect.midX, y: contentRect.midY)
-                    .allowsHitTesting(camera.permissionState.allowsStickerEditing && !isDoodling)
-
-                DoodleCanvasView(drawing: $doodleDrawing, tool: doodleTool, isActive: isDoodling)
-                    .frame(width: contentRect.width, height: contentRect.height)
-                    .position(x: contentRect.midX, y: contentRect.midY)
-                    .allowsHitTesting(isDoodling)
-                    .onChange(of: doodleDrawing.strokes.count) { count in
-                        if count > 0 { clearedDoodle = nil }
-                    }
-
-                FrameOverlayView(style: frameStyle)
-                    .frame(width: contentRect.width, height: contentRect.height)
-                    .position(x: contentRect.midX, y: contentRect.midY)
-                    .allowsHitTesting(false)
 
                 if let session = collageSession {
                     CollageProgressView(
@@ -143,6 +149,15 @@ struct CameraScreen: View {
 
                 sideQuickActions(bottomInset: proxy.safeAreaInsets.bottom)
 
+                if isFilterBarPresented && !isDoodling {
+                    VStack {
+                        Spacer()
+                        PhotoFilterBar(filter: $photoFilter, onDone: { isFilterBarPresented = false })
+                            .padding(.horizontal, 10)
+                            .padding(.bottom, 118 + proxy.safeAreaInsets.bottom)
+                    }
+                }
+
                 if isDoodling {
                     VStack {
                         Spacer()
@@ -165,8 +180,8 @@ struct CameraScreen: View {
                             .multilineTextAlignment(.center)
                             .padding()
                             .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 20))
-                            // 涂鸦时底部被工具条占着，提示要让开。
-                            .padding(.bottom, isDoodling ? 268 : 130)
+                            // 底部被工具条或滤镜条占着时，提示要让开。
+                            .padding(.bottom, isDoodling || isFilterBarPresented ? 268 : 130)
                     }
                 }
 
@@ -403,6 +418,11 @@ struct CameraScreen: View {
                 isDoodling.toggle()
             }
             .accessibilityLabel(isDoodling ? "退出涂鸦" : "开始涂鸦")
+        case .filter:
+            quickCircleButton(systemImage: "camera.filters", isActive: photoFilter != .original) {
+                isFilterBarPresented.toggle()
+            }
+            .accessibilityLabel(isFilterBarPresented ? "收起滤镜" : "选择滤镜")
         default:
             EmptyView()
         }
@@ -494,10 +514,11 @@ struct CameraScreen: View {
         saveTracker.beginSave()
         let layers = canvas.layers
         let doodle = doodleImage(previewSize: previewSize)
+        let filter = photoFilter
         let pip = camera.capturedFrontImage.map { PictureInPicturePhoto(image: $0, layout: shutterLayout) }
         Task.detached(priority: .userInitiated) {
             do {
-                let result = try PhotoComposer().compose(image: image, previewSize: previewSize, layers: layers, frameStyle: frameStyle, pictureInPicture: pip, doodle: doodle)
+                let result = try PhotoComposer().compose(image: image, previewSize: previewSize, layers: layers, frameStyle: frameStyle, pictureInPicture: pip, doodle: doodle, filter: filter)
                 let thumbnailData = result.jpegData(compressionQuality: 0.82)
                 if let thumbnailData {
                     await MainActor.run {
@@ -595,6 +616,7 @@ struct CameraScreen: View {
         guard collageSession != nil else { return }
         let layers = canvas.layers
         let doodle = doodleImage(previewSize: previewSize)
+        let filter = photoFilter
         let pip = camera.capturedFrontImage.map { PictureInPicturePhoto(image: $0, layout: shutterLayout) }
 
         Task.detached(priority: .userInitiated) {
@@ -604,7 +626,8 @@ struct CameraScreen: View {
                 layers: layers,
                 frameStyle: frameStyle,
                 pictureInPicture: pip,
-                doodle: doodle
+                doodle: doodle,
+                filter: filter
             )
             await MainActor.run {
                 // 合成期间可能已被取消或重开，这里必须重新取当前 session。

@@ -5,6 +5,7 @@ enum CameraControlAction: String, Identifiable {
     case frames
     case collage
     case doodle
+    case filter
     case switchCamera
     case aspectRatio
     case sound
@@ -14,7 +15,7 @@ enum CameraControlAction: String, Identifiable {
     var id: String { rawValue }
 }
 enum CameraControlGrouping {
-    static let quickActions: [CameraControlAction] = [.stickers, .frames, .collage, .doodle]
+    static let quickActions: [CameraControlAction] = [.stickers, .frames, .collage, .doodle, .filter]
     static let settingsActions: [CameraControlAction] = [.aspectRatio, .sound, .timer]
     /// Left-to-right visual order; the last option sits nearest the settings button.
     static let expandedSettingsActions: [CameraControlAction] = [.pictureInPicture, .sound, .timer, .aspectRatio]

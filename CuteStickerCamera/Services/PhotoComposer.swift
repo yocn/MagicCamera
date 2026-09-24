@@ -17,7 +17,8 @@ struct PhotoComposer {
         layers: [StickerLayer],
         frameStyle: FrameStyle = .none,
         pictureInPicture: PictureInPicturePhoto? = nil,
-        doodle: UIImage? = nil
+        doodle: UIImage? = nil,
+        filter: PhotoFilter = .original
     ) throws -> UIImage {
         guard let normalized = image.normalized(), previewSize.width > 0, previewSize.height > 0 else {
             throw PhotoComposerError.unableToCreateImage
@@ -26,7 +27,7 @@ struct PhotoComposer {
         let format = UIGraphicsImageRendererFormat()
         format.scale = 1
         let renderer = UIGraphicsImageRenderer(size: canvas.size, format: format)
-        return renderer.image { context in
+        let composed = renderer.image { context in
             canvas.draw(in: CGRect(origin: .zero, size: canvas.size))
             if let pip = pictureInPicture, let front = pip.image.normalized() {
                 let rect = pip.layout.rect(in: canvas.size)
@@ -62,5 +63,8 @@ struct PhotoComposer {
             }
             FrameRenderer.draw(frameStyle, in: CGRect(origin: .zero, size: canvas.size))
         }
+
+        // 滤镜是最后一层，贴纸、涂鸦、边框跟着一起调色。
+        return PhotoFilterRenderer.apply(filter, to: composed) ?? composed
     }
 }

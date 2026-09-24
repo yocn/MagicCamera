@@ -14,6 +14,8 @@ struct CameraScreen: View {
     @State private var recentPhotos = RecentPhotoStore()
     @State private var message: String?
     @State private var messageToken: UUID?
+    @State private var recentStickers = RecentUsageStore(key: RecentUsageKey.stickers)
+    @State private var recentFrames = RecentUsageStore(key: RecentUsageKey.frames)
     @AppStorage(CameraSoundPreference.storageKey) private var isCameraSoundEnabled = true
     @AppStorage(CameraTimerPreference.storageKey) private var isTimerEnabled = false
     @State private var isShutterFlashVisible = false
@@ -171,12 +173,14 @@ struct CameraScreen: View {
             }
             .ignoresSafeArea()
             .sheet(isPresented: $isStickerTrayPresented) {
-                StickerTrayView { name in
+                StickerTrayView(recentAssetNames: recentStickers.items) { name in
                     canvas.add(assetName: name)
+                    recentStickers.use(name)
                     isStickerTrayPresented = false
                 } onMagicPick: {
                     let outfit = MagicStickerOutfits.random()
                     canvas.add(layers: outfit.placements.map(\.layer))
+                    outfit.placements.forEach { recentStickers.use($0.assetName) }
                     showMessage("\(outfit.title)搭配完成 ✨")
                     isStickerTrayPresented = false
                 } onClose: {
@@ -190,8 +194,10 @@ struct CameraScreen: View {
             .sheet(isPresented: $isFrameTrayPresented) {
                 FrameTrayView(
                     selected: frameStyle,
+                    recentStyles: recentFrames.items.compactMap(FrameStyle.init(rawValue:)),
                     onPick: { style in
                         frameStyle = style
+                        if style != .none { recentFrames.use(style.rawValue) }
                         isFrameTrayPresented = false
                     },
                     onClose: { isFrameTrayPresented = false }

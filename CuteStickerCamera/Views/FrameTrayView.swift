@@ -3,30 +3,71 @@ import UIKit
 
 struct FrameTrayView: View {
     let selected: FrameStyle
+    let recentStyles: [FrameStyle]
     let onPick: (FrameStyle) -> Void
     let onClose: () -> Void
-    @State private var selectedCategory: FrameCategory
+    @State private var selectedTab: FrameTrayTab
 
-    init(selected: FrameStyle, onPick: @escaping (FrameStyle) -> Void, onClose: @escaping () -> Void) {
+    init(
+        selected: FrameStyle,
+        recentStyles: [FrameStyle],
+        onPick: @escaping (FrameStyle) -> Void,
+        onClose: @escaping () -> Void
+    ) {
         self.selected = selected
+        self.recentStyles = recentStyles
         self.onPick = onPick
         self.onClose = onClose
-        _selectedCategory = State(initialValue: selected.category)
+        // 有历史就停在最近，没有就回到当前边框所在分类。
+        _selectedTab = State(initialValue: recentStyles.isEmpty ? .category(selected.category) : .recent)
     }
 
     var body: some View {
         TrayContainer(title: "给照片换个边框吧 ✨", closeLabel: "关闭边框面板", onClose: onClose) {
             categoryTabs
 
-            TabView(selection: $selectedCategory) {
+            TabView(selection: $selectedTab) {
+                recentPage
+                    .tag(FrameTrayTab.recent)
+
                 ForEach(FrameCategory.allCases) { category in
                     framePage(for: category)
-                        .tag(category)
+                        .tag(FrameTrayTab.category(category))
                 }
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
-            .animation(.easeInOut(duration: 0.2), value: selectedCategory)
+            .animation(.easeInOut(duration: 0.2), value: selectedTab)
             .frame(maxHeight: .infinity)
+        }
+    }
+
+    private var recentPage: some View {
+        // 边框素材在增删，解析不出资源的旧记录直接不显示。
+        let styles = recentStyles.filter { $0.assetName != nil }
+
+        return Group {
+            if styles.isEmpty {
+                VStack(spacing: 8) {
+                    Image(systemName: "clock.badge.questionmark")
+                        .font(.largeTitle)
+                        .foregroundStyle(.purple.opacity(0.4))
+                    Text("用过的边框会出现在这里 ✨")
+                        .font(.subheadline)
+                        .foregroundStyle(.purple.opacity(0.7))
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            } else {
+                ScrollView(showsIndicators: false) {
+                    LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 4), spacing: 14) {
+                        ForEach(styles, id: \.self) { style in
+                            FrameChoiceButton(style: style, isSelected: style == selected) {
+                                onPick(style)
+                            }
+                        }
+                    }
+                    .padding(.horizontal, TrayLayout.horizontalPadding)
+                }
+            }
         }
     }
 
@@ -45,7 +86,7 @@ struct FrameTrayView: View {
             }
             // 打开面板时直接停在当前选中的边框上，不用自己翻。
             .onAppear {
-                guard category == selected.category else { return }
+                guard selectedTab == .category(category), category == selected.category else { return }
                 DispatchQueue.main.async { proxy.scrollTo(selected, anchor: .center) }
             }
         }
@@ -55,33 +96,49 @@ struct FrameTrayView: View {
         ScrollViewReader { tabProxy in
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 8) {
+                    Button {
+                        withAnimation(.easeInOut(duration: 0.18)) { selectedTab = .recent }
+                    } label: {
+                        Label("最近", systemImage: "clock.fill")
+                            .font(.caption.weight(.bold))
+                            .foregroundStyle(selectedTab == .recent ? .white : .purple)
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 7)
+                            .background(
+                                selectedTab == .recent ? Color.pink : Color.purple.opacity(0.1),
+                                in: Capsule()
+                            )
+                    }
+                    .id(FrameTrayTab.recent)
+                    .accessibilityLabel("最近用过的边框")
+
                     ForEach(FrameCategory.allCases) { category in
                         Button {
                             withAnimation(.easeInOut(duration: 0.18)) {
-                                selectedCategory = category
+                                selectedTab = .category(category)
                             }
                         } label: {
                             Label(category.title, systemImage: category.icon)
                                 .font(.caption.weight(.bold))
-                                .foregroundStyle(selectedCategory == category ? .white : .purple)
+                                .foregroundStyle(selectedTab == .category(category) ? .white : .purple)
                                 .padding(.horizontal, 12)
                                 .padding(.vertical, 7)
                                 .background(
-                                    selectedCategory == category ? Color.pink : Color.purple.opacity(0.1),
+                                    selectedTab == .category(category) ? Color.pink : Color.purple.opacity(0.1),
                                     in: Capsule()
                                 )
                         }
-                        .id(category)
+                        .id(FrameTrayTab.category(category))
                         .accessibilityLabel("边框分类：\(category.title)")
                     }
                 }
                 .padding(.horizontal, 2)
             }
             .onAppear {
-                DispatchQueue.main.async { tabProxy.scrollTo(selectedCategory, anchor: .center) }
+                DispatchQueue.main.async { tabProxy.scrollTo(selectedTab, anchor: .center) }
             }
-            .onChange(of: selectedCategory) { category in
-                withAnimation(.easeInOut(duration: 0.18)) { tabProxy.scrollTo(category, anchor: .center) }
+            .onChange(of: selectedTab) { tab in
+                withAnimation(.easeInOut(duration: 0.18)) { tabProxy.scrollTo(tab, anchor: .center) }
             }
         }
     }
@@ -126,4 +183,9 @@ private struct FrameChoiceButton: View {
     private var borderColor: Color {
         isSelected ? .pink : .purple.opacity(0.35)
     }
+}
+
+enum FrameTrayTab: Hashable {
+    case recent
+    case category(FrameCategory)
 }

@@ -2,10 +2,27 @@ import SwiftUI
 import UIKit
 
 struct StickerTrayView: View {
+    static let recentTabID = "recent"
+
+    let recentAssetNames: [String]
     let onPick: (String) -> Void
     let onMagicPick: () -> Void
     let onClose: () -> Void
-    @State private var selectedCategoryID = "hair"
+    @State private var selectedCategoryID: String
+
+    init(
+        recentAssetNames: [String],
+        onPick: @escaping (String) -> Void,
+        onMagicPick: @escaping () -> Void,
+        onClose: @escaping () -> Void
+    ) {
+        self.recentAssetNames = recentAssetNames
+        self.onPick = onPick
+        self.onMagicPick = onMagicPick
+        self.onClose = onClose
+        // 有历史就停在最近，没有就回到第一个分类。
+        _selectedCategoryID = State(initialValue: recentAssetNames.isEmpty ? "hair" : Self.recentTabID)
+    }
 
     var body: some View {
         TrayContainer(title: "挑一个贴纸吧 ✨", closeLabel: "关闭贴纸面板", onClose: onClose) {
@@ -22,6 +39,21 @@ struct StickerTrayView: View {
             ScrollViewReader { proxy in
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 8) {
+                        Button {
+                            selectCategory(Self.recentTabID)
+                        } label: {
+                            Label("最近", systemImage: "clock.fill")
+                                .font(.subheadline.weight(.semibold))
+                                .foregroundStyle(selectedCategoryID == Self.recentTabID ? .white : .purple)
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 8)
+                                .background(
+                                    selectedCategoryID == Self.recentTabID ? .pink : .purple.opacity(0.1),
+                                    in: Capsule()
+                                )
+                        }
+                        .id(Self.recentTabID)
+
                         ForEach(StickerCategoryPager.categories) { category in
                             Button {
                                 selectCategory(category.id)
@@ -50,6 +82,9 @@ struct StickerTrayView: View {
             }
 
             TabView(selection: $selectedCategoryID) {
+                recentPage
+                    .tag(Self.recentTabID)
+
                 ForEach(StickerCategoryPager.categories) { category in
                     stickerPage(for: category)
                         .tag(category.id)
@@ -65,6 +100,43 @@ struct StickerTrayView: View {
     private func selectCategory(_ id: String) {
         withAnimation(.easeInOut(duration: 0.18)) {
             selectedCategoryID = id
+        }
+    }
+
+    private var recentPage: some View {
+        // 素材可能被删或改名，查不到图的直接不显示。
+        let names = recentAssetNames.filter { StickerImageProvider.image(named: $0) != nil }
+
+        return Group {
+            if names.isEmpty {
+                VStack(spacing: 8) {
+                    Image(systemName: "clock.badge.questionmark")
+                        .font(.largeTitle)
+                        .foregroundStyle(.purple.opacity(0.4))
+                    Text("用过的贴纸会出现在这里 ✨")
+                        .font(.subheadline)
+                        .foregroundStyle(.purple.opacity(0.7))
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            } else {
+                ScrollView(showsIndicators: false) {
+                    LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 4), spacing: 10) {
+                        ForEach(names, id: \.self) { name in
+                            Button { onPick(name) } label: {
+                                Image(uiImage: StickerImageProvider.image(named: name) ?? UIImage())
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 58, height: 58)
+                                    .padding(5)
+                                    .background(.white.opacity(0.8), in: RoundedRectangle(cornerRadius: 16))
+                                    .shadow(color: .pink.opacity(0.18), radius: 5, y: 2)
+                            }
+                            .accessibilityLabel("最近用过的贴纸：\(name)")
+                        }
+                    }
+                }
+                .padding(.horizontal, StickerTrayLayout.gridHorizontalPadding)
+            }
         }
     }
 

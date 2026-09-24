@@ -18,6 +18,7 @@ struct CameraScreen: View {
     @State private var recentFrames = RecentUsageStore(key: RecentUsageKey.frames)
     @State private var photoFilter: PhotoFilter = .original
     @State private var isFilterBarPresented = false
+    @State private var isQuickActionsExpanded = false
     @AppStorage(CameraSoundPreference.storageKey) private var isCameraSoundEnabled = true
     @AppStorage(CameraTimerPreference.storageKey) private var isTimerEnabled = false
     @State private var isShutterFlashVisible = false
@@ -348,13 +349,43 @@ struct CameraScreen: View {
             HStack {
                 Spacer()
                 VStack(spacing: 14) {
-                    ForEach(CameraControlGrouping.quickActions) { action in
-                        quickActionButton(for: action)
+                    if isQuickActionsExpanded {
+                        ForEach(CameraControlGrouping.quickActions) { action in
+                            quickActionButton(for: action)
+                                .transition(.move(edge: .bottom).combined(with: .opacity))
+                        }
                     }
+
+                    Button {
+                        withAnimation(.spring(response: 0.3, dampingFraction: 0.78)) {
+                            isQuickActionsExpanded.toggle()
+                        }
+                    } label: {
+                        Image(systemName: "paintpalette.fill")
+                            .font(.title2.weight(.semibold))
+                            .foregroundStyle(hasActiveDecoration ? Color.blue : Color.white)
+                            .rotationEffect(.degrees(isQuickActionsExpanded ? 45 : 0))
+                            .frame(width: 48, height: 48)
+                            .glassCircleControl()
+                            .contentShape(Circle())
+                    }
+                    .accessibilityLabel(isQuickActionsExpanded ? "收起装饰工具" : "展开装饰工具")
                 }
+                .animation(.spring(response: 0.3, dampingFraction: 0.78), value: isQuickActionsExpanded)
             }
             .padding(.trailing, 24)
             .padding(.bottom, 118 + bottomInset)
+        }
+    }
+
+    /// 任一装饰在生效时，收起状态下的主按钮也要能看出来。
+    private var hasActiveDecoration: Bool {
+        frameStyle != .none || collageSession != nil || isDoodling || photoFilter != .original
+    }
+
+    private func collapseQuickActions() {
+        withAnimation(.spring(response: 0.3, dampingFraction: 0.78)) {
+            isQuickActionsExpanded = false
         }
     }
 
@@ -399,28 +430,33 @@ struct CameraScreen: View {
     private func quickActionButton(for action: CameraControlAction) -> some View {
         switch action {
         case .stickers:
-            Button { isStickerTrayPresented = true } label: {
-                Text("🐰").font(.title2).frame(width: 48, height: 48).glassCircleControl()
+            quickCircleButton(systemImage: "face.smiling.inverse", isActive: !canvas.layers.isEmpty) {
+                isStickerTrayPresented = true
+                collapseQuickActions()
             }
-                .accessibilityLabel("添加贴纸")
+            .accessibilityLabel("添加贴纸")
         case .frames:
             quickCircleButton(systemImage: "rectangle.inset.filled", isActive: frameStyle != .none) {
                 isFrameTrayPresented = true
+                collapseQuickActions()
             }
             .accessibilityLabel("选择边框")
         case .collage:
             quickCircleButton(systemImage: "square.grid.2x2.fill", isActive: collageSession != nil) {
                 isCollageTrayPresented = true
+                collapseQuickActions()
             }
             .accessibilityLabel("大头贴")
         case .doodle:
             quickCircleButton(systemImage: "scribble.variable", isActive: isDoodling) {
                 isDoodling.toggle()
+                collapseQuickActions()
             }
             .accessibilityLabel(isDoodling ? "退出涂鸦" : "开始涂鸦")
         case .filter:
             quickCircleButton(systemImage: "camera.filters", isActive: photoFilter != .original) {
                 isFilterBarPresented.toggle()
+                collapseQuickActions()
             }
             .accessibilityLabel(isFilterBarPresented ? "收起滤镜" : "选择滤镜")
         default:

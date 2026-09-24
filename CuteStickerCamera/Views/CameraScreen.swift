@@ -156,14 +156,21 @@ struct CameraScreen: View {
                 .presentationDetents([.height(500)])
                 .presentationDragIndicator(.hidden)
                 .interactiveDismissDisabled()
+                .ignoresSafeArea(edges: .bottom)
             }
             .sheet(isPresented: $isFrameTrayPresented) {
-                FrameTrayView(selected: frameStyle) { style in
-                    frameStyle = style
-                    isFrameTrayPresented = false
-                }
-                .presentationDetents([.height(210)])
+                FrameTrayView(
+                    selected: frameStyle,
+                    onPick: { style in
+                        frameStyle = style
+                        isFrameTrayPresented = false
+                    },
+                    onClose: { isFrameTrayPresented = false }
+                )
+                .presentationDetents([.height(410)])
                 .presentationDragIndicator(.hidden)
+                .interactiveDismissDisabled()
+                .ignoresSafeArea(edges: .bottom)
             }
             .sheet(isPresented: $isCollageTrayPresented) {
                 CollageTrayView(
@@ -270,7 +277,7 @@ struct CameraScreen: View {
             }
             .foregroundStyle(.white)
             .frame(width: 48, height: 48)
-            .background(.black.opacity(0.3), in: Circle())
+            .glassCircleControl()
             .clipShape(Circle())
             .overlay(Circle().stroke(.white.opacity(recentPhotoThumbnail == nil ? 0 : 0.65), lineWidth: 2))
         }
@@ -306,7 +313,7 @@ struct CameraScreen: View {
             Image(systemName: systemImage)
                 .font(.title2.weight(.semibold))
                 .frame(width: 48, height: 48)
-                .background(.black.opacity(0.3), in: Circle())
+                .glassCircleControl()
         }
     }
 
@@ -327,10 +334,11 @@ struct CameraScreen: View {
                 Image(systemName: "slider.horizontal.3")
                     .font(.system(size: 19, weight: .bold))
                     .foregroundStyle(.white)
-                    .frame(width: 48, height: 48)
-                    .background(.black.opacity(0.28), in: Circle())
-                    .contentShape(Circle())
+                    // 旋转必须在玻璃之前，否则转的是整个玻璃层，高光会跟着扭。
                     .rotationEffect(.degrees(isSettingsExpanded ? 90 : 0))
+                    .frame(width: 48, height: 48)
+                    .glassCircleControl()
+                    .contentShape(Circle())
             }
             .accessibilityLabel(isSettingsExpanded ? "收起相机设置" : "展开相机设置")
         }
@@ -342,7 +350,7 @@ struct CameraScreen: View {
         switch action {
         case .stickers:
             Button { isStickerTrayPresented = true } label: {
-                Text("🐰").font(.title2).frame(width: 48, height: 48).background(.black.opacity(0.3), in: Circle())
+                Text("🐰").font(.title2).frame(width: 48, height: 48).glassCircleControl()
             }
                 .accessibilityLabel("添加贴纸")
         case .frames:
@@ -371,7 +379,7 @@ struct CameraScreen: View {
                 .font(.title2.weight(.semibold))
                 .foregroundStyle(isActive ? Color.blue : Color.white)
                 .frame(width: 48, height: 48)
-                .background(.black.opacity(0.3), in: Circle())
+                .glassCircleControl()
         }
     }
 
@@ -419,7 +427,7 @@ struct CameraScreen: View {
                 .font(.system(size: 18, weight: .bold))
                 .foregroundStyle(.white)
                 .frame(width: 48, height: 48)
-                .background(isActive ? .pink.opacity(0.9) : .black.opacity(0.38), in: Circle())
+                .glassCircleControl(isActive: isActive)
         }
     }
 

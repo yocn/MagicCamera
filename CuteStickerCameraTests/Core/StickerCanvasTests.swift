@@ -219,50 +219,13 @@ final class StickerCanvasTests: XCTestCase {
     func testFrameSelectionCyclesThroughAllCuteFramesAndBackToNone() {
         var selection = FrameStyle.none
 
-        selection = selection.next
-        XCTAssertEqual(selection, .strawberryBow)
+        // 按 allCases 顺序走一圈，加新边框不用再改这个用例。
+        for expected in FrameStyle.allCases.dropFirst() {
+            selection = selection.next
+            XCTAssertEqual(selection, expected)
+        }
 
-        selection = selection.next
-        XCTAssertEqual(selection, .skyCloud)
-
-        selection = selection.next
-        XCTAssertEqual(selection, .crayonDoodle)
-
-        selection = selection.next
-        XCTAssertEqual(selection, .starryMoon)
-
-        selection = selection.next
-        XCTAssertEqual(selection, .teddyPicnic)
-
-        selection = selection.next
-        XCTAssertEqual(selection, .oceanShell)
-
-        selection = selection.next
-        XCTAssertEqual(selection, .fairyGarden)
-
-        selection = selection.next
-        XCTAssertEqual(selection, .candyParty)
-
-        selection = selection.next
-        XCTAssertEqual(selection, .iceCrystal)
-
-        selection = selection.next
-        XCTAssertEqual(selection, .coralReef)
-
-        selection = selection.next
-        XCTAssertEqual(selection, .rainbowCloud)
-
-        selection = selection.next
-        XCTAssertEqual(selection, .magicRibbon)
-
-        selection = selection.next
-        XCTAssertEqual(selection, .strawberryPicnic)
-
-        selection = selection.next
-        XCTAssertEqual(selection, .spaceRocket)
-
-        selection = selection.next
-        XCTAssertEqual(selection, .none)
+        XCTAssertEqual(selection.next, .none)
     }
 
     func testNewSlimFramesUseNineSliceStretchingAndKeepTheirCornerArtwork() {
@@ -284,6 +247,58 @@ final class StickerCanvasTests: XCTestCase {
             "space_rocket_frame"
         ])
         XCTAssertTrue(newFrames.allSatisfy { $0.capInsets.sourceRatio > 0 && $0.capInsets.destinationRatio > 0 })
+    }
+
+    func testFrameTabsGroupEveryBorderIntoSevenPlayfulStyles() {
+        XCTAssertEqual(
+            FrameCategory.allCases.map(\.title),
+            ["甜心", "梦幻", "自然", "探索", "手账", "派对", "奇趣"]
+        )
+        XCTAssertEqual(
+            Set(FrameCategory.allCases.flatMap(\.styles)),
+            Set(FrameStyle.allCases)
+        )
+        XCTAssertTrue(FrameCategory.nature.styles.contains(.mushroomForest))
+        XCTAssertTrue(FrameCategory.whimsy.styles.contains(.dinosaurAdventure))
+        XCTAssertTrue(FrameCategory.adventure.styles.contains(.pirateTreasure))
+        XCTAssertTrue(FrameCategory.journal.styles.contains(.scrapbookBinder))
+        XCTAssertTrue(FrameCategory.party.styles.contains(.candyParty))
+    }
+
+    func testEveryFrameTabOffersAtLeastTenDecorativeChoices() {
+        for category in FrameCategory.allCases {
+            let decorativeStyles = category.styles.filter { $0 != .none }
+            XCTAssertGreaterThanOrEqual(
+                decorativeStyles.count,
+                10,
+                "\(category.title) should offer a rich set of frames"
+            )
+        }
+    }
+
+    func testFrameTabsIncludeJournalPartyAndWhimsyCategories() {
+        XCTAssertEqual(
+            Set(FrameCategory.allCases.map(\.rawValue)),
+            Set(["sweet", "dreamy", "nature", "adventure", "journal", "party", "whimsy"])
+        )
+    }
+
+    func testStructuralFrameCatalogIncludesTheNewMaterialStyles() {
+        let structuralFrames: [FrameStyle] = [
+            .quiltPatchwork,
+            .postageStamp,
+            .tornPaperCollage
+        ]
+
+        XCTAssertEqual(
+            structuralFrames.compactMap(\.assetName),
+            [
+                "quilt_patchwork_frame",
+                "postage_stamp_frame",
+                "torn_paper_collage_frame"
+            ]
+        )
+        XCTAssertTrue(structuralFrames.allSatisfy { $0.capInsets == .standard })
     }
 
     func testFrameCornersScaleWithTheCanvasSoPreviewMatchesThePhoto() {

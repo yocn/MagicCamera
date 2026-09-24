@@ -9,35 +9,12 @@ struct CollageTrayView: View {
     let onClose: () -> Void
 
     var body: some View {
-        VStack(spacing: 12) {
-            header
+        TrayContainer(title: "大头贴 ✨", closeLabel: "关闭大头贴面板", onClose: onClose) {
             layoutRow
             styleRow
             modeRow
             startButton
         }
-        .padding(.bottom, 14)
-        .frame(maxHeight: .infinity, alignment: .top)
-        .background(.ultraThinMaterial)
-    }
-
-    private var header: some View {
-        ZStack(alignment: .trailing) {
-            Text("大头贴 ✨")
-                .font(.headline)
-                .foregroundStyle(.purple)
-                .frame(maxWidth: .infinity)
-            Button(action: onClose) {
-                Image(systemName: "xmark")
-                    .font(.subheadline.weight(.bold))
-                    .foregroundStyle(.white)
-                    .frame(width: 32, height: 32)
-                    .background(.pink, in: Circle())
-            }
-            .accessibilityLabel("关闭大头贴面板")
-        }
-        .padding(.horizontal, StickerTrayLayout.headerHorizontalPadding)
-        .padding(.top, 28)
     }
 
     private var layoutRow: some View {

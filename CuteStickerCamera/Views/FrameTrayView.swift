@@ -4,27 +4,86 @@ import UIKit
 struct FrameTrayView: View {
     let selected: FrameStyle
     let onPick: (FrameStyle) -> Void
+    let onClose: () -> Void
+    @State private var selectedCategory: FrameCategory
+
+    init(selected: FrameStyle, onPick: @escaping (FrameStyle) -> Void, onClose: @escaping () -> Void) {
+        self.selected = selected
+        self.onPick = onPick
+        self.onClose = onClose
+        _selectedCategory = State(initialValue: selected.category)
+    }
 
     var body: some View {
-        VStack(spacing: 14) {
-            Capsule().fill(.secondary.opacity(0.4)).frame(width: 38, height: 5)
-            Text("给照片换个边框吧 ✨")
-                .font(.headline)
-                .foregroundStyle(.purple)
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 12) {
-                    ForEach(FrameStyle.allCases, id: \.self) { style in
+        TrayContainer(title: "给照片换个边框吧 ✨", closeLabel: "关闭边框面板", onClose: onClose) {
+            categoryTabs
+
+            TabView(selection: $selectedCategory) {
+                ForEach(FrameCategory.allCases) { category in
+                    framePage(for: category)
+                        .tag(category)
+                }
+            }
+            .tabViewStyle(.page(indexDisplayMode: .never))
+            .animation(.easeInOut(duration: 0.2), value: selectedCategory)
+            .frame(maxHeight: .infinity)
+        }
+    }
+
+    private func framePage(for category: FrameCategory) -> some View {
+        ScrollViewReader { proxy in
+            ScrollView(showsIndicators: false) {
+                LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 4), spacing: 14) {
+                    ForEach(category.styles, id: \.self) { style in
                         FrameChoiceButton(style: style, isSelected: style == selected) {
                             onPick(style)
                         }
+                        .id(style)
+                    }
+                }
+                .padding(.horizontal, TrayLayout.horizontalPadding)
+            }
+            // 打开面板时直接停在当前选中的边框上，不用自己翻。
+            .onAppear {
+                guard category == selected.category else { return }
+                DispatchQueue.main.async { proxy.scrollTo(selected, anchor: .center) }
+            }
+        }
+    }
+
+    private var categoryTabs: some View {
+        ScrollViewReader { tabProxy in
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 8) {
+                    ForEach(FrameCategory.allCases) { category in
+                        Button {
+                            withAnimation(.easeInOut(duration: 0.18)) {
+                                selectedCategory = category
+                            }
+                        } label: {
+                            Label(category.title, systemImage: category.icon)
+                                .font(.caption.weight(.bold))
+                                .foregroundStyle(selectedCategory == category ? .white : .purple)
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 7)
+                                .background(
+                                    selectedCategory == category ? Color.pink : Color.purple.opacity(0.1),
+                                    in: Capsule()
+                                )
+                        }
+                        .id(category)
+                        .accessibilityLabel("边框分类：\(category.title)")
                     }
                 }
                 .padding(.horizontal, 2)
             }
+            .onAppear {
+                DispatchQueue.main.async { tabProxy.scrollTo(selectedCategory, anchor: .center) }
+            }
+            .onChange(of: selectedCategory) { category in
+                withAnimation(.easeInOut(duration: 0.18)) { tabProxy.scrollTo(category, anchor: .center) }
+            }
         }
-        .padding(.horizontal, 20)
-        .padding(.bottom, 26)
-        .background(.ultraThinMaterial)
     }
 }
 

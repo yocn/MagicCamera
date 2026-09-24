@@ -8,37 +8,17 @@ struct StickerTrayView: View {
     @State private var selectedCategoryID = "hair"
 
     var body: some View {
-        VStack(spacing: 10) {
-            ZStack(alignment: .trailing) {
-                Text("挑一个贴纸吧 ✨")
-                    .font(.headline)
-                    .foregroundStyle(.purple)
-                    .frame(maxWidth: .infinity)
-                HStack {
-                    Button(action: onMagicPick) {
-                        Label("魔法搭配", systemImage: "wand.and.stars")
-                            .font(.caption.weight(.bold))
-                            .foregroundStyle(.white)
-                            .padding(.horizontal, 10)
-                            .padding(.vertical, 8)
-                            .background(.purple, in: Capsule())
-                    }
-                    .accessibilityLabel("一键魔法搭配")
-                    Spacer()
-                }
-                Button(action: onClose) {
-                    Image(systemName: "xmark")
-                        .font(.subheadline.weight(.bold))
-                        .foregroundStyle(.white)
-                        .frame(width: 32, height: 32)
-                        .background(.pink, in: Circle())
-                }
-                .accessibilityLabel("关闭贴纸面板")
+        TrayContainer(title: "挑一个贴纸吧 ✨", closeLabel: "关闭贴纸面板", onClose: onClose) {
+            Button(action: onMagicPick) {
+                Label("魔法搭配", systemImage: "wand.and.stars")
+                    .font(.caption.weight(.bold))
+                    .foregroundStyle(.white)
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 8)
+                    .background(.purple, in: Capsule())
             }
-            .padding(.horizontal, StickerTrayLayout.headerHorizontalPadding)
-            .padding(.top, StickerTrayLayout.headerTopPadding)
-            .padding(.bottom, StickerTrayLayout.headerBottomPadding)
-
+            .accessibilityLabel("一键魔法搭配")
+        } content: {
             ScrollViewReader { proxy in
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 8) {
@@ -80,8 +60,6 @@ struct StickerTrayView: View {
             .frame(maxHeight: .infinity)
             .padding(.horizontal, StickerTrayLayout.pagerHorizontalPadding)
         }
-        .padding(.bottom, 16)
-        .background(.ultraThinMaterial)
     }
 
     private func selectCategory(_ id: String) {

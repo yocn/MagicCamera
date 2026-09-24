@@ -71,7 +71,7 @@ struct CollageProgressView: View {
             .foregroundStyle(.white)
             .padding(.horizontal, 7)
             .padding(.vertical, 3)
-            .background(.black.opacity(0.55), in: Capsule())
+            .glassCapsuleControl()
     }
 
     private var closeButton: some View {
@@ -80,7 +80,7 @@ struct CollageProgressView: View {
                 .font(.caption2.weight(.black))
                 .foregroundStyle(.white)
                 .frame(width: 26, height: 26)
-                .background(.black.opacity(0.62), in: Circle())
+                .glassCircleControl()
         }
         .accessibilityLabel("关闭大头贴模式")
     }

@@ -28,6 +28,8 @@
 		B033 /* CollageGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F035 /* CollageGridView.swift */; };
 		B034 /* CollageProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F036 /* CollageProgressView.swift */; };
 		B035 /* CollageTrayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F037 /* CollageTrayView.swift */; };
+		B038 /* TrayContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F040 /* TrayContainer.swift */; };
+		B039 /* GlassControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = F041 /* GlassControls.swift */; };
 		B015 /* PhotoSaveTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F017 /* PhotoSaveTracker.swift */; };
 		B016 /* CameraSoundPreference.swift in Sources */ = {isa = PBXBuildFile; fileRef = F018 /* CameraSoundPreference.swift */; };
 		B017 /* CameraShutterEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = F019 /* CameraShutterEffect.swift */; };
@@ -89,6 +91,63 @@
 		B148 /* magic_ribbon_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F148 /* magic_ribbon_frame.png */; };
 		B149 /* strawberry_picnic_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F149 /* strawberry_picnic_frame.png */; };
 		B150 /* space_rocket_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F150 /* space_rocket_frame.png */; };
+		B151 /* mushroom_forest_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F151 /* mushroom_forest_frame.png */; };
+		B152 /* butterfly_garden_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F152 /* butterfly_garden_frame.png */; };
+		B153 /* dinosaur_adventure_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F153 /* dinosaur_adventure_frame.png */; };
+		B154 /* pirate_treasure_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F154 /* pirate_treasure_frame.png */; };
+		B155 /* cherry_ballet_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F155 /* cherry_ballet_frame.png */; };
+		B156 /* cupcake_sprinkle_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F156 /* cupcake_sprinkle_frame.png */; };
+		B157 /* peach_soda_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F157 /* peach_soda_frame.png */; };
+		B158 /* cookie_garden_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F158 /* cookie_garden_frame.png */; };
+		B159 /* rainbow_cake_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F159 /* rainbow_cake_frame.png */; };
+		B160 /* jelly_star_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F160 /* jelly_star_frame.png */; };
+		B161 /* candy_carousel_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F161 /* candy_carousel_frame.png */; };
+		B162 /* aurora_castle_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F162 /* aurora_castle_frame.png */; };
+		B163 /* cloud_balloon_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F163 /* cloud_balloon_frame.png */; };
+		B164 /* moon_bunny_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F164 /* moon_bunny_frame.png */; };
+		B165 /* crystal_wish_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F165 /* crystal_wish_frame.png */; };
+		B166 /* sunflower_meadow_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F166 /* sunflower_meadow_frame.png */; };
+		B167 /* ladybug_picnic_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F167 /* ladybug_picnic_frame.png */; };
+		B168 /* clover_garden_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F168 /* clover_garden_frame.png */; };
+		B169 /* autumn_acorn_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F169 /* autumn_acorn_frame.png */; };
+		B170 /* submarine_sea_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F170 /* submarine_sea_frame.png */; };
+		B171 /* safari_journey_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F171 /* safari_journey_frame.png */; };
+		B172 /* camping_adventure_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F172 /* camping_adventure_frame.png */; };
+		B173 /* hot_air_balloon_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F173 /* hot_air_balloon_frame.png */; };
+		B174 /* rainbow_train_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F174 /* rainbow_train_frame.png */; };
+		B175 /* robot_lab_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F175 /* robot_lab_frame.png */; };
+		B176 /* star_explorer_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F176 /* star_explorer_frame.png */; };
+		B177 /* polaroid_heart_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F177 /* polaroid_heart_frame.png */; };
+		B178 /* filmstrip_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F178 /* filmstrip_frame.png */; };
+		B179 /* double_mat_bow_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F179 /* double_mat_bow_frame.png */; };
+		B180 /* scalloped_postcard_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F180 /* scalloped_postcard_frame.png */; };
+		B181 /* scrapbook_binder_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F181 /* scrapbook_binder_frame.png */; };
+		B182 /* ticket_stub_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F182 /* ticket_stub_frame.png */; };
+		B183 /* photo_corner_album_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F183 /* photo_corner_album_frame.png */; };
+		B184 /* quilt_patchwork_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F184 /* quilt_patchwork_frame.png */; };
+		B185 /* postage_stamp_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F185 /* postage_stamp_frame.png */; };
+		B186 /* torn_paper_collage_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F186 /* torn_paper_collage_frame.png */; };
+		B187 /* party_balloon_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F187 /* party_balloon_frame.png */; };
+		B188 /* party_gift_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F188 /* party_gift_frame.png */; };
+		B189 /* party_streamer_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F189 /* party_streamer_frame.png */; };
+		B190 /* party_cupcake_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F190 /* party_cupcake_frame.png */; };
+		B191 /* party_hat_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F191 /* party_hat_frame.png */; };
+		B192 /* party_bunting_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F192 /* party_bunting_frame.png */; };
+		B193 /* journal_spiral_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F193 /* journal_spiral_frame.png */; };
+		B194 /* journal_washi_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F194 /* journal_washi_frame.png */; };
+		B195 /* journal_corkboard_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F195 /* journal_corkboard_frame.png */; };
+		B196 /* journal_envelope_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F196 /* journal_envelope_frame.png */; };
+		B197 /* journal_ruler_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F197 /* journal_ruler_frame.png */; };
+		B198 /* journal_flower_stickers_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F198 /* journal_flower_stickers_frame.png */; };
+		B199 /* journal_ribbon_diary_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F199 /* journal_ribbon_diary_frame.png */; };
+		B210 /* journal_craft_label_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F210 /* journal_craft_label_frame.png */; };
+		B211 /* whimsy_toy_blocks_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F211 /* whimsy_toy_blocks_frame.png */; };
+		B212 /* whimsy_puzzle_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F212 /* whimsy_puzzle_frame.png */; };
+		B213 /* whimsy_potion_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F213 /* whimsy_potion_frame.png */; };
+		B214 /* whimsy_monster_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F214 /* whimsy_monster_frame.png */; };
+		B215 /* whimsy_train_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F215 /* whimsy_train_frame.png */; };
+		B216 /* whimsy_space_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F216 /* whimsy_space_frame.png */; };
+		B217 /* whimsy_gears_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = F217 /* whimsy_gears_frame.png */; };
 		B201 /* StickerCanvasTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F201 /* StickerCanvasTests.swift */; };
 		B202 /* StickerRenderTransformTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F202 /* StickerRenderTransformTests.swift */; };
 		B203 /* CollageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F203 /* CollageTests.swift */; };
@@ -128,6 +187,8 @@
 		F035 /* CollageGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageGridView.swift; sourceTree = "<group>"; };
 		F036 /* CollageProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageProgressView.swift; sourceTree = "<group>"; };
 		F037 /* CollageTrayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageTrayView.swift; sourceTree = "<group>"; };
+		F040 /* TrayContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrayContainer.swift; sourceTree = "<group>"; };
+		F041 /* GlassControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassControls.swift; sourceTree = "<group>"; };
 		F017 /* PhotoSaveTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSaveTracker.swift; sourceTree = "<group>"; };
 		F018 /* CameraSoundPreference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraSoundPreference.swift; sourceTree = "<group>"; };
 		F019 /* CameraShutterEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraShutterEffect.swift; sourceTree = "<group>"; };
@@ -188,6 +249,63 @@
 		F148 /* magic_ribbon_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = magic_ribbon_frame.png; sourceTree = "<group>"; };
 		F149 /* strawberry_picnic_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = strawberry_picnic_frame.png; sourceTree = "<group>"; };
 		F150 /* space_rocket_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = space_rocket_frame.png; sourceTree = "<group>"; };
+		F151 /* mushroom_forest_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mushroom_forest_frame.png; sourceTree = "<group>"; };
+		F152 /* butterfly_garden_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = butterfly_garden_frame.png; sourceTree = "<group>"; };
+		F153 /* dinosaur_adventure_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dinosaur_adventure_frame.png; sourceTree = "<group>"; };
+		F154 /* pirate_treasure_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pirate_treasure_frame.png; sourceTree = "<group>"; };
+		F155 /* cherry_ballet_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cherry_ballet_frame.png; sourceTree = "<group>"; };
+		F156 /* cupcake_sprinkle_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cupcake_sprinkle_frame.png; sourceTree = "<group>"; };
+		F157 /* peach_soda_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = peach_soda_frame.png; sourceTree = "<group>"; };
+		F158 /* cookie_garden_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cookie_garden_frame.png; sourceTree = "<group>"; };
+		F159 /* rainbow_cake_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rainbow_cake_frame.png; sourceTree = "<group>"; };
+		F160 /* jelly_star_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jelly_star_frame.png; sourceTree = "<group>"; };
+		F161 /* candy_carousel_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = candy_carousel_frame.png; sourceTree = "<group>"; };
+		F162 /* aurora_castle_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = aurora_castle_frame.png; sourceTree = "<group>"; };
+		F163 /* cloud_balloon_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloud_balloon_frame.png; sourceTree = "<group>"; };
+		F164 /* moon_bunny_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = moon_bunny_frame.png; sourceTree = "<group>"; };
+		F165 /* crystal_wish_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = crystal_wish_frame.png; sourceTree = "<group>"; };
+		F166 /* sunflower_meadow_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sunflower_meadow_frame.png; sourceTree = "<group>"; };
+		F167 /* ladybug_picnic_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ladybug_picnic_frame.png; sourceTree = "<group>"; };
+		F168 /* clover_garden_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = clover_garden_frame.png; sourceTree = "<group>"; };
+		F169 /* autumn_acorn_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = autumn_acorn_frame.png; sourceTree = "<group>"; };
+		F170 /* submarine_sea_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = submarine_sea_frame.png; sourceTree = "<group>"; };
+		F171 /* safari_journey_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = safari_journey_frame.png; sourceTree = "<group>"; };
+		F172 /* camping_adventure_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camping_adventure_frame.png; sourceTree = "<group>"; };
+		F173 /* hot_air_balloon_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hot_air_balloon_frame.png; sourceTree = "<group>"; };
+		F174 /* rainbow_train_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rainbow_train_frame.png; sourceTree = "<group>"; };
+		F175 /* robot_lab_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = robot_lab_frame.png; sourceTree = "<group>"; };
+		F176 /* star_explorer_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star_explorer_frame.png; sourceTree = "<group>"; };
+		F177 /* polaroid_heart_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = polaroid_heart_frame.png; sourceTree = "<group>"; };
+		F178 /* filmstrip_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = filmstrip_frame.png; sourceTree = "<group>"; };
+		F179 /* double_mat_bow_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = double_mat_bow_frame.png; sourceTree = "<group>"; };
+		F180 /* scalloped_postcard_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = scalloped_postcard_frame.png; sourceTree = "<group>"; };
+		F181 /* scrapbook_binder_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = scrapbook_binder_frame.png; sourceTree = "<group>"; };
+		F182 /* ticket_stub_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ticket_stub_frame.png; sourceTree = "<group>"; };
+		F183 /* photo_corner_album_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = photo_corner_album_frame.png; sourceTree = "<group>"; };
+		F184 /* quilt_patchwork_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = quilt_patchwork_frame.png; sourceTree = "<group>"; };
+		F185 /* postage_stamp_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = postage_stamp_frame.png; sourceTree = "<group>"; };
+		F186 /* torn_paper_collage_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = torn_paper_collage_frame.png; sourceTree = "<group>"; };
+		F187 /* party_balloon_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = party_balloon_frame.png; sourceTree = "<group>"; };
+		F188 /* party_gift_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = party_gift_frame.png; sourceTree = "<group>"; };
+		F189 /* party_streamer_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = party_streamer_frame.png; sourceTree = "<group>"; };
+		F190 /* party_cupcake_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = party_cupcake_frame.png; sourceTree = "<group>"; };
+		F191 /* party_hat_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = party_hat_frame.png; sourceTree = "<group>"; };
+		F192 /* party_bunting_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = party_bunting_frame.png; sourceTree = "<group>"; };
+		F193 /* journal_spiral_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = journal_spiral_frame.png; sourceTree = "<group>"; };
+		F194 /* journal_washi_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = journal_washi_frame.png; sourceTree = "<group>"; };
+		F195 /* journal_corkboard_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = journal_corkboard_frame.png; sourceTree = "<group>"; };
+		F196 /* journal_envelope_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = journal_envelope_frame.png; sourceTree = "<group>"; };
+		F197 /* journal_ruler_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = journal_ruler_frame.png; sourceTree = "<group>"; };
+		F198 /* journal_flower_stickers_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = journal_flower_stickers_frame.png; sourceTree = "<group>"; };
+		F199 /* journal_ribbon_diary_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = journal_ribbon_diary_frame.png; sourceTree = "<group>"; };
+		F210 /* journal_craft_label_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = journal_craft_label_frame.png; sourceTree = "<group>"; };
+		F211 /* whimsy_toy_blocks_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = whimsy_toy_blocks_frame.png; sourceTree = "<group>"; };
+		F212 /* whimsy_puzzle_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = whimsy_puzzle_frame.png; sourceTree = "<group>"; };
+		F213 /* whimsy_potion_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = whimsy_potion_frame.png; sourceTree = "<group>"; };
+		F214 /* whimsy_monster_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = whimsy_monster_frame.png; sourceTree = "<group>"; };
+		F215 /* whimsy_train_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = whimsy_train_frame.png; sourceTree = "<group>"; };
+		F216 /* whimsy_space_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = whimsy_space_frame.png; sourceTree = "<group>"; };
+		F217 /* whimsy_gears_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = whimsy_gears_frame.png; sourceTree = "<group>"; };
 		F201 /* StickerCanvasTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerCanvasTests.swift; sourceTree = "<group>"; };
 		F202 /* StickerRenderTransformTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerRenderTransformTests.swift; sourceTree = "<group>"; };
 		F203 /* CollageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollageTests.swift; sourceTree = "<group>"; };
@@ -307,6 +425,8 @@
 				F035 /* CollageGridView.swift */,
 				F036 /* CollageProgressView.swift */,
 				F037 /* CollageTrayView.swift */,
+				F040 /* TrayContainer.swift */,
+				F041 /* GlassControls.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -372,6 +492,63 @@
 				F148 /* magic_ribbon_frame.png */,
 				F149 /* strawberry_picnic_frame.png */,
 				F150 /* space_rocket_frame.png */,
+				F151 /* mushroom_forest_frame.png */,
+				F152 /* butterfly_garden_frame.png */,
+				F153 /* dinosaur_adventure_frame.png */,
+				F154 /* pirate_treasure_frame.png */,
+				F155 /* cherry_ballet_frame.png */,
+				F156 /* cupcake_sprinkle_frame.png */,
+				F157 /* peach_soda_frame.png */,
+				F158 /* cookie_garden_frame.png */,
+				F159 /* rainbow_cake_frame.png */,
+				F160 /* jelly_star_frame.png */,
+				F161 /* candy_carousel_frame.png */,
+				F162 /* aurora_castle_frame.png */,
+				F163 /* cloud_balloon_frame.png */,
+				F164 /* moon_bunny_frame.png */,
+				F165 /* crystal_wish_frame.png */,
+				F166 /* sunflower_meadow_frame.png */,
+				F167 /* ladybug_picnic_frame.png */,
+				F168 /* clover_garden_frame.png */,
+				F169 /* autumn_acorn_frame.png */,
+				F170 /* submarine_sea_frame.png */,
+				F171 /* safari_journey_frame.png */,
+				F172 /* camping_adventure_frame.png */,
+				F173 /* hot_air_balloon_frame.png */,
+				F174 /* rainbow_train_frame.png */,
+				F175 /* robot_lab_frame.png */,
+				F176 /* star_explorer_frame.png */,
+				F177 /* polaroid_heart_frame.png */,
+				F178 /* filmstrip_frame.png */,
+				F179 /* double_mat_bow_frame.png */,
+				F180 /* scalloped_postcard_frame.png */,
+				F181 /* scrapbook_binder_frame.png */,
+				F182 /* ticket_stub_frame.png */,
+				F183 /* photo_corner_album_frame.png */,
+				F184 /* quilt_patchwork_frame.png */,
+				F185 /* postage_stamp_frame.png */,
+				F186 /* torn_paper_collage_frame.png */,
+				F187 /* party_balloon_frame.png */,
+				F188 /* party_gift_frame.png */,
+				F189 /* party_streamer_frame.png */,
+				F190 /* party_cupcake_frame.png */,
+				F191 /* party_hat_frame.png */,
+				F192 /* party_bunting_frame.png */,
+				F193 /* journal_spiral_frame.png */,
+				F194 /* journal_washi_frame.png */,
+				F195 /* journal_corkboard_frame.png */,
+				F196 /* journal_envelope_frame.png */,
+				F197 /* journal_ruler_frame.png */,
+				F198 /* journal_flower_stickers_frame.png */,
+				F199 /* journal_ribbon_diary_frame.png */,
+				F210 /* journal_craft_label_frame.png */,
+				F211 /* whimsy_toy_blocks_frame.png */,
+				F212 /* whimsy_puzzle_frame.png */,
+				F213 /* whimsy_potion_frame.png */,
+				F214 /* whimsy_monster_frame.png */,
+				F215 /* whimsy_train_frame.png */,
+				F216 /* whimsy_space_frame.png */,
+				F217 /* whimsy_gears_frame.png */,
 			);
 			path = Frames;
 			sourceTree = "<group>";
@@ -524,6 +701,63 @@
 				B148 /* magic_ribbon_frame.png in Resources */,
 				B149 /* strawberry_picnic_frame.png in Resources */,
 				B150 /* space_rocket_frame.png in Resources */,
+				B151 /* mushroom_forest_frame.png in Resources */,
+				B152 /* butterfly_garden_frame.png in Resources */,
+				B153 /* dinosaur_adventure_frame.png in Resources */,
+				B154 /* pirate_treasure_frame.png in Resources */,
+				B155 /* cherry_ballet_frame.png in Resources */,
+				B156 /* cupcake_sprinkle_frame.png in Resources */,
+				B157 /* peach_soda_frame.png in Resources */,
+				B158 /* cookie_garden_frame.png in Resources */,
+				B159 /* rainbow_cake_frame.png in Resources */,
+				B160 /* jelly_star_frame.png in Resources */,
+				B161 /* candy_carousel_frame.png in Resources */,
+				B162 /* aurora_castle_frame.png in Resources */,
+				B163 /* cloud_balloon_frame.png in Resources */,
+				B164 /* moon_bunny_frame.png in Resources */,
+				B165 /* crystal_wish_frame.png in Resources */,
+				B166 /* sunflower_meadow_frame.png in Resources */,
+				B167 /* ladybug_picnic_frame.png in Resources */,
+				B168 /* clover_garden_frame.png in Resources */,
+				B169 /* autumn_acorn_frame.png in Resources */,
+				B170 /* submarine_sea_frame.png in Resources */,
+				B171 /* safari_journey_frame.png in Resources */,
+				B172 /* camping_adventure_frame.png in Resources */,
+				B173 /* hot_air_balloon_frame.png in Resources */,
+				B174 /* rainbow_train_frame.png in Resources */,
+				B175 /* robot_lab_frame.png in Resources */,
+				B176 /* star_explorer_frame.png in Resources */,
+				B177 /* polaroid_heart_frame.png in Resources */,
+				B178 /* filmstrip_frame.png in Resources */,
+				B179 /* double_mat_bow_frame.png in Resources */,
+				B180 /* scalloped_postcard_frame.png in Resources */,
+				B181 /* scrapbook_binder_frame.png in Resources */,
+				B182 /* ticket_stub_frame.png in Resources */,
+				B183 /* photo_corner_album_frame.png in Resources */,
+				B184 /* quilt_patchwork_frame.png in Resources */,
+				B185 /* postage_stamp_frame.png in Resources */,
+				B186 /* torn_paper_collage_frame.png in Resources */,
+				B187 /* party_balloon_frame.png in Resources */,
+				B188 /* party_gift_frame.png in Resources */,
+				B189 /* party_streamer_frame.png in Resources */,
+				B190 /* party_cupcake_frame.png in Resources */,
+				B191 /* party_hat_frame.png in Resources */,
+				B192 /* party_bunting_frame.png in Resources */,
+				B193 /* journal_spiral_frame.png in Resources */,
+				B194 /* journal_washi_frame.png in Resources */,
+				B195 /* journal_corkboard_frame.png in Resources */,
+				B196 /* journal_envelope_frame.png in Resources */,
+				B197 /* journal_ruler_frame.png in Resources */,
+				B198 /* journal_flower_stickers_frame.png in Resources */,
+				B199 /* journal_ribbon_diary_frame.png in Resources */,
+				B210 /* journal_craft_label_frame.png in Resources */,
+				B211 /* whimsy_toy_blocks_frame.png in Resources */,
+				B212 /* whimsy_puzzle_frame.png in Resources */,
+				B213 /* whimsy_potion_frame.png in Resources */,
+				B214 /* whimsy_monster_frame.png in Resources */,
+				B215 /* whimsy_train_frame.png in Resources */,
+				B216 /* whimsy_space_frame.png in Resources */,
+				B217 /* whimsy_gears_frame.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -551,6 +785,8 @@
 				B033 /* CollageGridView.swift in Sources */,
 				B034 /* CollageProgressView.swift in Sources */,
 				B035 /* CollageTrayView.swift in Sources */,
+				B038 /* TrayContainer.swift in Sources */,
+				B039 /* GlassControls.swift in Sources */,
 				B015 /* PhotoSaveTracker.swift in Sources */,
 				B016 /* CameraSoundPreference.swift in Sources */,
 				B017 /* CameraShutterEffect.swift in Sources */,
